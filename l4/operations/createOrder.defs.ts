@@ -37,8 +37,8 @@ export const operationCreateOrder = {
     "actor": "attendant",
     "priority": "now"
   },
-  "statusFrontend": "done",
-  "statusBackend": "inProgress"
+  "statusFrontend": "toCreate",
+  "statusBackend": "toCreate"
 } as const;
 
 export default operationCreateOrder;

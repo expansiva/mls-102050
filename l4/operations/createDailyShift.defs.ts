@@ -39,8 +39,8 @@ export const operationCreateDailyShift = {
     "actor": "cashier",
     "priority": "now"
   },
-  "statusFrontend": "done",
-  "statusBackend": "inProgress"
+  "statusFrontend": "toCreate",
+  "statusBackend": "toCreate"
 } as const;
 
 export default operationCreateDailyShift;

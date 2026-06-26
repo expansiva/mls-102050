@@ -68,8 +68,8 @@ export const workflowKitchenProductionFlow = {
       "priority": "now"
     }
   ],
-  "statusFrontend": "done",
-  "statusBackend": "inProgress"
+  "statusFrontend": "toCreate",
+  "statusBackend": "toCreate"
 } as const;
 
 export default workflowKitchenProductionFlow;
