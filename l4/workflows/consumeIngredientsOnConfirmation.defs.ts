@@ -48,7 +48,7 @@ export const workflowConsumeIngredientsOnConfirmation = {
       "priority": "now"
     }
   ],
-  "statusFrontend": "done",
+  "statusFrontend": "toCreate",
   "statusBackend": "toCreate"
 } as const;
 
