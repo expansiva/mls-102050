@@ -78,10 +78,9 @@ export const paymentDomainEntity = {
     "invariants": [
       "amount must be greater than zero",
       "method must not be empty",
-      "at least one of orderId or dailyShiftId must be set",
-      "status transitions: authorized→captured, authorized→voided, captured→refunded",
-      "cannot modify amount or method after status is 'captured'",
-      "dailyShiftId must reference an open DailyShift at time of capture"
+      "status transitions must follow: authorized→captured; captured→refunded; authorized→voided; captured→voided",
+      "cannot void or refund a payment that is already voided or refunded",
+      "dailyShiftId must reference an open DailyShift at the time of capture"
     ],
     "valueObjects": []
   }
@@ -102,6 +101,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/domainEntity.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

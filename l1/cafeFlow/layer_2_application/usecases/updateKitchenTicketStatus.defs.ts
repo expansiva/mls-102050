@@ -27,51 +27,51 @@ export const updateKitchenTicketStatusUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "Parent order aggregate id"
+            "description": "Identifier of the parent Order aggregate to load"
           },
           {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
             "ofEntity": "KitchenTicket",
-            "description": "Kitchen ticket to update"
+            "description": "Identifier of the KitchenTicket whose status will be updated"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
             "ofEntity": "KitchenTicket",
-            "description": "New status: open | inProgress | done | void"
+            "description": "New status for the kitchen ticket: open | inProgress | done | void"
           }
         ],
         "output": [
+          {
+            "name": "kitchenTicketId",
+            "type": "string",
+            "required": true,
+            "ofEntity": "KitchenTicket",
+            "description": "Identifier of the updated KitchenTicket"
+          },
           {
             "name": "orderId",
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "Parent order id"
-          },
-          {
-            "name": "kitchenTicketId",
-            "type": "string",
-            "required": true,
-            "ofEntity": "KitchenTicket",
-            "description": "Updated kitchen ticket id"
+            "description": "Identifier of the parent Order aggregate"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
             "ofEntity": "KitchenTicket",
-            "description": "New status applied"
+            "description": "The new status applied to the KitchenTicket"
           },
           {
             "name": "updatedAt",
             "type": "string",
             "required": true,
             "ofEntity": "KitchenTicket",
-            "description": "Timestamp of the update"
+            "description": "Timestamp of the status update"
           }
         ],
         "ports": [
@@ -82,12 +82,12 @@ export const updateKitchenTicketStatusUsecase = {
         ],
         "transactional": true,
         "steps": [
-          "Load the Order aggregate via OrderPort.findById(orderId)",
-          "Locate the KitchenTicket by kitchenTicketId within the Order's kitchenTickets collection",
-          "Validate the status transition using rule orderStatusTransitions (open→inProgress→done, open→void, inProgress→void)",
-          "Apply the new status to the KitchenTicket and set updatedAt to current timestamp",
+          "Load the Order aggregate via OrderPort.findById(orderId); throw NotFound if missing",
+          "Locate the KitchenTicket with kitchenTicketId inside the Order's kitchenTickets collection; throw NotFound if missing",
+          "Validate the requested status transition against the orderStatusTransitions rule (e.g. open->inProgress, inProgress->done, open->void, etc.); throw InvalidTransition if not allowed",
+          "Apply the new status to the KitchenTicket and set updatedAt to the current timestamp",
           "Save the Order aggregate via OrderPort.save(order)",
-          "Return orderId, kitchenTicketId, status, updatedAt"
+          "Return kitchenTicketId, orderId, status, and updatedAt"
         ]
       }
     ],
@@ -113,6 +113,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

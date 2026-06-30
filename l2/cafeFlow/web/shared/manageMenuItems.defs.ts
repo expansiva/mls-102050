@@ -174,15 +174,14 @@ export const definition = {
   "i18n": {
     "manageMenuItems.section.title": "Gerenciar itens do cardápio",
     "manageMenuItems.organism.title": "Gerenciar itens do cardápio",
-    "manageMenuItems.form.title": "Detalhes do item do cardápio",
-    "manageMenuItems.actions.title": "Ações",
-    "manageMenuItems.field.menuItemId": "ID do item",
-    "manageMenuItems.field.menuCategoryId": "Categoria",
-    "manageMenuItems.field.name": "Nome",
-    "manageMenuItems.field.description": "Descrição",
-    "manageMenuItems.field.price": "Preço",
+    "manageMenuItems.form.title": "Command Form",
+    "manageMenuItems.field.menuItemId": "Menu Item Id",
+    "manageMenuItems.field.menuCategoryId": "Menu Category Id",
+    "manageMenuItems.field.name": "Name",
+    "manageMenuItems.field.description": "Description",
+    "manageMenuItems.field.price": "Price",
     "manageMenuItems.field.status": "Status",
-    "manageMenuItems.action.submit": "Salvar alterações"
+    "manageMenuItems.action.submit": "Manage Menu Items"
   },
   "automation": {
     "statePrefix": "ui.manageMenuItems",
@@ -219,11 +218,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/manageMenuItems.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/manageMenuItems.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "manageMenuItems__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

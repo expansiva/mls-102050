@@ -17,43 +17,36 @@ export const inventoryItemRepositoryPort = {
     "methods": [
       {
         "name": "getById",
-        "returns": "InventoryItem",
         "params": [
-          "inventoryItemId: InventoryItemId"
-        ]
+          "id: InventoryItemId"
+        ],
+        "returns": "InventoryItem"
       },
       {
         "name": "list",
-        "returns": "InventoryItemCollection",
         "params": [
           "filter: InventoryItemFilter"
-        ]
+        ],
+        "returns": "InventoryItem[]"
       },
       {
         "name": "save",
-        "returns": "void",
         "params": [
-          "aggregate: InventoryItem"
-        ]
-      },
-      {
-        "name": "findBySku",
-        "returns": "InventoryItem",
-        "params": [
-          "sku: Sku"
-        ]
+          "inventoryItem: InventoryItem"
+        ],
+        "returns": "void"
       },
       {
         "name": "findLowStock",
-        "returns": "InventoryItemCollection",
-        "params": []
+        "params": [],
+        "returns": "InventoryItem[]"
       },
       {
         "name": "findBySupplier",
-        "returns": "InventoryItemCollection",
         "params": [
           "supplierId: SupplierId"
-        ]
+        ],
+        "returns": "InventoryItem[]"
       }
     ]
   }
@@ -76,6 +69,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/repositoryPort.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

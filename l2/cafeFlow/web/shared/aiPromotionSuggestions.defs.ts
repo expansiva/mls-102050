@@ -190,24 +190,24 @@ export const definition = {
   ],
   "navigationRefs": [],
   "i18n": {
-    "aiPromotionSuggestions.section.main.title": "Assistente IA: sugestões de itens para promover (últimos 7 dias)",
-    "aiPromotionSuggestions.organism.main.title": "Sugestões de promoção com IA",
-    "aiPromotionSuggestions.intent.query.title": "Sugestões (últimos 7 dias)",
-    "aiPromotionSuggestions.field.id.label": "Item do pedido",
-    "aiPromotionSuggestions.field.orderId.label": "Pedido",
-    "aiPromotionSuggestions.field.menuItemId.label": "Item do cardápio",
-    "aiPromotionSuggestions.field.kitchenTicketId.label": "Ticket de cozinha",
-    "aiPromotionSuggestions.field.quantity.label": "Quantidade",
-    "aiPromotionSuggestions.field.unitPrice.label": "Preço unitário",
-    "aiPromotionSuggestions.field.totalPrice.label": "Preço total",
-    "aiPromotionSuggestions.field.observations.label": "Observações",
-    "aiPromotionSuggestions.filter.id.label": "Item do pedido (ID)",
-    "aiPromotionSuggestions.filter.orderId.label": "Pedido (ID)",
-    "aiPromotionSuggestions.filter.menuItemId.label": "Item do cardápio (ID)",
-    "aiPromotionSuggestions.filter.kitchenTicketId.label": "Ticket de cozinha (ID)",
-    "aiPromotionSuggestions.filter.status.label": "Status do item",
-    "aiPromotionSuggestions.filter.createdAt.label": "Criado em",
-    "aiPromotionSuggestions.action.run.label": "Gerar sugestões"
+    "aiPromotionSuggestions.section.title": "Assistente IA: sugestões de itens para promover (últimos 7 dias)",
+    "aiPromotionSuggestions.organism.title": "Sugestões de promoção com IA",
+    "aiPromotionSuggestions.intent.queryList.title": "Sugestões geradas",
+    "aiPromotionSuggestions.field.id": "Item do pedido",
+    "aiPromotionSuggestions.field.orderId": "Pedido",
+    "aiPromotionSuggestions.field.menuItemId": "Item do cardápio",
+    "aiPromotionSuggestions.field.kitchenTicketId": "Ticket de cozinha",
+    "aiPromotionSuggestions.field.quantity": "Quantidade",
+    "aiPromotionSuggestions.field.unitPrice": "Preço unitário",
+    "aiPromotionSuggestions.field.totalPrice": "Preço total",
+    "aiPromotionSuggestions.field.observations": "Observações",
+    "aiPromotionSuggestions.filter.id": "Item do pedido",
+    "aiPromotionSuggestions.filter.orderId": "Pedido",
+    "aiPromotionSuggestions.filter.menuItemId": "Item do cardápio",
+    "aiPromotionSuggestions.filter.kitchenTicketId": "Ticket de cozinha",
+    "aiPromotionSuggestions.filter.status": "Status do item",
+    "aiPromotionSuggestions.filter.createdAt": "Criado em",
+    "aiPromotionSuggestions.action.run": "Gerar sugestões"
   },
   "automation": {
     "statePrefix": "ui.aiPromotionSuggestions",
@@ -245,11 +245,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/aiPromotionSuggestions.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/aiPromotionSuggestions.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "aiPromotionSuggestions__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

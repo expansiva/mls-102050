@@ -17,43 +17,36 @@ export const menuItemRepositoryPort = {
     "methods": [
       {
         "name": "getById",
-        "returns": "MenuItem",
         "params": [
-          "menuItemId: MenuItemId"
-        ]
+          "id: MenuItemId"
+        ],
+        "returns": "MenuItem"
       },
       {
         "name": "list",
-        "returns": "MenuItemCollection",
         "params": [
           "filter: MenuItemFilter"
-        ]
+        ],
+        "returns": "MenuItem[]"
       },
       {
         "name": "save",
-        "returns": "void",
         "params": [
-          "aggregate: MenuItem"
-        ]
+          "menuItem: MenuItem"
+        ],
+        "returns": "void"
       },
       {
         "name": "findByCategory",
-        "returns": "MenuItemCollection",
         "params": [
-          "category: Category"
-        ]
+          "categoryId: CategoryId"
+        ],
+        "returns": "MenuItem[]"
       },
       {
         "name": "findAvailable",
-        "returns": "MenuItemCollection",
-        "params": []
-      },
-      {
-        "name": "existsByName",
-        "returns": "boolean",
-        "params": [
-          "name: string"
-        ]
+        "params": [],
+        "returns": "MenuItem[]"
       }
     ]
   }
@@ -76,6 +69,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/repositoryPort.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

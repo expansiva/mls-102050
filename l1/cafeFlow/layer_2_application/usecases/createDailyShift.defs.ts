@@ -26,63 +26,54 @@ export const createDailyShiftUsecase = {
             "name": "shiftDate",
             "type": "string",
             "required": true,
-            "ofEntity": "DailyShift",
-            "description": "Date the shift belongs to (YYYY-MM-DD)"
+            "description": "The calendar date the shift belongs to (ISO date)"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "ofEntity": "DailyShift",
-            "description": "Shift status: open or closed"
+            "description": "Initial shift status: 'open' or 'closed'"
           },
           {
             "name": "openedAt",
             "type": "string",
             "required": true,
-            "ofEntity": "DailyShift",
-            "description": "Timestamp when the shift was opened"
+            "description": "Timestamp when the shift was opened (ISO datetime)"
           },
           {
             "name": "closedAt",
             "type": "string",
             "required": false,
-            "ofEntity": "DailyShift",
-            "description": "Timestamp when the shift was closed"
+            "description": "Timestamp when the shift was closed (ISO datetime)"
           },
           {
             "name": "openingCashBalance",
             "type": "number",
             "required": false,
-            "ofEntity": "DailyShift",
-            "description": "Cash balance at shift opening"
+            "description": "Cash float counted at shift opening"
           },
           {
             "name": "closingCashBalance",
             "type": "number",
             "required": false,
-            "ofEntity": "DailyShift",
-            "description": "Cash balance at shift closing"
+            "description": "Cash float counted at shift closing"
           },
           {
             "name": "totalSales",
             "type": "number",
             "required": false,
-            "ofEntity": "DailyShift",
-            "description": "Total sales accumulated during the shift"
+            "description": "Accumulated sales total for the shift"
           },
           {
             "name": "totalPayments",
             "type": "number",
             "required": false,
-            "ofEntity": "DailyShift",
-            "description": "Total payments processed during the shift"
+            "description": "Accumulated payments total for the shift"
           },
           {
             "name": "closingNotes",
             "type": "string",
             "required": false,
-            "ofEntity": "DailyShift",
             "description": "Free-text notes recorded at closing"
           }
         ],
@@ -91,15 +82,13 @@ export const createDailyShiftUsecase = {
             "name": "dailyShiftId",
             "type": "string",
             "required": true,
-            "ofEntity": "DailyShift",
-            "description": "Id of the created daily shift"
+            "description": "The id of the newly created daily shift"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "ofEntity": "DailyShift",
-            "description": "Status of the created shift (open or closed)"
+            "description": "The status of the created shift ('open' or 'closed')"
           }
         ],
         "ports": [
@@ -111,14 +100,14 @@ export const createDailyShiftUsecase = {
         ],
         "transactional": true,
         "steps": [
-          "Validate that no DailyShift already exists for the given shiftDate via DailyShift port query",
-          "Validate that status is either 'open' or 'closed'",
-          "If status is 'closed', require closedAt and closingCashBalance to be provided",
-          "Apply paymentTimingByOrderType rule to determine expected payment timing for the shift",
-          "Apply aiOutputLanguageSelection rule to set the output language for any AI-generated closing notes",
-          "Create a new DailyShift aggregate with server-generated dailyShiftId, createdAt, updatedAt",
-          "Persist the DailyShift via the DailyShift port save operation",
-          "Return dailyShiftId and status of the created shift"
+          "1. Load existing DailyShift records for the given shiftDate via DailyShift port to check for duplicates",
+          "2. Validate that no open shift already exists for the same shiftDate — reject if a shift with status 'open' is found",
+          "3. Apply paymentTimingByOrderType rule to set default payment timing expectations on the new shift",
+          "4. Apply aiOutputLanguageSelection rule to determine the language for any AI-generated shift summaries",
+          "5. Create a new DailyShift aggregate with the provided fields, generating dailyShiftId, createdAt, and updatedAt server-side",
+          "6. Set initial status to 'open' unless 'closed' is explicitly provided with a valid closedAt timestamp",
+          "7. Save the DailyShift aggregate via the DailyShift port",
+          "8. Return the dailyShiftId and status of the created shift"
         ]
       }
     ],
@@ -144,6 +133,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

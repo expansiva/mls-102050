@@ -20,7 +20,7 @@ export const definition = {
   "navigationRefs": [],
   "sections": [
     {
-      "id": "section.operationalDashboard",
+      "id": "section-10",
       "type": "section",
       "sectionName": "Ver dashboard operacional do dia",
       "titleKey": "viewOperationalDashboard.section.title",
@@ -28,7 +28,7 @@ export const definition = {
       "order": 10,
       "organisms": [
         {
-          "id": "organism.viewOperationalDashboard",
+          "id": "organism-10",
           "type": "panel",
           "organismName": "ViewOperationalDashboard",
           "titleKey": "viewOperationalDashboard.organism.title",
@@ -48,6 +48,7 @@ export const definition = {
             "status",
             "openedAt",
             "closedAt",
+            "createdAt",
             "openingCashBalance",
             "closingCashBalance",
             "totalSales"
@@ -60,18 +61,11 @@ export const definition = {
           "order": 10,
           "intentionRefs": [
             {
-              "id": "intention.dashboardFilters",
-              "intent": "commandForm",
+              "id": "intention-10",
+              "intent": "queryList",
               "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard",
               "action": "viewOperationalDashboard",
-              "submitAction": "viewOperationalDashboard",
               "order": 10
-            },
-            {
-              "id": "intention.dashboardSummary",
-              "intent": "summary",
-              "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard",
-              "order": 20
             }
           ]
         }
@@ -83,7 +77,7 @@ export const definition = {
     "type": "page",
     "sections": [
       {
-        "id": "section.operationalDashboard",
+        "id": "section-10",
         "type": "section",
         "sectionName": "Ver dashboard operacional do dia",
         "titleKey": "viewOperationalDashboard.section.title",
@@ -91,7 +85,7 @@ export const definition = {
         "order": 10,
         "organisms": [
           {
-            "id": "organism.viewOperationalDashboard",
+            "id": "organism-10",
             "type": "panel",
             "organismName": "ViewOperationalDashboard",
             "titleKey": "viewOperationalDashboard.organism.title",
@@ -111,6 +105,7 @@ export const definition = {
               "status",
               "openedAt",
               "closedAt",
+              "createdAt",
               "openingCashBalance",
               "closingCashBalance",
               "totalSales"
@@ -123,159 +118,158 @@ export const definition = {
             "order": 10,
             "intentions": [
               {
-                "id": "intention.dashboardFilters",
-                "intent": "commandForm",
+                "id": "intention-10",
+                "intent": "queryList",
                 "order": 10,
-                "titleKey": "viewOperationalDashboard.filters.title",
+                "titleKey": "viewOperationalDashboard.intention.query.title",
                 "action": "viewOperationalDashboard",
-                "submitAction": "viewOperationalDashboard",
-                "fields": [
+                "fields": [],
+                "columns": [
                   {
-                    "id": "field.dailyShiftId",
+                    "id": "col-10",
                     "field": "dailyShiftId",
                     "labelKey": "viewOperationalDashboard.field.dailyShiftId",
                     "order": 10,
                     "required": false,
-                    "inputType": "text",
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  },
+                  {
+                    "id": "col-20",
+                    "field": "shiftDate",
+                    "labelKey": "viewOperationalDashboard.field.shiftDate",
+                    "order": 20,
+                    "required": false,
+                    "format": "date",
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  },
+                  {
+                    "id": "col-30",
+                    "field": "status",
+                    "labelKey": "viewOperationalDashboard.field.status",
+                    "order": 30,
+                    "required": false,
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  },
+                  {
+                    "id": "col-40",
+                    "field": "openedAt",
+                    "labelKey": "viewOperationalDashboard.field.openedAt",
+                    "order": 40,
+                    "required": false,
+                    "format": "datetime",
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  },
+                  {
+                    "id": "col-50",
+                    "field": "closedAt",
+                    "labelKey": "viewOperationalDashboard.field.closedAt",
+                    "order": 50,
+                    "required": false,
+                    "format": "datetime",
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  },
+                  {
+                    "id": "col-60",
+                    "field": "openingCashBalance",
+                    "labelKey": "viewOperationalDashboard.field.openingCashBalance",
+                    "order": 60,
+                    "required": false,
+                    "format": "money",
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  },
+                  {
+                    "id": "col-70",
+                    "field": "closingCashBalance",
+                    "labelKey": "viewOperationalDashboard.field.closingCashBalance",
+                    "order": 70,
+                    "required": false,
+                    "format": "money",
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  },
+                  {
+                    "id": "col-80",
+                    "field": "totalSales",
+                    "labelKey": "viewOperationalDashboard.field.totalSales",
+                    "order": 80,
+                    "required": false,
+                    "format": "money",
+                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
+                  }
+                ],
+                "filters": [
+                  {
+                    "id": "filter-10",
+                    "field": "dailyShiftId",
+                    "labelKey": "viewOperationalDashboard.filter.dailyShiftId",
+                    "order": 10,
+                    "required": false,
                     "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.dailyShiftId"
                   },
                   {
-                    "id": "field.shiftDate",
+                    "id": "filter-20",
                     "field": "shiftDate",
-                    "labelKey": "viewOperationalDashboard.field.shiftDate",
+                    "labelKey": "viewOperationalDashboard.filter.shiftDate",
                     "order": 20,
                     "required": false,
                     "inputType": "date",
                     "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.shiftDate"
                   },
                   {
-                    "id": "field.status",
+                    "id": "filter-30",
                     "field": "status",
-                    "labelKey": "viewOperationalDashboard.field.status",
+                    "labelKey": "viewOperationalDashboard.filter.status",
                     "order": 30,
                     "required": false,
                     "inputType": "select",
                     "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.status"
                   },
                   {
-                    "id": "field.openedAt",
+                    "id": "filter-40",
                     "field": "openedAt",
-                    "labelKey": "viewOperationalDashboard.field.openedAt",
+                    "labelKey": "viewOperationalDashboard.filter.openedAt",
                     "order": 40,
                     "required": false,
-                    "inputType": "datetime",
+                    "inputType": "date",
                     "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.openedAt"
                   },
                   {
-                    "id": "field.closedAt",
+                    "id": "filter-50",
                     "field": "closedAt",
-                    "labelKey": "viewOperationalDashboard.field.closedAt",
+                    "labelKey": "viewOperationalDashboard.filter.closedAt",
                     "order": 50,
                     "required": false,
-                    "inputType": "datetime",
+                    "inputType": "date",
                     "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.closedAt"
                   },
                   {
-                    "id": "field.createdAt",
+                    "id": "filter-60",
                     "field": "createdAt",
-                    "labelKey": "viewOperationalDashboard.field.createdAt",
+                    "labelKey": "viewOperationalDashboard.filter.createdAt",
                     "order": 60,
                     "required": false,
-                    "inputType": "datetime",
+                    "inputType": "date",
                     "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.createdAt"
                   }
                 ],
-                "columns": [],
-                "filters": [],
-                "toolbar": [],
+                "toolbar": [
+                  {
+                    "id": "toolbar-10",
+                    "action": "viewOperationalDashboard",
+                    "labelKey": "viewOperationalDashboard.action.refresh",
+                    "order": 10,
+                    "actionKey": "viewOperationalDashboard"
+                  }
+                ],
                 "rowActions": [],
                 "actions": [
                   {
-                    "id": "action.viewOperationalDashboard",
+                    "id": "action-10",
                     "action": "viewOperationalDashboard",
                     "labelKey": "viewOperationalDashboard.action.run",
                     "order": 10,
                     "actionKey": "viewOperationalDashboard"
                   }
                 ],
-                "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
-              },
-              {
-                "id": "intention.dashboardSummary",
-                "intent": "summary",
-                "order": 20,
-                "titleKey": "viewOperationalDashboard.summary.title",
-                "fields": [
-                  {
-                    "id": "field.summary.dailyShiftId",
-                    "field": "dailyShiftId",
-                    "labelKey": "viewOperationalDashboard.summary.dailyShiftId",
-                    "order": 10,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.dailyShiftId"
-                  },
-                  {
-                    "id": "field.summary.shiftDate",
-                    "field": "shiftDate",
-                    "labelKey": "viewOperationalDashboard.summary.shiftDate",
-                    "order": 20,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.shiftDate"
-                  },
-                  {
-                    "id": "field.summary.status",
-                    "field": "status",
-                    "labelKey": "viewOperationalDashboard.summary.status",
-                    "order": 30,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.status"
-                  },
-                  {
-                    "id": "field.summary.openedAt",
-                    "field": "openedAt",
-                    "labelKey": "viewOperationalDashboard.summary.openedAt",
-                    "order": 40,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.openedAt"
-                  },
-                  {
-                    "id": "field.summary.closedAt",
-                    "field": "closedAt",
-                    "labelKey": "viewOperationalDashboard.summary.closedAt",
-                    "order": 50,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.input.viewOperationalDashboard.closedAt"
-                  },
-                  {
-                    "id": "field.summary.openingCashBalance",
-                    "field": "openingCashBalance",
-                    "labelKey": "viewOperationalDashboard.summary.openingCashBalance",
-                    "order": 60,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
-                  },
-                  {
-                    "id": "field.summary.closingCashBalance",
-                    "field": "closingCashBalance",
-                    "labelKey": "viewOperationalDashboard.summary.closingCashBalance",
-                    "order": 70,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
-                  },
-                  {
-                    "id": "field.summary.totalSales",
-                    "field": "totalSales",
-                    "labelKey": "viewOperationalDashboard.summary.totalSales",
-                    "order": 80,
-                    "required": false,
-                    "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
-                  }
-                ],
-                "columns": [],
-                "filters": [],
-                "toolbar": [],
-                "rowActions": [],
-                "actions": [],
                 "stateKey": "ui.viewOperationalDashboard.data.viewOperationalDashboard"
               }
             ]
@@ -299,14 +293,15 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/viewOperationalDashboard.defs.ts",
       "_102050_/l2/cafeFlow/web/contracts/viewOperationalDashboard.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "viewOperationalDashboard__l2_shared"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfePage11RenderTs.ts"
     ],
-    "afterSaveFrontEnd": "_102020_/l2/agentMaterializeSolution/registerFrontEnd.ts?registerPage",
     "visualStyle": {
       "description": "POS-first, high-contrast, touch-friendly, low-latency, status-driven UI"
     },
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

@@ -50,7 +50,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/httpController.md",
       "_102034_.d.ts"
     ],
-    "afterSaveBackEnd": "_102021_/l2/agentMaterializeSolution/registerBackEnd.ts?registerController",
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

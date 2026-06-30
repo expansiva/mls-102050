@@ -135,14 +135,13 @@ export const orderDomainEntity = {
     ],
     "invariants": [
       "totalAmount must equal the sum of all OrderItem.totalPrice",
-      "tableId is required when orderType is 'mesa'",
-      "tableId must be null when orderType is 'takeout'",
-      "numberOfGuests must be greater than zero when provided",
-      "cannot add or modify OrderItems after status is 'closed' or 'cancelled'",
-      "closedAt must be set when status transitions to 'closed'",
-      "cancelledAt and cancellationReason must be set when status transitions to 'cancelled'",
-      "status transitions: draft→sentToKitchen, sentToKitchen→inPreparation, inPreparation→ready, ready→served, served→closed; draft→cancelled, sentToKitchen→cancelled, inPreparation→cancelled, ready→cancelled, served→cancelled",
-      "dailyShift must be in 'open' status when creating an order"
+      "tableId is required when orderType is mesa",
+      "tableId must be null when orderType is takeout",
+      "status transitions must follow: draft→sentToKitchen→inPreparation→ready→served→closed; any state before closed can transition to cancelled",
+      "closedAt must be set when status is closed",
+      "cancelledAt and cancellationReason must be set when status is cancelled",
+      "cannot modify OrderItems after status is sentToKitchen",
+      "numberOfGuests must be greater than zero when provided"
     ],
     "valueObjects": [
       {
@@ -265,7 +264,7 @@ export const orderDomainEntity = {
             "description": "Data e hora da última atualização do ticket"
           }
         ],
-        "collection": false
+        "collection": true
       }
     ]
   }
@@ -286,6 +285,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/domainEntity.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

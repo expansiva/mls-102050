@@ -3,7 +3,7 @@
 export interface CafeFlowManageTablesInput {
   tableId?: string;
   number: string;
-  status: "available" | "occupied" | "disabled";
+  status: "active" | "inactive";
 }
 
 export interface CafeFlowManageTablesOutput {

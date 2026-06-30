@@ -22,146 +22,139 @@ export const generateShiftCloseReportUsecase = {
       {
         "functionName": "generateShiftCloseReport",
         "inputTypeName": "GenerateShiftCloseReportInput",
-        "outputTypeName": "GenerateShiftCloseReportOutput",
+        "outputTypeName": "ShiftCloseReportOutput",
         "input": [
           {
             "name": "dailyShiftId",
             "type": "string",
             "required": true,
             "ofEntity": "DailyShift",
-            "description": "ID of the DailyShift to generate the close report for"
+            "description": "ID of the daily shift to generate the close report for"
           },
           {
             "name": "outputLanguage",
             "type": "string",
             "required": false,
-            "description": "Preferred language for AI-generated report narrative (e.g. pt-BR, en-US). Falls back to system default per aiOutputLanguageSelection rule."
+            "description": "Preferred language for AI-generated report narrative (applies aiOutputLanguageSelection rule)"
           }
         ],
         "output": [
           {
             "name": "dailyShiftId",
             "type": "string",
+            "required": true,
             "ofEntity": "DailyShift",
-            "description": "ID of the reported DailyShift"
+            "description": "ID of the reported daily shift"
           },
           {
             "name": "shiftDate",
             "type": "string",
+            "required": true,
             "ofEntity": "DailyShift",
             "description": "Date of the shift"
           },
           {
             "name": "status",
             "type": "string",
+            "required": true,
             "ofEntity": "DailyShift",
             "description": "Current status of the shift (open or closed)"
           },
           {
             "name": "openedAt",
             "type": "string",
+            "required": true,
             "ofEntity": "DailyShift",
             "description": "Timestamp when the shift was opened"
           },
           {
             "name": "closedAt",
             "type": "string",
+            "required": false,
             "ofEntity": "DailyShift",
             "description": "Timestamp when the shift was closed, if applicable"
           },
           {
             "name": "openingCashBalance",
             "type": "number",
+            "required": false,
             "ofEntity": "DailyShift",
             "description": "Cash balance at shift opening"
           },
           {
             "name": "closingCashBalance",
             "type": "number",
+            "required": false,
             "ofEntity": "DailyShift",
             "description": "Cash balance at shift closing"
           },
           {
             "name": "totalSales",
             "type": "number",
+            "required": false,
             "ofEntity": "DailyShift",
             "description": "Total sales amount for the shift"
           },
           {
             "name": "totalPayments",
             "type": "number",
+            "required": false,
             "ofEntity": "DailyShift",
             "description": "Total payments captured for the shift"
           },
           {
             "name": "closingNotes",
             "type": "string",
+            "required": false,
             "ofEntity": "DailyShift",
             "description": "Notes recorded at shift closing"
           },
           {
             "name": "totalOrders",
             "type": "number",
-            "description": "Total number of orders in the shift"
+            "required": true,
+            "description": "Count of all orders in the shift"
           },
           {
-            "name": "totalOrdersMesa",
-            "type": "number",
-            "description": "Number of dine-in (mesa) orders, categorized per paymentTimingByOrderType rule"
-          },
-          {
-            "name": "totalOrdersTakeout",
-            "type": "number",
-            "description": "Number of takeout orders, categorized per paymentTimingByOrderType rule"
-          },
-          {
-            "name": "totalSalesMesa",
-            "type": "number",
-            "description": "Total sales from dine-in (mesa) orders"
-          },
-          {
-            "name": "totalSalesTakeout",
-            "type": "number",
-            "description": "Total sales from takeout orders"
-          },
-          {
-            "name": "totalOrderItems",
-            "type": "number",
-            "description": "Total number of order items across all orders in the shift"
+            "name": "ordersByType",
+            "type": "string",
+            "required": true,
+            "description": "JSON breakdown of order counts and totals by orderType (mesa/takeout), applying paymentTimingByOrderType rule"
           },
           {
             "name": "paymentsByMethod",
             "type": "string",
-            "description": "JSON summary of captured payments grouped by payment method with count and total amount"
+            "required": true,
+            "description": "JSON breakdown of captured payments grouped by payment method with totals"
           },
           {
-            "name": "cashMovementsIn",
-            "type": "number",
-            "description": "Total amount of cash entrada (in) movements during the shift"
+            "name": "paymentsByOrderType",
+            "type": "string",
+            "required": true,
+            "description": "JSON breakdown of payments categorized by associated order type, applying paymentTimingByOrderType rule"
           },
           {
-            "name": "cashMovementsOut",
-            "type": "number",
-            "description": "Total amount of cash saída (out) movements during the shift"
+            "name": "cashMovementsSummary",
+            "type": "string",
+            "required": true,
+            "description": "JSON summary of cash movements (entrada/saída) with totals, read via DailyShift aggregate children"
           },
           {
-            "name": "expectedCashBalance",
-            "type": "number",
-            "description": "Calculated expected cash balance: opening + cash payments + cashIn - cashOut"
-          },
-          {
-            "name": "cashDifference",
-            "type": "number",
-            "description": "Difference between recorded closingCashBalance and expectedCashBalance"
+            "name": "orderItemsSummary",
+            "type": "string",
+            "required": true,
+            "description": "JSON summary of order items (top items, quantities, revenue) read via Order aggregate children"
           },
           {
             "name": "reportLanguage",
             "type": "string",
-            "description": "Language selected for the report narrative per aiOutputLanguageSelection rule"
+            "required": true,
+            "description": "Language selected for the report narrative, applying aiOutputLanguageSelection rule"
           },
           {
             "name": "reportNarrative",
             "type": "string",
+            "required": false,
             "description": "AI-generated narrative summary of the shift in the selected language"
           }
         ],
@@ -176,17 +169,17 @@ export const generateShiftCloseReportUsecase = {
         ],
         "transactional": false,
         "steps": [
-          "1. Load DailyShift by dailyShiftId via DailyShift port; throw if not found",
-          "2. Validate shift status — if open, generate a preliminary report; if closed, generate the final close report",
-          "3. Load all Payments for the shift via Payment port (filter by dailyShiftId, status=captured)",
-          "4. Load all Orders for the shift via Order port (filter by dailyShiftId) — each Order includes embedded OrderItem children",
-          "5. Load CashMovement entries embedded in the DailyShift aggregate (entrada/saída)",
-          "6. Apply paymentTimingByOrderType rule: group orders and their payments by orderType (mesa vs takeout) to compute per-type sales totals and payment timing breakdown",
-          "7. Aggregate payments by method (cash, card, pix, etc.) with count and total amount",
-          "8. Compute expectedCashBalance = openingCashBalance + cashPayments + cashMovementsIn - cashMovementsOut",
-          "9. Compute cashDifference = closingCashBalance - expectedCashBalance",
-          "10. Apply aiOutputLanguageSelection rule: resolve outputLanguage (from input or system default) and generate report narrative in that language",
-          "11. Return the complete shift close report with all aggregated metrics and narrative"
+          "1. Load DailyShift by dailyShiftId via DailyShift port (including embedded CashMovement children)",
+          "2. Validate that the DailyShift exists; if status is 'open', include a warning in the report that the shift is not yet closed",
+          "3. Load all Orders for the shift via Order port filtered by dailyShiftId (including embedded OrderItem children)",
+          "4. Load all Payments for the shift via Payment port filtered by dailyShiftId",
+          "5. Apply paymentTimingByOrderType rule: categorize each payment by the orderType of its associated Order (mesa vs takeout) and compute timing metrics (when payment was captured relative to order lifecycle)",
+          "6. Aggregate payments by method (cash, card, etc.) with captured amounts only (exclude voided/refunded)",
+          "7. Aggregate orders by type (mesa/takeout) with counts and total amounts",
+          "8. Summarize cash movements (entrada/saída) from the DailyShift aggregate children",
+          "9. Summarize order items from Order aggregate children (top-selling items, total quantities, revenue)",
+          "10. Apply aiOutputLanguageSelection rule: determine the output language from the input preference or default, and generate a narrative summary of the shift in that language",
+          "11. Assemble and return the complete ShiftCloseReportOutput with all aggregated sections"
         ]
       }
     ],
@@ -216,6 +209,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

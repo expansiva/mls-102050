@@ -27,7 +27,7 @@ export const manageInventoryItemsUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "InventoryItem",
-            "description": "ID of the inventory item to update"
+            "description": "Identifier of the inventory item to update"
           },
           {
             "name": "name",
@@ -55,7 +55,7 @@ export const manageInventoryItemsUsecase = {
             "type": "number",
             "required": false,
             "ofEntity": "InventoryItem",
-            "description": "Updated current stock quantity"
+            "description": "Updated current quantity on hand"
           },
           {
             "name": "minimumLevel",
@@ -78,19 +78,41 @@ export const manageInventoryItemsUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "InventoryItem",
-            "description": "ID of the updated inventory item"
+            "description": "Identifier of the updated inventory item"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "ofEntity": "InventoryItem",
+            "description": "Name of the updated inventory item"
+          },
+          {
+            "name": "currentQuantity",
+            "type": "number",
+            "required": true,
+            "ofEntity": "InventoryItem",
+            "description": "Current quantity after update"
+          },
+          {
+            "name": "minimumLevel",
+            "type": "number",
+            "required": true,
+            "ofEntity": "InventoryItem",
+            "description": "Minimum level after update"
+          },
+          {
+            "name": "isLowStock",
+            "type": "boolean",
+            "required": true,
+            "description": "Whether the item is below minimum stock threshold"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Result status of the update operation"
-          },
-          {
-            "name": "lowStockAlert",
-            "type": "boolean",
-            "required": true,
-            "description": "True if currentQuantity fell at or below minimumLevel after update"
+            "ofEntity": "InventoryItem",
+            "description": "Status of the inventory item after update"
           },
           {
             "name": "updatedAt",
@@ -111,28 +133,28 @@ export const manageInventoryItemsUsecase = {
           "Load InventoryItem by inventoryItemId via InventoryItem port",
           "Validate that the item exists and is not in a terminal state",
           "Apply provided field changes (name, description, unit, currentQuantity, minimumLevel, status) to the loaded aggregate",
-          "Evaluate inventoryLowStockThreshold rule: if currentQuantity <= minimumLevel, set lowStockAlert true",
+          "Evaluate inventoryLowStockThreshold rule: if currentQuantity <= minimumLevel mark isLowStock true",
           "Save the updated InventoryItem aggregate via InventoryItem port",
-          "Return inventoryItemId, status, lowStockAlert, and updatedAt"
+          "Return updated item id, key fields, isLowStock flag, and updatedAt timestamp"
         ]
       },
       {
-        "functionName": "adjustStock",
-        "inputTypeName": "AdjustStockInput",
-        "outputTypeName": "AdjustStockOutput",
+        "functionName": "adjustInventoryQuantity",
+        "inputTypeName": "AdjustInventoryQuantityInput",
+        "outputTypeName": "AdjustInventoryQuantityOutput",
         "input": [
           {
             "name": "inventoryItemId",
             "type": "string",
             "required": true,
             "ofEntity": "InventoryItem",
-            "description": "ID of the inventory item whose stock is being adjusted"
+            "description": "Identifier of the inventory item to adjust"
           },
           {
             "name": "quantityDelta",
             "type": "number",
             "required": true,
-            "description": "Positive value for restock, negative value for consumption"
+            "description": "Positive or negative quantity adjustment to apply"
           }
         ],
         "output": [
@@ -141,32 +163,54 @@ export const manageInventoryItemsUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "InventoryItem",
-            "description": "ID of the adjusted inventory item"
+            "description": "Identifier of the adjusted inventory item"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "ofEntity": "InventoryItem",
+            "description": "Name of the adjusted inventory item"
           },
           {
             "name": "currentQuantity",
             "type": "number",
             "required": true,
             "ofEntity": "InventoryItem",
-            "description": "Resulting stock quantity after adjustment"
+            "description": "Resulting quantity after adjustment"
           },
           {
-            "name": "lowStockAlert",
+            "name": "minimumLevel",
+            "type": "number",
+            "required": true,
+            "ofEntity": "InventoryItem",
+            "description": "Minimum stock threshold level"
+          },
+          {
+            "name": "isLowStock",
             "type": "boolean",
             "required": true,
-            "description": "True if currentQuantity is at or below minimumLevel after adjustment"
+            "description": "Whether the item fell below minimum stock threshold"
           },
           {
             "name": "consumptionTriggered",
             "type": "boolean",
             "required": true,
-            "description": "True if ingredient consumption was triggered (negative delta applied)"
+            "description": "Whether ingredient consumption was triggered by this adjustment"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Result status of the stock adjustment"
+            "ofEntity": "InventoryItem",
+            "description": "Status of the inventory item after adjustment"
+          },
+          {
+            "name": "updatedAt",
+            "type": "string",
+            "required": true,
+            "ofEntity": "InventoryItem",
+            "description": "Timestamp of the adjustment"
           }
         ],
         "ports": [
@@ -179,12 +223,12 @@ export const manageInventoryItemsUsecase = {
         "transactional": true,
         "steps": [
           "Load InventoryItem by inventoryItemId via InventoryItem port",
-          "Validate that the item exists and is active",
-          "Compute new currentQuantity = currentQuantity + quantityDelta; reject if result would be negative",
-          "If quantityDelta < 0, evaluate ingredientConsumptionTrigger rule: mark consumptionTriggered true for downstream ingredient consumption processing",
-          "Evaluate inventoryLowStockThreshold rule: if new currentQuantity <= minimumLevel, set lowStockAlert true",
-          "Update currentQuantity on the aggregate and save via InventoryItem port",
-          "Return inventoryItemId, currentQuantity, lowStockAlert, consumptionTriggered, and status"
+          "Validate that the item exists and status is active",
+          "Compute new currentQuantity = currentQuantity + quantityDelta; reject if result is negative",
+          "Apply ingredientConsumptionTrigger rule: if quantityDelta is negative (consumption), trigger ingredient consumption event",
+          "Apply inventoryLowStockThreshold rule: if new currentQuantity <= minimumLevel mark isLowStock true",
+          "Save the updated InventoryItem aggregate via InventoryItem port",
+          "Return adjusted item id, name, new quantity, minimumLevel, isLowStock, consumptionTriggered, status, and updatedAt"
         ]
       }
     ],
@@ -210,6 +254,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

@@ -24,7 +24,7 @@ export const definition = {
   "navigationRefs": [],
   "sections": [
     {
-      "id": "section.takeoutOrderLifecycle.main",
+      "id": "sec-takeout-order-lifecycle-10",
       "type": "section",
       "sectionName": "Ciclo de pedido (takeout)",
       "titleKey": "takeoutOrderLifecycle.section.main.title",
@@ -32,10 +32,10 @@ export const definition = {
       "order": 10,
       "organisms": [
         {
-          "id": "organism.createOrder",
-          "type": "form",
+          "id": "org-create-order-10",
+          "type": "organism",
           "organismName": "CreateOrder",
-          "titleKey": "takeoutOrderLifecycle.createOrder.title",
+          "titleKey": "takeoutOrderLifecycle.organism.createOrder.title",
           "purpose": "Criar pedido",
           "userActions": [
             "createOrder"
@@ -43,7 +43,8 @@ export const definition = {
           "requiredEntities": [
             "Order",
             "DailyShift",
-            "Table"
+            "Table",
+            "TableOccupancy"
           ],
           "readsFields": [],
           "writesFields": [],
@@ -57,19 +58,18 @@ export const definition = {
           "order": 10,
           "intentionRefs": [
             {
-              "id": "intention.createOrder.form",
+              "id": "intent-create-order-form-10",
               "intent": "commandForm",
-              "action": "createOrder",
               "submitAction": "createOrder",
               "order": 10
             }
           ]
         },
         {
-          "id": "organism.addOrderItem",
-          "type": "form",
+          "id": "org-add-order-item-20",
+          "type": "organism",
           "organismName": "AddOrderItem",
-          "titleKey": "takeoutOrderLifecycle.addOrderItem.title",
+          "titleKey": "takeoutOrderLifecycle.organism.addOrderItem.title",
           "purpose": "Adicionar item ao pedido",
           "userActions": [
             "addOrderItem"
@@ -89,19 +89,18 @@ export const definition = {
           "order": 20,
           "intentionRefs": [
             {
-              "id": "intention.addOrderItem.form",
+              "id": "intent-add-order-item-form-20",
               "intent": "commandForm",
-              "action": "addOrderItem",
               "submitAction": "addOrderItem",
               "order": 10
             }
           ]
         },
         {
-          "id": "organism.createKitchenTicket",
-          "type": "form",
+          "id": "org-create-kitchen-ticket-30",
+          "type": "organism",
           "organismName": "CreateKitchenTicket",
-          "titleKey": "takeoutOrderLifecycle.createKitchenTicket.title",
+          "titleKey": "takeoutOrderLifecycle.organism.createKitchenTicket.title",
           "purpose": "Criar ticket de cozinha",
           "userActions": [
             "createKitchenTicket"
@@ -119,19 +118,18 @@ export const definition = {
           "order": 30,
           "intentionRefs": [
             {
-              "id": "intention.createKitchenTicket.form",
+              "id": "intent-create-kitchen-ticket-form-30",
               "intent": "commandForm",
-              "action": "createKitchenTicket",
               "submitAction": "createKitchenTicket",
               "order": 10
             }
           ]
         },
         {
-          "id": "organism.updateOrderStatus",
-          "type": "form",
+          "id": "org-update-order-status-40",
+          "type": "organism",
           "organismName": "UpdateOrderStatus",
-          "titleKey": "takeoutOrderLifecycle.updateOrderStatus.title",
+          "titleKey": "takeoutOrderLifecycle.organism.updateOrderStatus.title",
           "purpose": "Atualizar status do pedido",
           "userActions": [
             "updateOrderStatus"
@@ -141,6 +139,7 @@ export const definition = {
             "OrderItem",
             "KitchenTicket",
             "Table",
+            "TableOccupancy",
             "Payment",
             "InventoryItem",
             "RecipeComponent",
@@ -168,10 +167,39 @@ export const definition = {
           "order": 40,
           "intentionRefs": [
             {
-              "id": "intention.updateOrderStatus.form",
+              "id": "intent-update-order-status-form-40",
               "intent": "commandForm",
-              "action": "updateOrderStatus",
               "submitAction": "updateOrderStatus",
+              "order": 10
+            }
+          ]
+        },
+        {
+          "id": "org-review-summary-50",
+          "type": "organism",
+          "organismName": "ReviewSummary",
+          "titleKey": "takeoutOrderLifecycle.organism.reviewSummary.title",
+          "purpose": "Revisar o contexto e o resultado das ações principais da página.",
+          "userActions": [],
+          "requiredEntities": [
+            "Order",
+            "OrderItem",
+            "KitchenTicket"
+          ],
+          "readsFields": [
+            "Order.orderId",
+            "Order.status",
+            "Order.totalAmount",
+            "Order.customerName",
+            "Order.customerPhone"
+          ],
+          "writesFields": [],
+          "rulesApplied": [],
+          "order": 50,
+          "intentionRefs": [
+            {
+              "id": "intent-review-summary-50",
+              "intent": "summary",
               "order": 10
             }
           ]
@@ -180,11 +208,11 @@ export const definition = {
     }
   ],
   "layout": {
-    "id": "takeoutOrderLifecycle.layout",
+    "id": "takeoutOrderLifecycle.main",
     "type": "page",
     "sections": [
       {
-        "id": "section.takeoutOrderLifecycle.main",
+        "id": "sec-takeout-order-lifecycle-10",
         "type": "section",
         "sectionName": "Ciclo de pedido (takeout)",
         "titleKey": "takeoutOrderLifecycle.section.main.title",
@@ -192,10 +220,10 @@ export const definition = {
         "order": 10,
         "organisms": [
           {
-            "id": "organism.createOrder",
-            "type": "form",
+            "id": "org-create-order-10",
+            "type": "organism",
             "organismName": "CreateOrder",
-            "titleKey": "takeoutOrderLifecycle.createOrder.title",
+            "titleKey": "takeoutOrderLifecycle.organism.createOrder.title",
             "purpose": "Criar pedido",
             "userActions": [
               "createOrder"
@@ -203,7 +231,8 @@ export const definition = {
             "requiredEntities": [
               "Order",
               "DailyShift",
-              "Table"
+              "Table",
+              "TableOccupancy"
             ],
             "readsFields": [],
             "writesFields": [],
@@ -217,98 +246,98 @@ export const definition = {
             "order": 10,
             "intentions": [
               {
-                "id": "intention.createOrder.form",
+                "id": "intent-create-order-form-10",
                 "intent": "commandForm",
                 "order": 10,
-                "titleKey": "takeoutOrderLifecycle.createOrder.form.title",
-                "action": "createOrder",
+                "titleKey": "takeoutOrderLifecycle.intent.createOrderForm.title",
                 "submitAction": "createOrder",
                 "fields": [
                   {
-                    "id": "field.createOrder.orderType",
+                    "id": "field-create-order-orderType",
                     "field": "orderType",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.orderType.label",
+                    "labelKey": "takeoutOrderLifecycle.field.orderType.label",
                     "order": 10,
                     "required": true,
                     "inputType": "select",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.orderType"
                   },
                   {
-                    "id": "field.createOrder.status",
+                    "id": "field-create-order-status",
                     "field": "status",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.status.label",
+                    "labelKey": "takeoutOrderLifecycle.field.status.label",
                     "order": 20,
                     "required": true,
                     "inputType": "select",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.status"
                   },
                   {
-                    "id": "field.createOrder.totalAmount",
+                    "id": "field-create-order-totalAmount",
                     "field": "totalAmount",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.totalAmount.label",
+                    "labelKey": "takeoutOrderLifecycle.field.totalAmount.label",
                     "order": 30,
                     "required": true,
-                    "inputType": "money",
+                    "inputType": "number",
+                    "format": "money",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.totalAmount"
                   },
                   {
-                    "id": "field.createOrder.notes",
+                    "id": "field-create-order-notes",
                     "field": "notes",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.notes.label",
+                    "labelKey": "takeoutOrderLifecycle.field.notes.label",
                     "order": 40,
                     "required": false,
                     "inputType": "text",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.notes"
                   },
                   {
-                    "id": "field.createOrder.customerName",
+                    "id": "field-create-order-customerName",
                     "field": "customerName",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.customerName.label",
+                    "labelKey": "takeoutOrderLifecycle.field.customerName.label",
                     "order": 50,
                     "required": false,
                     "inputType": "text",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.customerName"
                   },
                   {
-                    "id": "field.createOrder.customerPhone",
+                    "id": "field-create-order-customerPhone",
                     "field": "customerPhone",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.customerPhone.label",
+                    "labelKey": "takeoutOrderLifecycle.field.customerPhone.label",
                     "order": 60,
                     "required": false,
-                    "inputType": "text",
+                    "inputType": "tel",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.customerPhone"
                   },
                   {
-                    "id": "field.createOrder.numberOfGuests",
+                    "id": "field-create-order-numberOfGuests",
                     "field": "numberOfGuests",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.numberOfGuests.label",
+                    "labelKey": "takeoutOrderLifecycle.field.numberOfGuests.label",
                     "order": 70,
                     "required": false,
                     "inputType": "number",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.numberOfGuests"
                   },
                   {
-                    "id": "field.createOrder.closedAt",
+                    "id": "field-create-order-closedAt",
                     "field": "closedAt",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.closedAt.label",
+                    "labelKey": "takeoutOrderLifecycle.field.closedAt.label",
                     "order": 80,
                     "required": false,
                     "inputType": "datetime",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.closedAt"
                   },
                   {
-                    "id": "field.createOrder.cancelledAt",
+                    "id": "field-create-order-cancelledAt",
                     "field": "cancelledAt",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.cancelledAt.label",
+                    "labelKey": "takeoutOrderLifecycle.field.cancelledAt.label",
                     "order": 90,
                     "required": false,
                     "inputType": "datetime",
                     "stateKey": "ui.takeoutOrderLifecycle.input.createOrder.cancelledAt"
                   },
                   {
-                    "id": "field.createOrder.cancellationReason",
+                    "id": "field-create-order-cancellationReason",
                     "field": "cancellationReason",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.cancellationReason.label",
+                    "labelKey": "takeoutOrderLifecycle.field.cancellationReason.label",
                     "order": 100,
                     "required": false,
                     "inputType": "text",
@@ -321,9 +350,9 @@ export const definition = {
                 "rowActions": [],
                 "actions": [
                   {
-                    "id": "action.createOrder.submit",
+                    "id": "action-create-order-submit",
                     "action": "createOrder",
-                    "labelKey": "takeoutOrderLifecycle.createOrder.submit",
+                    "labelKey": "takeoutOrderLifecycle.action.createOrder.label",
                     "order": 10,
                     "actionKey": "createOrder"
                   }
@@ -332,10 +361,10 @@ export const definition = {
             ]
           },
           {
-            "id": "organism.addOrderItem",
-            "type": "form",
+            "id": "org-add-order-item-20",
+            "type": "organism",
             "organismName": "AddOrderItem",
-            "titleKey": "takeoutOrderLifecycle.addOrderItem.title",
+            "titleKey": "takeoutOrderLifecycle.organism.addOrderItem.title",
             "purpose": "Adicionar item ao pedido",
             "userActions": [
               "addOrderItem"
@@ -355,53 +384,54 @@ export const definition = {
             "order": 20,
             "intentions": [
               {
-                "id": "intention.addOrderItem.form",
+                "id": "intent-add-order-item-form-20",
                 "intent": "commandForm",
                 "order": 10,
-                "titleKey": "takeoutOrderLifecycle.addOrderItem.form.title",
-                "action": "addOrderItem",
+                "titleKey": "takeoutOrderLifecycle.intent.addOrderItemForm.title",
                 "submitAction": "addOrderItem",
                 "fields": [
                   {
-                    "id": "field.addOrderItem.quantity",
+                    "id": "field-add-order-item-quantity",
                     "field": "quantity",
-                    "labelKey": "takeoutOrderLifecycle.addOrderItem.quantity.label",
+                    "labelKey": "takeoutOrderLifecycle.field.quantity.label",
                     "order": 10,
                     "required": true,
                     "inputType": "number",
                     "stateKey": "ui.takeoutOrderLifecycle.input.addOrderItem.quantity"
                   },
                   {
-                    "id": "field.addOrderItem.unitPrice",
+                    "id": "field-add-order-item-unitPrice",
                     "field": "unitPrice",
-                    "labelKey": "takeoutOrderLifecycle.addOrderItem.unitPrice.label",
+                    "labelKey": "takeoutOrderLifecycle.field.unitPrice.label",
                     "order": 20,
                     "required": true,
-                    "inputType": "money",
+                    "inputType": "number",
+                    "format": "money",
                     "stateKey": "ui.takeoutOrderLifecycle.input.addOrderItem.unitPrice"
                   },
                   {
-                    "id": "field.addOrderItem.totalPrice",
+                    "id": "field-add-order-item-totalPrice",
                     "field": "totalPrice",
-                    "labelKey": "takeoutOrderLifecycle.addOrderItem.totalPrice.label",
+                    "labelKey": "takeoutOrderLifecycle.field.totalPrice.label",
                     "order": 30,
                     "required": true,
-                    "inputType": "money",
+                    "inputType": "number",
+                    "format": "money",
                     "stateKey": "ui.takeoutOrderLifecycle.input.addOrderItem.totalPrice"
                   },
                   {
-                    "id": "field.addOrderItem.observations",
+                    "id": "field-add-order-item-observations",
                     "field": "observations",
-                    "labelKey": "takeoutOrderLifecycle.addOrderItem.observations.label",
+                    "labelKey": "takeoutOrderLifecycle.field.observations.label",
                     "order": 40,
                     "required": false,
                     "inputType": "text",
                     "stateKey": "ui.takeoutOrderLifecycle.input.addOrderItem.observations"
                   },
                   {
-                    "id": "field.addOrderItem.status",
+                    "id": "field-add-order-item-status",
                     "field": "status",
-                    "labelKey": "takeoutOrderLifecycle.addOrderItem.status.label",
+                    "labelKey": "takeoutOrderLifecycle.field.itemStatus.label",
                     "order": 50,
                     "required": true,
                     "inputType": "select",
@@ -414,9 +444,9 @@ export const definition = {
                 "rowActions": [],
                 "actions": [
                   {
-                    "id": "action.addOrderItem.submit",
+                    "id": "action-add-order-item-submit",
                     "action": "addOrderItem",
-                    "labelKey": "takeoutOrderLifecycle.addOrderItem.submit",
+                    "labelKey": "takeoutOrderLifecycle.action.addOrderItem.label",
                     "order": 10,
                     "actionKey": "addOrderItem"
                   }
@@ -425,10 +455,10 @@ export const definition = {
             ]
           },
           {
-            "id": "organism.createKitchenTicket",
-            "type": "form",
+            "id": "org-create-kitchen-ticket-30",
+            "type": "organism",
             "organismName": "CreateKitchenTicket",
-            "titleKey": "takeoutOrderLifecycle.createKitchenTicket.title",
+            "titleKey": "takeoutOrderLifecycle.organism.createKitchenTicket.title",
             "purpose": "Criar ticket de cozinha",
             "userActions": [
               "createKitchenTicket"
@@ -446,17 +476,16 @@ export const definition = {
             "order": 30,
             "intentions": [
               {
-                "id": "intention.createKitchenTicket.form",
+                "id": "intent-create-kitchen-ticket-form-30",
                 "intent": "commandForm",
                 "order": 10,
-                "titleKey": "takeoutOrderLifecycle.createKitchenTicket.form.title",
-                "action": "createKitchenTicket",
+                "titleKey": "takeoutOrderLifecycle.intent.createKitchenTicketForm.title",
                 "submitAction": "createKitchenTicket",
                 "fields": [
                   {
-                    "id": "field.createKitchenTicket.status",
+                    "id": "field-create-kitchen-ticket-status",
                     "field": "status",
-                    "labelKey": "takeoutOrderLifecycle.createKitchenTicket.status.label",
+                    "labelKey": "takeoutOrderLifecycle.field.kitchenTicketStatus.label",
                     "order": 10,
                     "required": true,
                     "inputType": "select",
@@ -469,9 +498,9 @@ export const definition = {
                 "rowActions": [],
                 "actions": [
                   {
-                    "id": "action.createKitchenTicket.submit",
+                    "id": "action-create-kitchen-ticket-submit",
                     "action": "createKitchenTicket",
-                    "labelKey": "takeoutOrderLifecycle.createKitchenTicket.submit",
+                    "labelKey": "takeoutOrderLifecycle.action.createKitchenTicket.label",
                     "order": 10,
                     "actionKey": "createKitchenTicket"
                   }
@@ -480,10 +509,10 @@ export const definition = {
             ]
           },
           {
-            "id": "organism.updateOrderStatus",
-            "type": "form",
+            "id": "org-update-order-status-40",
+            "type": "organism",
             "organismName": "UpdateOrderStatus",
-            "titleKey": "takeoutOrderLifecycle.updateOrderStatus.title",
+            "titleKey": "takeoutOrderLifecycle.organism.updateOrderStatus.title",
             "purpose": "Atualizar status do pedido",
             "userActions": [
               "updateOrderStatus"
@@ -493,6 +522,7 @@ export const definition = {
               "OrderItem",
               "KitchenTicket",
               "Table",
+              "TableOccupancy",
               "Payment",
               "InventoryItem",
               "RecipeComponent",
@@ -520,44 +550,43 @@ export const definition = {
             "order": 40,
             "intentions": [
               {
-                "id": "intention.updateOrderStatus.form",
+                "id": "intent-update-order-status-form-40",
                 "intent": "commandForm",
                 "order": 10,
-                "titleKey": "takeoutOrderLifecycle.updateOrderStatus.form.title",
-                "action": "updateOrderStatus",
+                "titleKey": "takeoutOrderLifecycle.intent.updateOrderStatusForm.title",
                 "submitAction": "updateOrderStatus",
                 "fields": [
                   {
-                    "id": "field.updateOrderStatus.status",
+                    "id": "field-update-order-status-status",
                     "field": "status",
-                    "labelKey": "takeoutOrderLifecycle.updateOrderStatus.status.label",
+                    "labelKey": "takeoutOrderLifecycle.field.status.label",
                     "order": 10,
                     "required": true,
                     "inputType": "select",
                     "stateKey": "ui.takeoutOrderLifecycle.input.updateOrderStatus.status"
                   },
                   {
-                    "id": "field.updateOrderStatus.closedAt",
+                    "id": "field-update-order-status-closedAt",
                     "field": "closedAt",
-                    "labelKey": "takeoutOrderLifecycle.updateOrderStatus.closedAt.label",
+                    "labelKey": "takeoutOrderLifecycle.field.closedAt.label",
                     "order": 20,
                     "required": false,
                     "inputType": "datetime",
                     "stateKey": "ui.takeoutOrderLifecycle.input.updateOrderStatus.closedAt"
                   },
                   {
-                    "id": "field.updateOrderStatus.cancelledAt",
+                    "id": "field-update-order-status-cancelledAt",
                     "field": "cancelledAt",
-                    "labelKey": "takeoutOrderLifecycle.updateOrderStatus.cancelledAt.label",
+                    "labelKey": "takeoutOrderLifecycle.field.cancelledAt.label",
                     "order": 30,
                     "required": false,
                     "inputType": "datetime",
                     "stateKey": "ui.takeoutOrderLifecycle.input.updateOrderStatus.cancelledAt"
                   },
                   {
-                    "id": "field.updateOrderStatus.cancellationReason",
+                    "id": "field-update-order-status-cancellationReason",
                     "field": "cancellationReason",
-                    "labelKey": "takeoutOrderLifecycle.updateOrderStatus.cancellationReason.label",
+                    "labelKey": "takeoutOrderLifecycle.field.cancellationReason.label",
                     "order": 40,
                     "required": false,
                     "inputType": "text",
@@ -570,13 +599,86 @@ export const definition = {
                 "rowActions": [],
                 "actions": [
                   {
-                    "id": "action.updateOrderStatus.submit",
+                    "id": "action-update-order-status-submit",
                     "action": "updateOrderStatus",
-                    "labelKey": "takeoutOrderLifecycle.updateOrderStatus.submit",
+                    "labelKey": "takeoutOrderLifecycle.action.updateOrderStatus.label",
                     "order": 10,
                     "actionKey": "updateOrderStatus"
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "id": "org-review-summary-50",
+            "type": "organism",
+            "organismName": "ReviewSummary",
+            "titleKey": "takeoutOrderLifecycle.organism.reviewSummary.title",
+            "purpose": "Revisar o contexto e o resultado das ações principais da página.",
+            "userActions": [],
+            "requiredEntities": [
+              "Order",
+              "OrderItem",
+              "KitchenTicket"
+            ],
+            "readsFields": [
+              "Order.orderId",
+              "Order.status",
+              "Order.totalAmount",
+              "Order.customerName",
+              "Order.customerPhone"
+            ],
+            "writesFields": [],
+            "rulesApplied": [],
+            "order": 50,
+            "intentions": [
+              {
+                "id": "intent-review-summary-50",
+                "intent": "summary",
+                "order": 10,
+                "titleKey": "takeoutOrderLifecycle.intent.reviewSummary.title",
+                "fields": [
+                  {
+                    "id": "field-review-orderId",
+                    "field": "orderId",
+                    "labelKey": "takeoutOrderLifecycle.field.orderId.label",
+                    "order": 10,
+                    "required": false
+                  },
+                  {
+                    "id": "field-review-status",
+                    "field": "status",
+                    "labelKey": "takeoutOrderLifecycle.field.status.label",
+                    "order": 20,
+                    "required": false
+                  },
+                  {
+                    "id": "field-review-totalAmount",
+                    "field": "totalAmount",
+                    "labelKey": "takeoutOrderLifecycle.field.totalAmount.label",
+                    "order": 30,
+                    "required": false
+                  },
+                  {
+                    "id": "field-review-customerName",
+                    "field": "customerName",
+                    "labelKey": "takeoutOrderLifecycle.field.customerName.label",
+                    "order": 40,
+                    "required": false
+                  },
+                  {
+                    "id": "field-review-customerPhone",
+                    "field": "customerPhone",
+                    "labelKey": "takeoutOrderLifecycle.field.customerPhone.label",
+                    "order": 50,
+                    "required": false
+                  }
+                ],
+                "columns": [],
+                "filters": [],
+                "toolbar": [],
+                "rowActions": [],
+                "actions": []
               }
             ]
           }
@@ -599,14 +701,15 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/takeoutOrderLifecycle.defs.ts",
       "_102050_/l2/cafeFlow/web/contracts/takeoutOrderLifecycle.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "takeoutOrderLifecycle__l2_shared"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfePage11RenderTs.ts"
     ],
-    "afterSaveFrontEnd": "_102020_/l2/agentMaterializeSolution/registerFrontEnd.ts?registerPage",
     "visualStyle": {
       "description": "POS-first, high-contrast, touch-friendly, low-latency, status-driven UI"
     },
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

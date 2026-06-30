@@ -20,18 +20,18 @@ export const definition = {
   "navigationRefs": [],
   "sections": [
     {
-      "id": "section.recordPayment",
+      "id": "section.recordPayment.main",
       "type": "section",
       "sectionName": "Registrar pagamento/recebimento",
-      "titleKey": "recordPayment.section.title",
+      "titleKey": "recordPayment.section.main.title",
       "mode": "edit",
       "order": 10,
       "organisms": [
         {
-          "id": "organism.recordPayment",
-          "type": "organism",
+          "id": "organism.recordPayment.form",
+          "type": "form",
           "organismName": "RecordPayment",
-          "titleKey": "recordPayment.organism.title",
+          "titleKey": "recordPayment.organism.form.title",
           "purpose": "Registrar pagamento/recebimento",
           "userActions": [
             "recordPayment"
@@ -43,9 +43,9 @@ export const definition = {
           ],
           "readsFields": [],
           "writesFields": [
-            "Payment.method",
-            "Payment.amount",
-            "Payment.status"
+            "method",
+            "amount",
+            "status"
           ],
           "rulesApplied": [
             "paymentTimingByOrderType"
@@ -53,8 +53,9 @@ export const definition = {
           "order": 10,
           "intentionRefs": [
             {
-              "id": "intention.recordPayment.form",
+              "id": "intention.recordPayment.commandForm",
               "intent": "commandForm",
+              "action": "recordPayment",
               "submitAction": "recordPayment",
               "order": 10
             }
@@ -64,22 +65,22 @@ export const definition = {
     }
   ],
   "layout": {
-    "id": "recordPayment.default",
+    "id": "recordPayment.layout",
     "type": "page",
     "sections": [
       {
-        "id": "section.recordPayment",
+        "id": "section.recordPayment.main",
         "type": "section",
         "sectionName": "Registrar pagamento/recebimento",
-        "titleKey": "recordPayment.section.title",
+        "titleKey": "recordPayment.section.main.title",
         "mode": "edit",
         "order": 10,
         "organisms": [
           {
-            "id": "organism.recordPayment",
-            "type": "organism",
+            "id": "organism.recordPayment.form",
+            "type": "form",
             "organismName": "RecordPayment",
-            "titleKey": "recordPayment.organism.title",
+            "titleKey": "recordPayment.organism.form.title",
             "purpose": "Registrar pagamento/recebimento",
             "userActions": [
               "recordPayment"
@@ -91,9 +92,9 @@ export const definition = {
             ],
             "readsFields": [],
             "writesFields": [
-              "Payment.method",
-              "Payment.amount",
-              "Payment.status"
+              "method",
+              "amount",
+              "status"
             ],
             "rulesApplied": [
               "paymentTimingByOrderType"
@@ -101,34 +102,36 @@ export const definition = {
             "order": 10,
             "intentions": [
               {
-                "id": "intention.recordPayment.form",
+                "id": "intention.recordPayment.commandForm",
                 "intent": "commandForm",
                 "order": 10,
-                "titleKey": "recordPayment.form.title",
+                "titleKey": "recordPayment.intention.commandForm.title",
+                "action": "recordPayment",
                 "submitAction": "recordPayment",
                 "fields": [
                   {
-                    "id": "field.payment.method",
+                    "id": "field.recordPayment.method",
                     "field": "method",
-                    "labelKey": "recordPayment.field.method",
+                    "labelKey": "recordPayment.field.method.label",
                     "order": 10,
                     "required": true,
                     "inputType": "text",
                     "stateKey": "ui.recordPayment.input.recordPayment.method"
                   },
                   {
-                    "id": "field.payment.amount",
+                    "id": "field.recordPayment.amount",
                     "field": "amount",
-                    "labelKey": "recordPayment.field.amount",
+                    "labelKey": "recordPayment.field.amount.label",
                     "order": 20,
                     "required": true,
                     "inputType": "money",
+                    "format": "currency",
                     "stateKey": "ui.recordPayment.input.recordPayment.amount"
                   },
                   {
-                    "id": "field.payment.status",
+                    "id": "field.recordPayment.status",
                     "field": "status",
-                    "labelKey": "recordPayment.field.status",
+                    "labelKey": "recordPayment.field.status.label",
                     "order": 30,
                     "required": true,
                     "inputType": "select",
@@ -143,7 +146,7 @@ export const definition = {
                   {
                     "id": "action.recordPayment.submit",
                     "action": "recordPayment",
-                    "labelKey": "recordPayment.action.submit",
+                    "labelKey": "recordPayment.action.submit.label",
                     "order": 10,
                     "actionKey": "recordPayment"
                   }
@@ -170,14 +173,15 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/recordPayment.defs.ts",
       "_102050_/l2/cafeFlow/web/contracts/recordPayment.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "recordPayment__l2_shared"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfePage11RenderTs.ts"
     ],
-    "afterSaveFrontEnd": "_102020_/l2/agentMaterializeSolution/registerFrontEnd.ts?registerPage",
     "visualStyle": {
       "description": "POS-first, high-contrast, touch-friendly, low-latency, status-driven UI"
     },
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

@@ -29,14 +29,14 @@ export const recordPaymentUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "Reference to the Order this payment belongs to"
+            "description": "Reference to the order being paid"
           },
           {
             "name": "dailyShiftId",
             "type": "string",
             "required": true,
             "ofEntity": "DailyShift",
-            "description": "Reference to the DailyShift during which the payment is recorded"
+            "description": "Reference to the daily shift in which the payment is recorded"
           },
           {
             "name": "method",
@@ -48,7 +48,7 @@ export const recordPaymentUsecase = {
             "name": "amount",
             "type": "number",
             "required": true,
-            "description": "Payment amount in currency units"
+            "description": "Payment amount"
           },
           {
             "name": "status",
@@ -63,13 +63,13 @@ export const recordPaymentUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Payment",
-            "description": "ID of the newly created Payment"
+            "description": "Generated payment identifier"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Confirmed status of the created Payment"
+            "description": "Final payment status after rule validation"
           }
         ],
         "ports": [
@@ -82,12 +82,13 @@ export const recordPaymentUsecase = {
         ],
         "transactional": true,
         "steps": [
-          "Load Order by orderId via OrderPort to retrieve orderType and current status",
-          "Load DailyShift by dailyShiftId via DailyShiftPort to verify shift status is 'open'",
-          "Apply paymentTimingByOrderType rule: validate that the payment is allowed at this stage based on orderType (mesa vs takeout) and order status",
-          "Validate amount is positive and does not exceed Order.totalAmount",
-          "Create Payment aggregate via PaymentPort with provided method, amount, status, orderId, dailyShiftId and server-generated paymentId, createdAt, updatedAt",
-          "Return paymentId and confirmed status"
+          "Load DailyShift by dailyShiftId via DailyShift port and verify its status is 'open'; reject if closed",
+          "Load Order by orderId via Order port and verify order.dailyShiftId matches the provided dailyShiftId",
+          "Apply rule paymentTimingByOrderType: if order.orderType is 'mesa', require order.status to be at least 'served' before accepting payment; if order.orderType is 'takeout', allow payment when order.status is 'sentToKitchen' or later",
+          "Validate that amount is positive and does not exceed order.totalAmount minus already-recorded payments",
+          "Create Payment entity with generated paymentId, provided orderId, dailyShiftId, method, amount, and status; set createdAt and updatedAt to current timestamp",
+          "Save Payment via Payment port",
+          "Return paymentId and final status"
         ]
       }
     ],
@@ -117,6 +118,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

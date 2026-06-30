@@ -134,14 +134,14 @@ export const definition = {
   "initialLoads": [],
   "navigationRefs": [],
   "i18n": {
-    "manageMenuCategories.section.title": "Gerenciar categorias do cardápio",
-    "manageMenuCategories.organism.title": "Gerenciar categorias do cardápio",
-    "manageMenuCategories.form.title": "Dados da categoria",
-    "manageMenuCategories.field.menuCategoryId": "ID da categoria",
-    "manageMenuCategories.field.name": "Nome",
-    "manageMenuCategories.field.description": "Descrição",
-    "manageMenuCategories.field.status": "Status",
-    "manageMenuCategories.action.submit": "Salvar alterações"
+    "manageMenuCategories.section.main.title": "Gerenciar categorias do cardápio",
+    "manageMenuCategories.organism.form.title": "Categorias do cardápio",
+    "manageMenuCategories.intention.commandForm.title": "Atualizar categoria",
+    "manageMenuCategories.field.menuCategoryId.label": "ID da categoria",
+    "manageMenuCategories.field.name.label": "Nome",
+    "manageMenuCategories.field.description.label": "Descrição",
+    "manageMenuCategories.field.status.label": "Status",
+    "manageMenuCategories.action.submit.label": "Salvar alterações"
   },
   "automation": {
     "statePrefix": "ui.manageMenuCategories",
@@ -174,11 +174,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/manageMenuCategories.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/manageMenuCategories.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "manageMenuCategories__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

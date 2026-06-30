@@ -17,39 +17,39 @@ export const paymentTableDefinition = {
     "columns": [
       {
         "name": "payment_id",
-        "type": "uuid",
+        "type": "string",
         "nullable": false,
-        "description": "PK/FK identifier for payment"
+        "description": "pk/fk"
       },
       {
         "name": "order_id",
-        "type": "uuid",
+        "type": "string",
         "nullable": false,
-        "description": "FK to order"
+        "description": "pk/fk"
       },
       {
         "name": "daily_shift_id",
-        "type": "uuid",
+        "type": "string",
         "nullable": false,
-        "description": "FK to daily shift"
+        "description": "pk/fk"
       },
       {
         "name": "status",
-        "type": "varchar",
+        "type": "string",
         "nullable": false,
-        "description": "Status of the payment"
+        "description": "status"
       },
       {
         "name": "created_at",
         "type": "timestamp",
         "nullable": false,
-        "description": "Creation timestamp for ordering"
+        "description": "ordering"
       },
       {
         "name": "details",
         "type": "jsonb",
         "nullable": true,
-        "description": "Contains method, amount, updatedAt"
+        "description": "method, amount, updatedAt"
       }
     ],
     "primaryKey": [
@@ -110,7 +110,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/persistenceTable.md",
       "_102034_.d.ts"
     ],
-    "afterSaveBackEnd": "_102021_/l2/agentMaterializeSolution/registerBackEnd.ts?registerLayer1",
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

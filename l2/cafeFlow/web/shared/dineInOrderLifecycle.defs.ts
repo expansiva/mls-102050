@@ -330,6 +330,39 @@ export const definition = {
         "field": "status"
       },
       "defaultValue": ""
+    },
+    {
+      "stateKey": "ui.dineInOrderLifecycle.input.updateTableStatus.currentChargesTotal",
+      "name": "updateTableStatusCurrentChargesTotal",
+      "kind": "input",
+      "contractRef": {
+        "commandName": "updateTableStatus",
+        "direction": "input",
+        "field": "currentChargesTotal"
+      },
+      "defaultValue": ""
+    },
+    {
+      "stateKey": "ui.dineInOrderLifecycle.input.updateTableStatus.openedAt",
+      "name": "updateTableStatusOpenedAt",
+      "kind": "input",
+      "contractRef": {
+        "commandName": "updateTableStatus",
+        "direction": "input",
+        "field": "openedAt"
+      },
+      "defaultValue": ""
+    },
+    {
+      "stateKey": "ui.dineInOrderLifecycle.input.updateTableStatus.closedAt",
+      "name": "updateTableStatusClosedAt",
+      "kind": "input",
+      "contractRef": {
+        "commandName": "updateTableStatus",
+        "direction": "input",
+        "field": "closedAt"
+      },
+      "defaultValue": ""
     }
   ],
   "actions": [
@@ -414,7 +447,10 @@ export const definition = {
       "methodName": "updateTableStatus",
       "handlerName": "handleUpdateTableStatusClick",
       "inputStateKeys": [
-        "ui.dineInOrderLifecycle.input.updateTableStatus.status"
+        "ui.dineInOrderLifecycle.input.updateTableStatus.status",
+        "ui.dineInOrderLifecycle.input.updateTableStatus.currentChargesTotal",
+        "ui.dineInOrderLifecycle.input.updateTableStatus.openedAt",
+        "ui.dineInOrderLifecycle.input.updateTableStatus.closedAt"
       ],
       "outputStateKeys": [],
       "statusStateKey": "ui.dineInOrderLifecycle.action.updateTableStatus.status"
@@ -565,48 +601,69 @@ export const definition = {
       "stateKey": "ui.dineInOrderLifecycle.input.updateTableStatus.status",
       "methodName": "setUpdateTableStatusStatus",
       "handlerName": "handleUpdateTableStatusStatusChange"
+    },
+    {
+      "actionId": "set.updateTableStatusCurrentChargesTotal",
+      "kind": "stateSetter",
+      "stateKey": "ui.dineInOrderLifecycle.input.updateTableStatus.currentChargesTotal",
+      "methodName": "setUpdateTableStatusCurrentChargesTotal",
+      "handlerName": "handleUpdateTableStatusCurrentChargesTotalChange"
+    },
+    {
+      "actionId": "set.updateTableStatusOpenedAt",
+      "kind": "stateSetter",
+      "stateKey": "ui.dineInOrderLifecycle.input.updateTableStatus.openedAt",
+      "methodName": "setUpdateTableStatusOpenedAt",
+      "handlerName": "handleUpdateTableStatusOpenedAtChange"
+    },
+    {
+      "actionId": "set.updateTableStatusClosedAt",
+      "kind": "stateSetter",
+      "stateKey": "ui.dineInOrderLifecycle.input.updateTableStatus.closedAt",
+      "methodName": "setUpdateTableStatusClosedAt",
+      "handlerName": "handleUpdateTableStatusClosedAtChange"
     }
   ],
   "initialLoads": [],
   "navigationRefs": [],
   "i18n": {
-    "section.dineInOrderLifecycle.title": "Ciclo de pedido (mesa)",
-    "organism.createOrder.title": "Criar pedido",
-    "intent.createOrder.form.title": "Novo pedido",
-    "field.createOrder.orderType": "Tipo do pedido",
-    "field.createOrder.status": "Status do pedido",
-    "field.createOrder.totalAmount": "Valor total",
-    "field.createOrder.notes": "Observações",
-    "field.createOrder.customerName": "Nome do cliente",
-    "field.createOrder.customerPhone": "Telefone do cliente",
-    "field.createOrder.numberOfGuests": "Número de pessoas",
-    "field.createOrder.closedAt": "Fechado em",
-    "field.createOrder.cancelledAt": "Cancelado em",
-    "field.createOrder.cancellationReason": "Motivo do cancelamento",
-    "action.createOrder.submit": "Criar pedido",
-    "organism.addOrderItem.title": "Adicionar item ao pedido",
-    "intent.addOrderItem.form.title": "Adicionar item",
-    "field.addOrderItem.quantity": "Quantidade",
-    "field.addOrderItem.unitPrice": "Preço unitário",
-    "field.addOrderItem.totalPrice": "Preço total",
-    "field.addOrderItem.observations": "Observações do item",
-    "field.addOrderItem.status": "Status do item",
-    "action.addOrderItem.submit": "Adicionar item",
-    "organism.createKitchenTicket.title": "Criar ticket de cozinha",
-    "intent.createKitchenTicket.form.title": "Enviar para cozinha",
-    "field.createKitchenTicket.status": "Status do ticket",
-    "action.createKitchenTicket.submit": "Criar ticket",
-    "organism.updateOrderStatus.title": "Atualizar status do pedido",
-    "intent.updateOrderStatus.form.title": "Atualizar status do pedido",
-    "field.updateOrderStatus.status": "Novo status do pedido",
-    "field.updateOrderStatus.closedAt": "Fechado em",
-    "field.updateOrderStatus.cancelledAt": "Cancelado em",
-    "field.updateOrderStatus.cancellationReason": "Motivo do cancelamento",
-    "action.updateOrderStatus.submit": "Atualizar status",
-    "organism.updateTableStatus.title": "Atualizar ocupação da mesa",
-    "intent.updateTableStatus.form.title": "Atualizar status da mesa",
-    "field.updateTableStatus.status": "Status da mesa",
-    "action.updateTableStatus.submit": "Atualizar mesa"
+    "dineInOrderLifecycle.section.main.title": "Ciclo de pedido (mesa)",
+    "dineInOrderLifecycle.organism.createOrder.title": "Criar pedido",
+    "dineInOrderLifecycle.stage.createOrder.title": "Command Form",
+    "dineInOrderLifecycle.field.orderType.label": "Order Type",
+    "dineInOrderLifecycle.field.status.label": "Status",
+    "dineInOrderLifecycle.field.totalAmount.label": "Total Amount",
+    "dineInOrderLifecycle.field.notes.label": "Notes",
+    "dineInOrderLifecycle.field.customerName.label": "Customer Name",
+    "dineInOrderLifecycle.field.customerPhone.label": "Customer Phone",
+    "dineInOrderLifecycle.field.numberOfGuests.label": "Number Of Guests",
+    "dineInOrderLifecycle.field.closedAt.label": "Closed At",
+    "dineInOrderLifecycle.field.cancelledAt.label": "Cancelled At",
+    "dineInOrderLifecycle.field.cancellationReason.label": "Cancellation Reason",
+    "dineInOrderLifecycle.action.createOrder.label": "Create Order",
+    "dineInOrderLifecycle.organism.addOrderItem.title": "Adicionar item ao pedido",
+    "dineInOrderLifecycle.stage.addOrderItem.title": "Command Form",
+    "dineInOrderLifecycle.field.quantity.label": "Quantity",
+    "dineInOrderLifecycle.field.unitPrice.label": "Unit Price",
+    "dineInOrderLifecycle.field.totalPrice.label": "Total Price",
+    "dineInOrderLifecycle.field.observations.label": "Observations",
+    "dineInOrderLifecycle.field.itemStatus.label": "Status",
+    "dineInOrderLifecycle.action.addOrderItem.label": "Add Order Item",
+    "dineInOrderLifecycle.organism.createKitchenTicket.title": "Criar ticket de cozinha",
+    "dineInOrderLifecycle.stage.createKitchenTicket.title": "Command Form",
+    "dineInOrderLifecycle.field.kitchenTicketStatus.label": "Status",
+    "dineInOrderLifecycle.action.createKitchenTicket.label": "Create Kitchen Ticket",
+    "dineInOrderLifecycle.organism.updateOrderStatus.title": "Atualizar status do pedido",
+    "dineInOrderLifecycle.stage.updateOrderStatus.title": "Command Form",
+    "dineInOrderLifecycle.action.updateOrderStatus.label": "Update Order Status",
+    "dineInOrderLifecycle.organism.updateTableStatus.title": "Atualizar ocupação da mesa",
+    "dineInOrderLifecycle.stage.updateTableStatus.title": "Command Form",
+    "dineInOrderLifecycle.field.tableStatus.label": "Status",
+    "dineInOrderLifecycle.field.currentChargesTotal.label": "Current Charges Total",
+    "dineInOrderLifecycle.field.openedAt.label": "Opened At",
+    "dineInOrderLifecycle.action.updateTableStatus.label": "Update Table Status",
+    "dineInOrderLifecycle.organism.review.title": "Revisar o contexto e o resultado das ações principais da página",
+    "dineInOrderLifecycle.stage.review.title": "Summary"
   },
   "automation": {
     "statePrefix": "ui.dineInOrderLifecycle",
@@ -637,7 +694,10 @@ export const definition = {
       "ui.dineInOrderLifecycle.input.updateOrderStatus.cancelledAt",
       "ui.dineInOrderLifecycle.input.updateOrderStatus.cancellationReason",
       "ui.dineInOrderLifecycle.action.updateTableStatus.status",
-      "ui.dineInOrderLifecycle.input.updateTableStatus.status"
+      "ui.dineInOrderLifecycle.input.updateTableStatus.status",
+      "ui.dineInOrderLifecycle.input.updateTableStatus.currentChargesTotal",
+      "ui.dineInOrderLifecycle.input.updateTableStatus.openedAt",
+      "ui.dineInOrderLifecycle.input.updateTableStatus.closedAt"
     ],
     "actionIds": [
       "createOrder",
@@ -665,7 +725,10 @@ export const definition = {
       "set.updateOrderStatusClosedAt",
       "set.updateOrderStatusCancelledAt",
       "set.updateOrderStatusCancellationReason",
-      "set.updateTableStatusStatus"
+      "set.updateTableStatusStatus",
+      "set.updateTableStatusCurrentChargesTotal",
+      "set.updateTableStatusOpenedAt",
+      "set.updateTableStatusClosedAt"
     ]
   }
 };
@@ -681,11 +744,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/dineInOrderLifecycle.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/dineInOrderLifecycle.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "dineInOrderLifecycle__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

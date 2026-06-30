@@ -34,7 +34,7 @@ export const manageMenuItemsUsecase = {
             "type": "string",
             "required": false,
             "ofEntity": "MenuCategory",
-            "description": "New category reference (mdmRef) for the menu item"
+            "description": "Updated category reference (mdmRef) — validated against master data"
           },
           {
             "name": "name",
@@ -62,7 +62,7 @@ export const manageMenuItemsUsecase = {
             "type": "string",
             "required": false,
             "ofEntity": "MenuItem",
-            "description": "Updated status: draft, active, or inactive"
+            "description": "Updated lifecycle status: draft | active | inactive"
           }
         ],
         "output": [
@@ -77,15 +77,7 @@ export const manageMenuItemsUsecase = {
             "name": "status",
             "type": "string",
             "required": true,
-            "ofEntity": "MenuItem",
-            "description": "Current status of the menu item after update"
-          },
-          {
-            "name": "updatedAt",
-            "type": "string",
-            "required": true,
-            "ofEntity": "MenuItem",
-            "description": "Timestamp of the last update"
+            "description": "Result status of the update operation"
           }
         ],
         "ports": [
@@ -96,13 +88,12 @@ export const manageMenuItemsUsecase = {
         ],
         "transactional": true,
         "steps": [
-          "1. Load the MenuItem aggregate by menuItemId via MenuItemPort.findById",
-          "2. Validate that the MenuItem exists; throw NotFound if missing",
-          "3. If menuCategoryId is provided, verify the MenuCategory exists via ctx.data.mdmDocument.get({ mdmId: menuCategoryId }) and that its status is active",
-          "4. Apply field changes (name, description, price, status, menuCategoryId) to the loaded MenuItem aggregate using its domain mutation methods",
-          "5. Validate status transition rules (draft->active, active->inactive, etc.) within the MenuItem entity",
-          "6. Save the updated MenuItem aggregate via MenuItemPort.save",
-          "7. Return menuItemId, current status, and updatedAt timestamp"
+          "1. Load the MenuItem aggregate by menuItemId via MenuItemPort.findById; throw NotFound if missing.",
+          "2. If menuCategoryId is provided, validate it exists in master data via ctx.data.mdmDocument.get({ mdmId: menuCategoryId }) and that the MenuCategory status is 'active'; throw InvalidMenuCategory otherwise.",
+          "3. Apply the provided field changes (menuCategoryId, name, description, price, status) to the loaded MenuItem aggregate using its domain mutation methods.",
+          "4. Validate the MenuItem invariants (e.g. price >= 0, status enum value) via the aggregate's validate() method.",
+          "5. Persist the updated MenuItem aggregate via MenuItemPort.save.",
+          "6. Return menuItemId and operation status."
         ]
       }
     ],
@@ -130,6 +121,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

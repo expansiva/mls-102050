@@ -82,7 +82,7 @@ export const inventoryItemDomainEntity = {
       "minimumLevel must be greater than or equal to zero",
       "name must not be empty",
       "unit must not be empty",
-      "status transitions: active→inactive, inactive→active"
+      "status can only transition between active and inactive"
     ],
     "valueObjects": []
   }
@@ -103,6 +103,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/domainEntity.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

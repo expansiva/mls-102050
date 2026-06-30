@@ -25,21 +25,21 @@ export const manageTablesUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Table",
-            "description": "ID of the table to update"
+            "description": "Identifier of the table to update"
           },
           {
             "name": "number",
             "type": "string",
             "required": false,
             "ofEntity": "Table",
-            "description": "Table number/label"
+            "description": "Table number label"
           },
           {
             "name": "status",
             "type": "string",
             "required": false,
             "ofEntity": "Table",
-            "description": "New table status: available | occupied | disabled"
+            "description": "Table status: active or inactive"
           }
         ],
         "output": [
@@ -48,42 +48,31 @@ export const manageTablesUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Table",
-            "description": "ID of the updated table"
-          },
-          {
-            "name": "number",
-            "type": "string",
-            "required": true,
-            "ofEntity": "Table",
-            "description": "Updated table number"
-          },
-          {
-            "name": "status",
-            "type": "string",
-            "required": true,
-            "ofEntity": "Table",
-            "description": "Updated table status"
+            "description": "Identifier of the updated table"
           },
           {
             "name": "updatedAt",
             "type": "string",
             "required": true,
             "ofEntity": "Table",
-            "description": "Timestamp of the update"
+            "description": "Timestamp of the last update"
           }
         ],
         "ports": [],
         "rulesApplied": [
-          "tableOccupancyConsistency"
+          "table-must-exist",
+          "at-least-one-field-must-be-provided",
+          "status-must-be-valid-enum"
         ],
         "transactional": true,
         "steps": [
-          "Read the Table master-data document by tableId via ctx.data.mdmDocument.get({ mdmId: tableId })",
-          "Validate tableOccupancyConsistency: if status is being set to 'available', ensure no active orders/seats are linked to the table; if set to 'occupied', ensure it is not currently 'disabled'",
-          "Apply requested field changes (number and/or status) to the Table document",
+          "Load Table aggregate by tableId via TablePort",
+          "Validate that at least one writable field (number or status) is provided",
+          "If status is provided, validate it is one of: active, inactive",
+          "Apply field changes to the Table aggregate",
           "Set updatedAt to current timestamp",
-          "Persist the updated Table master-data document via ctx.data.mdmDocument.save",
-          "Return tableId, number, status, and updatedAt"
+          "Save Table aggregate via TablePort",
+          "Return tableId and updatedAt"
         ]
       },
       {
@@ -96,14 +85,14 @@ export const manageTablesUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Table",
-            "description": "ID of the table whose status changes"
+            "description": "Identifier of the table whose status will change"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
             "ofEntity": "Table",
-            "description": "Target status: available | occupied | disabled"
+            "description": "New status: active or inactive"
           }
         ],
         "output": [
@@ -112,14 +101,14 @@ export const manageTablesUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Table",
-            "description": "ID of the table"
+            "description": "Identifier of the updated table"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
             "ofEntity": "Table",
-            "description": "New status after transition"
+            "description": "The new status applied"
           },
           {
             "name": "updatedAt",
@@ -131,20 +120,19 @@ export const manageTablesUsecase = {
         ],
         "ports": [],
         "rulesApplied": [
-          "tableOccupancyConsistency"
+          "table-must-exist",
+          "status-must-be-valid-enum"
         ],
         "transactional": true,
         "steps": [
-          "Read the Table master-data document by tableId via ctx.data.mdmDocument.get({ mdmId: tableId })",
-          "Validate tableOccupancyConsistency: transitioning to 'available' requires no active occupancy; transitioning to 'occupied' requires current status is 'available'; transitioning to 'disabled' requires current status is 'available'",
-          "Set status to the target value and updatedAt to current timestamp",
-          "Persist the updated Table master-data document via ctx.data.mdmDocument.save",
+          "Load Table aggregate by tableId via TablePort",
+          "Validate status is one of: active, inactive",
+          "Apply new status to the Table aggregate",
+          "Set updatedAt to current timestamp",
+          "Save Table aggregate via TablePort",
           "Return tableId, status, and updatedAt"
         ]
       }
-    ],
-    "rulesApplied": [
-      "tableOccupancyConsistency"
     ],
     "mdmRefs": [
       "Table"
@@ -167,9 +155,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "rulesApplied": [
-      "tableOccupancyConsistency"
-    ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;
