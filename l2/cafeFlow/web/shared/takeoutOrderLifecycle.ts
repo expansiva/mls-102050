@@ -1,4 +1,4 @@
-/// <mls fileReference="_102050_/l2/cafeFlow/web/shared/takeoutOrderLifecycle.ts" enhancement="_blank"/>
+/// <mls fileReference="_102050_/l2/cafeFlow/web/shared/takeoutOrderLifecycle.ts" enhancement="_102020_/l2/enhancementAura"/>
 
 import { CollabLitElement } from '/_102029_/l2/collabLitElement.js';
 import { property } from 'lit/decorators.js';
@@ -16,545 +16,681 @@ import type {
   CafeFlowUpdateOrderStatusOutput,
 } from '/_102050_/l2/cafeFlow/web/contracts/takeoutOrderLifecycle.js';
 
-type ActionStatus = 'idle' | 'loading' | 'success' | 'error';
-
-const message_pt: Record<string, string> = {
+/// **collab_i18n_start**
+const message_pt = {
   'takeoutOrderLifecycle.section.main.title': 'Ciclo de pedido (takeout)',
-  'takeoutOrderLifecycle.createOrder.title': 'Criar pedido',
-  'takeoutOrderLifecycle.createOrder.form.title': 'Command Form',
-  'takeoutOrderLifecycle.createOrder.orderType.label': 'Order Type',
-  'takeoutOrderLifecycle.createOrder.status.label': 'Status',
-  'takeoutOrderLifecycle.createOrder.totalAmount.label': 'Total Amount',
-  'takeoutOrderLifecycle.createOrder.notes.label': 'Notes',
-  'takeoutOrderLifecycle.createOrder.customerName.label': 'Customer Name',
-  'takeoutOrderLifecycle.createOrder.customerPhone.label': 'Customer Phone',
-  'takeoutOrderLifecycle.createOrder.numberOfGuests.label': 'Number Of Guests',
-  'takeoutOrderLifecycle.createOrder.closedAt.label': 'Closed At',
-  'takeoutOrderLifecycle.createOrder.cancelledAt.label': 'Cancelled At',
-  'takeoutOrderLifecycle.createOrder.cancellationReason.label': 'Cancellation Reason',
-  'takeoutOrderLifecycle.createOrder.submit': 'Create Order',
-  'takeoutOrderLifecycle.addOrderItem.title': 'Adicionar item ao pedido',
-  'takeoutOrderLifecycle.addOrderItem.form.title': 'Command Form',
-  'takeoutOrderLifecycle.addOrderItem.quantity.label': 'Quantity',
-  'takeoutOrderLifecycle.addOrderItem.unitPrice.label': 'Unit Price',
-  'takeoutOrderLifecycle.addOrderItem.totalPrice.label': 'Total Price',
-  'takeoutOrderLifecycle.addOrderItem.observations.label': 'Observations',
-  'takeoutOrderLifecycle.addOrderItem.status.label': 'Status',
-  'takeoutOrderLifecycle.addOrderItem.submit': 'Add Order Item',
-  'takeoutOrderLifecycle.createKitchenTicket.title': 'Criar ticket de cozinha',
-  'takeoutOrderLifecycle.createKitchenTicket.form.title': 'Command Form',
-  'takeoutOrderLifecycle.createKitchenTicket.status.label': 'Status',
-  'takeoutOrderLifecycle.createKitchenTicket.submit': 'Create Kitchen Ticket',
-  'takeoutOrderLifecycle.updateOrderStatus.title': 'Atualizar status do pedido',
-  'takeoutOrderLifecycle.updateOrderStatus.form.title': 'Command Form',
-  'takeoutOrderLifecycle.updateOrderStatus.status.label': 'Status',
-  'takeoutOrderLifecycle.updateOrderStatus.closedAt.label': 'Closed At',
-  'takeoutOrderLifecycle.updateOrderStatus.cancelledAt.label': 'Cancelled At',
-  'takeoutOrderLifecycle.updateOrderStatus.cancellationReason.label': 'Cancellation Reason',
-  'takeoutOrderLifecycle.updateOrderStatus.submit': 'Update Order Status',
+  'takeoutOrderLifecycle.organism.createOrder.title': 'Criar pedido',
+  'takeoutOrderLifecycle.organism.addOrderItem.title': 'Adicionar item ao pedido',
+  'takeoutOrderLifecycle.organism.createKitchenTicket.title': 'Criar ticket de cozinha',
+  'takeoutOrderLifecycle.organism.updateOrderStatus.title': 'Atualizar status do pedido',
+  'takeoutOrderLifecycle.organism.review.title': 'Revisão',
+  'takeoutOrderLifecycle.intention.createOrder.title': 'Criar pedido',
+  'takeoutOrderLifecycle.intention.addOrderItem.title': 'Adicionar item ao pedido',
+  'takeoutOrderLifecycle.intention.createKitchenTicket.title': 'Criar ticket de cozinha',
+  'takeoutOrderLifecycle.intention.updateOrderStatus.title': 'Atualizar status do pedido',
+  'takeoutOrderLifecycle.intention.review.title': 'Resumo do ciclo do pedido',
+  'takeoutOrderLifecycle.field.createOrder.orderType': 'Tipo do pedido',
+  'takeoutOrderLifecycle.field.createOrder.status': 'Status do pedido',
+  'takeoutOrderLifecycle.field.createOrder.totalAmount': 'Valor total',
+  'takeoutOrderLifecycle.field.createOrder.notes': 'Observações',
+  'takeoutOrderLifecycle.field.createOrder.customerName': 'Nome do cliente',
+  'takeoutOrderLifecycle.field.createOrder.customerPhone': 'Telefone do cliente',
+  'takeoutOrderLifecycle.field.createOrder.numberOfGuests': 'Número de pessoas',
+  'takeoutOrderLifecycle.field.createOrder.closedAt': 'Fechado em',
+  'takeoutOrderLifecycle.field.createOrder.cancelledAt': 'Cancelado em',
+  'takeoutOrderLifecycle.field.createOrder.cancellationReason': 'Motivo do cancelamento',
+  'takeoutOrderLifecycle.action.createOrder.submit': 'Criar pedido',
+  'takeoutOrderLifecycle.field.addOrderItem.quantity': 'Quantidade',
+  'takeoutOrderLifecycle.field.addOrderItem.unitPrice': 'Preço unitário',
+  'takeoutOrderLifecycle.field.addOrderItem.totalPrice': 'Preço total',
+  'takeoutOrderLifecycle.field.addOrderItem.observations': 'Observações do item',
+  'takeoutOrderLifecycle.field.addOrderItem.status': 'Status do item',
+  'takeoutOrderLifecycle.action.addOrderItem.submit': 'Adicionar item',
+  'takeoutOrderLifecycle.field.createKitchenTicket.status': 'Status do ticket',
+  'takeoutOrderLifecycle.action.createKitchenTicket.submit': 'Criar ticket',
+  'takeoutOrderLifecycle.field.updateOrderStatus.status': 'Status do pedido',
+  'takeoutOrderLifecycle.field.updateOrderStatus.closedAt': 'Fechado em',
+  'takeoutOrderLifecycle.field.updateOrderStatus.cancelledAt': 'Cancelado em',
+  'takeoutOrderLifecycle.field.updateOrderStatus.cancellationReason': 'Motivo do cancelamento',
+  'takeoutOrderLifecycle.action.updateOrderStatus.submit': 'Atualizar status',
 };
-
-const message_en: Record<string, string> = {
-  'takeoutOrderLifecycle.section.main.title': 'Takeout Order Lifecycle',
-  'takeoutOrderLifecycle.createOrder.title': 'Create Order',
-  'takeoutOrderLifecycle.createOrder.form.title': 'Command Form',
-  'takeoutOrderLifecycle.createOrder.orderType.label': 'Order Type',
-  'takeoutOrderLifecycle.createOrder.status.label': 'Status',
-  'takeoutOrderLifecycle.createOrder.totalAmount.label': 'Total Amount',
-  'takeoutOrderLifecycle.createOrder.notes.label': 'Notes',
-  'takeoutOrderLifecycle.createOrder.customerName.label': 'Customer Name',
-  'takeoutOrderLifecycle.createOrder.customerPhone.label': 'Customer Phone',
-  'takeoutOrderLifecycle.createOrder.numberOfGuests.label': 'Number Of Guests',
-  'takeoutOrderLifecycle.createOrder.closedAt.label': 'Closed At',
-  'takeoutOrderLifecycle.createOrder.cancelledAt.label': 'Cancelled At',
-  'takeoutOrderLifecycle.createOrder.cancellationReason.label': 'Cancellation Reason',
-  'takeoutOrderLifecycle.createOrder.submit': 'Create Order',
-  'takeoutOrderLifecycle.addOrderItem.title': 'Add Order Item',
-  'takeoutOrderLifecycle.addOrderItem.form.title': 'Command Form',
-  'takeoutOrderLifecycle.addOrderItem.quantity.label': 'Quantity',
-  'takeoutOrderLifecycle.addOrderItem.unitPrice.label': 'Unit Price',
-  'takeoutOrderLifecycle.addOrderItem.totalPrice.label': 'Total Price',
-  'takeoutOrderLifecycle.addOrderItem.observations.label': 'Observations',
-  'takeoutOrderLifecycle.addOrderItem.status.label': 'Status',
-  'takeoutOrderLifecycle.addOrderItem.submit': 'Add Order Item',
-  'takeoutOrderLifecycle.createKitchenTicket.title': 'Create Kitchen Ticket',
-  'takeoutOrderLifecycle.createKitchenTicket.form.title': 'Command Form',
-  'takeoutOrderLifecycle.createKitchenTicket.status.label': 'Status',
-  'takeoutOrderLifecycle.createKitchenTicket.submit': 'Create Kitchen Ticket',
-  'takeoutOrderLifecycle.updateOrderStatus.title': 'Update Order Status',
-  'takeoutOrderLifecycle.updateOrderStatus.form.title': 'Command Form',
-  'takeoutOrderLifecycle.updateOrderStatus.status.label': 'Status',
-  'takeoutOrderLifecycle.updateOrderStatus.closedAt.label': 'Closed At',
-  'takeoutOrderLifecycle.updateOrderStatus.cancelledAt.label': 'Cancelled At',
-  'takeoutOrderLifecycle.updateOrderStatus.cancellationReason.label': 'Cancellation Reason',
-  'takeoutOrderLifecycle.updateOrderStatus.submit': 'Update Order Status',
+const message_en = {
+  'takeoutOrderLifecycle.section.main.title': 'Takeout order lifecycle',
+  'takeoutOrderLifecycle.organism.createOrder.title': 'Create order',
+  'takeoutOrderLifecycle.organism.addOrderItem.title': 'Add order item',
+  'takeoutOrderLifecycle.organism.createKitchenTicket.title': 'Create kitchen ticket',
+  'takeoutOrderLifecycle.organism.updateOrderStatus.title': 'Update order status',
+  'takeoutOrderLifecycle.organism.review.title': 'Review',
+  'takeoutOrderLifecycle.intention.createOrder.title': 'Create order',
+  'takeoutOrderLifecycle.intention.addOrderItem.title': 'Add order item',
+  'takeoutOrderLifecycle.intention.createKitchenTicket.title': 'Create kitchen ticket',
+  'takeoutOrderLifecycle.intention.updateOrderStatus.title': 'Update order status',
+  'takeoutOrderLifecycle.intention.review.title': 'Order lifecycle summary',
+  'takeoutOrderLifecycle.field.createOrder.orderType': 'Order type',
+  'takeoutOrderLifecycle.field.createOrder.status': 'Order status',
+  'takeoutOrderLifecycle.field.createOrder.totalAmount': 'Total amount',
+  'takeoutOrderLifecycle.field.createOrder.notes': 'Notes',
+  'takeoutOrderLifecycle.field.createOrder.customerName': 'Customer name',
+  'takeoutOrderLifecycle.field.createOrder.customerPhone': 'Customer phone',
+  'takeoutOrderLifecycle.field.createOrder.numberOfGuests': 'Number of guests',
+  'takeoutOrderLifecycle.field.createOrder.closedAt': 'Closed at',
+  'takeoutOrderLifecycle.field.createOrder.cancelledAt': 'Cancelled at',
+  'takeoutOrderLifecycle.field.createOrder.cancellationReason': 'Cancellation reason',
+  'takeoutOrderLifecycle.action.createOrder.submit': 'Create order',
+  'takeoutOrderLifecycle.field.addOrderItem.quantity': 'Quantity',
+  'takeoutOrderLifecycle.field.addOrderItem.unitPrice': 'Unit price',
+  'takeoutOrderLifecycle.field.addOrderItem.totalPrice': 'Total price',
+  'takeoutOrderLifecycle.field.addOrderItem.observations': 'Item notes',
+  'takeoutOrderLifecycle.field.addOrderItem.status': 'Item status',
+  'takeoutOrderLifecycle.action.addOrderItem.submit': 'Add item',
+  'takeoutOrderLifecycle.field.createKitchenTicket.status': 'Ticket status',
+  'takeoutOrderLifecycle.action.createKitchenTicket.submit': 'Create ticket',
+  'takeoutOrderLifecycle.field.updateOrderStatus.status': 'Order status',
+  'takeoutOrderLifecycle.field.updateOrderStatus.closedAt': 'Closed at',
+  'takeoutOrderLifecycle.field.updateOrderStatus.cancelledAt': 'Cancelled at',
+  'takeoutOrderLifecycle.field.updateOrderStatus.cancellationReason': 'Cancellation reason',
+  'takeoutOrderLifecycle.action.updateOrderStatus.submit': 'Update status',
 };
+type MessageType = typeof message_en;
+const messages: { [key: string]: MessageType } = { en: message_en, pt: message_pt };
+/// **collab_i18n_end**
 
 export class CafeFlowTakeoutOrderLifecycleBase extends CollabLitElement {
-  // ── pageStatus ──
-  @property({ type: String }) status = '';
+  @property()
+  public status: string = '';
 
-  // ── actionStatus ──
-  @property({ type: String }) createOrderState: ActionStatus = 'idle';
-  @property({ type: String }) addOrderItemState: ActionStatus = 'idle';
-  @property({ type: String }) createKitchenTicketState: ActionStatus = 'idle';
-  @property({ type: String }) updateOrderStatusState: ActionStatus = 'idle';
+  @property()
+  public createOrderState: 'idle' | 'loading' | 'success' | 'error' = 'idle';
 
-  // ── createOrder inputs ──
-  @property({ type: String }) createOrderOrderType = '';
-  @property({ type: String }) createOrderStatus = '';
-  @property({ type: String }) createOrderTotalAmount = '';
-  @property({ type: String }) createOrderNotes = '';
-  @property({ type: String }) createOrderCustomerName = '';
-  @property({ type: String }) createOrderCustomerPhone = '';
-  @property({ type: String }) createOrderNumberOfGuests = '';
-  @property({ type: String }) createOrderClosedAt = '';
-  @property({ type: String }) createOrderCancelledAt = '';
-  @property({ type: String }) createOrderCancellationReason = '';
+  @property()
+  public createOrderOrderType: CafeFlowCreateOrderInput['orderType'] =
+    '' as unknown as CafeFlowCreateOrderInput['orderType'];
 
-  // ── addOrderItem inputs ──
-  @property({ type: String }) addOrderItemQuantity = '';
-  @property({ type: String }) addOrderItemUnitPrice = '';
-  @property({ type: String }) addOrderItemTotalPrice = '';
-  @property({ type: String }) addOrderItemObservations = '';
-  @property({ type: String }) addOrderItemStatus = '';
+  @property()
+  public createOrderStatus: CafeFlowCreateOrderInput['status'] =
+    '' as unknown as CafeFlowCreateOrderInput['status'];
 
-  // ── createKitchenTicket inputs ──
-  @property({ type: String }) createKitchenTicketStatus = '';
+  @property()
+  public createOrderTotalAmount: number = '' as unknown as number;
 
-  // ── updateOrderStatus inputs ──
-  @property({ type: String }) updateOrderStatusStatus = '';
-  @property({ type: String }) updateOrderStatusClosedAt = '';
-  @property({ type: String }) updateOrderStatusCancelledAt = '';
-  @property({ type: String }) updateOrderStatusCancellationReason = '';
+  @property()
+  public createOrderNotes: string = '';
 
-  // ── i18n ──
-  protected get msg(): Record<string, string> {
-    const lang = (this as unknown as { lang?: string }).lang ?? 'pt';
-    return lang === 'en' ? message_en : message_pt;
+  @property()
+  public createOrderCustomerName: string = '';
+
+  @property()
+  public createOrderCustomerPhone: string = '';
+
+  @property()
+  public createOrderNumberOfGuests: number = '' as unknown as number;
+
+  @property()
+  public createOrderClosedAt: string = '';
+
+  @property()
+  public createOrderCancelledAt: string = '';
+
+  @property()
+  public createOrderCancellationReason: string = '';
+
+  @property()
+  public addOrderItemState: 'idle' | 'loading' | 'success' | 'error' = 'idle';
+
+  @property()
+  public addOrderItemQuantity: number = '' as unknown as number;
+
+  @property()
+  public addOrderItemUnitPrice: number = '' as unknown as number;
+
+  @property()
+  public addOrderItemTotalPrice: number = '' as unknown as number;
+
+  @property()
+  public addOrderItemObservations: string = '';
+
+  @property()
+  public addOrderItemStatus: CafeFlowAddOrderItemInput['status'] =
+    '' as unknown as CafeFlowAddOrderItemInput['status'];
+
+  @property()
+  public createKitchenTicketState: 'idle' | 'loading' | 'success' | 'error' = 'idle';
+
+  @property()
+  public createKitchenTicketStatus: CafeFlowCreateKitchenTicketInput['status'] =
+    '' as unknown as CafeFlowCreateKitchenTicketInput['status'];
+
+  @property()
+  public updateOrderStatusState: 'idle' | 'loading' | 'success' | 'error' = 'idle';
+
+  @property()
+  public updateOrderStatusStatus: CafeFlowUpdateOrderStatusInput['status'] =
+    '' as unknown as CafeFlowUpdateOrderStatusInput['status'];
+
+  @property()
+  public updateOrderStatusClosedAt: string = '';
+
+  @property()
+  public updateOrderStatusCancelledAt: string = '';
+
+  @property()
+  public updateOrderStatusCancellationReason: string = '';
+
+  protected get msg(): MessageType {
+    const lang: string = this.getMessageKey(messages);
+    return messages[lang] || messages['en'];
   }
 
-  // ──────────────────────────────────────
-  //  State setters – createOrder
-  // ──────────────────────────────────────
+  public override connectedCallback(): void {
+    super.connectedCallback();
+    const status = getState('ui.takeoutOrderLifecycle.status');
+    this.status = (status !== undefined ? status : '') as string;
 
-  setCreateOrderOrderType(value: string): void {
+    const createOrderState = getState('ui.takeoutOrderLifecycle.action.createOrder.status');
+    this.createOrderState =
+      (createOrderState !== undefined
+        ? createOrderState
+        : 'idle') as 'idle' | 'loading' | 'success' | 'error';
+
+    const createOrderOrderType = getState('ui.takeoutOrderLifecycle.input.createOrder.orderType');
+    this.createOrderOrderType = (createOrderOrderType !== undefined
+      ? createOrderOrderType
+      : ('' as unknown as CafeFlowCreateOrderInput['orderType'])) as CafeFlowCreateOrderInput['orderType'];
+
+    const createOrderStatus = getState('ui.takeoutOrderLifecycle.input.createOrder.status');
+    this.createOrderStatus = (createOrderStatus !== undefined
+      ? createOrderStatus
+      : ('' as unknown as CafeFlowCreateOrderInput['status'])) as CafeFlowCreateOrderInput['status'];
+
+    const createOrderTotalAmount = getState('ui.takeoutOrderLifecycle.input.createOrder.totalAmount');
+    this.createOrderTotalAmount =
+      (createOrderTotalAmount !== undefined
+        ? createOrderTotalAmount
+        : ('' as unknown as number)) as number;
+
+    const createOrderNotes = getState('ui.takeoutOrderLifecycle.input.createOrder.notes');
+    this.createOrderNotes = (createOrderNotes !== undefined ? createOrderNotes : '') as string;
+
+    const createOrderCustomerName = getState('ui.takeoutOrderLifecycle.input.createOrder.customerName');
+    this.createOrderCustomerName =
+      (createOrderCustomerName !== undefined ? createOrderCustomerName : '') as string;
+
+    const createOrderCustomerPhone = getState('ui.takeoutOrderLifecycle.input.createOrder.customerPhone');
+    this.createOrderCustomerPhone =
+      (createOrderCustomerPhone !== undefined ? createOrderCustomerPhone : '') as string;
+
+    const createOrderNumberOfGuests = getState('ui.takeoutOrderLifecycle.input.createOrder.numberOfGuests');
+    this.createOrderNumberOfGuests =
+      (createOrderNumberOfGuests !== undefined
+        ? createOrderNumberOfGuests
+        : ('' as unknown as number)) as number;
+
+    const createOrderClosedAt = getState('ui.takeoutOrderLifecycle.input.createOrder.closedAt');
+    this.createOrderClosedAt = (createOrderClosedAt !== undefined ? createOrderClosedAt : '') as string;
+
+    const createOrderCancelledAt = getState('ui.takeoutOrderLifecycle.input.createOrder.cancelledAt');
+    this.createOrderCancelledAt =
+      (createOrderCancelledAt !== undefined ? createOrderCancelledAt : '') as string;
+
+    const createOrderCancellationReason = getState(
+      'ui.takeoutOrderLifecycle.input.createOrder.cancellationReason',
+    );
+    this.createOrderCancellationReason =
+      (createOrderCancellationReason !== undefined ? createOrderCancellationReason : '') as string;
+
+    const addOrderItemState = getState('ui.takeoutOrderLifecycle.action.addOrderItem.status');
+    this.addOrderItemState =
+      (addOrderItemState !== undefined
+        ? addOrderItemState
+        : 'idle') as 'idle' | 'loading' | 'success' | 'error';
+
+    const addOrderItemQuantity = getState('ui.takeoutOrderLifecycle.input.addOrderItem.quantity');
+    this.addOrderItemQuantity =
+      (addOrderItemQuantity !== undefined
+        ? addOrderItemQuantity
+        : ('' as unknown as number)) as number;
+
+    const addOrderItemUnitPrice = getState('ui.takeoutOrderLifecycle.input.addOrderItem.unitPrice');
+    this.addOrderItemUnitPrice =
+      (addOrderItemUnitPrice !== undefined
+        ? addOrderItemUnitPrice
+        : ('' as unknown as number)) as number;
+
+    const addOrderItemTotalPrice = getState('ui.takeoutOrderLifecycle.input.addOrderItem.totalPrice');
+    this.addOrderItemTotalPrice =
+      (addOrderItemTotalPrice !== undefined
+        ? addOrderItemTotalPrice
+        : ('' as unknown as number)) as number;
+
+    const addOrderItemObservations = getState('ui.takeoutOrderLifecycle.input.addOrderItem.observations');
+    this.addOrderItemObservations =
+      (addOrderItemObservations !== undefined ? addOrderItemObservations : '') as string;
+
+    const addOrderItemStatus = getState('ui.takeoutOrderLifecycle.input.addOrderItem.status');
+    this.addOrderItemStatus = (addOrderItemStatus !== undefined
+      ? addOrderItemStatus
+      : ('' as unknown as CafeFlowAddOrderItemInput['status'])) as CafeFlowAddOrderItemInput['status'];
+
+    const createKitchenTicketState = getState('ui.takeoutOrderLifecycle.action.createKitchenTicket.status');
+    this.createKitchenTicketState =
+      (createKitchenTicketState !== undefined
+        ? createKitchenTicketState
+        : 'idle') as 'idle' | 'loading' | 'success' | 'error';
+
+    const createKitchenTicketStatus = getState('ui.takeoutOrderLifecycle.input.createKitchenTicket.status');
+    this.createKitchenTicketStatus = (createKitchenTicketStatus !== undefined
+      ? createKitchenTicketStatus
+      : ('' as unknown as CafeFlowCreateKitchenTicketInput['status'])) as CafeFlowCreateKitchenTicketInput['status'];
+
+    const updateOrderStatusState = getState('ui.takeoutOrderLifecycle.action.updateOrderStatus.status');
+    this.updateOrderStatusState =
+      (updateOrderStatusState !== undefined
+        ? updateOrderStatusState
+        : 'idle') as 'idle' | 'loading' | 'success' | 'error';
+
+    const updateOrderStatusStatus = getState('ui.takeoutOrderLifecycle.input.updateOrderStatus.status');
+    this.updateOrderStatusStatus = (updateOrderStatusStatus !== undefined
+      ? updateOrderStatusStatus
+      : ('' as unknown as CafeFlowUpdateOrderStatusInput['status'])) as CafeFlowUpdateOrderStatusInput['status'];
+
+    const updateOrderStatusClosedAt = getState('ui.takeoutOrderLifecycle.input.updateOrderStatus.closedAt');
+    this.updateOrderStatusClosedAt =
+      (updateOrderStatusClosedAt !== undefined ? updateOrderStatusClosedAt : '') as string;
+
+    const updateOrderStatusCancelledAt = getState('ui.takeoutOrderLifecycle.input.updateOrderStatus.cancelledAt');
+    this.updateOrderStatusCancelledAt =
+      (updateOrderStatusCancelledAt !== undefined ? updateOrderStatusCancelledAt : '') as string;
+
+    const updateOrderStatusCancellationReason = getState(
+      'ui.takeoutOrderLifecycle.input.updateOrderStatus.cancellationReason',
+    );
+    this.updateOrderStatusCancellationReason =
+      (updateOrderStatusCancellationReason !== undefined
+        ? updateOrderStatusCancellationReason
+        : '') as string;
+  }
+
+  public override disconnectedCallback(): void {
+    super.disconnectedCallback();
+  }
+
+  public setCreateOrderOrderType(value: CafeFlowCreateOrderInput['orderType']): void {
     this.createOrderOrderType = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.orderType', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderOrderTypeChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLSelectElement).value;
+  public handleCreateOrderOrderTypeChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value as CafeFlowCreateOrderInput['orderType'];
     this.setCreateOrderOrderType(value);
   }
 
-  setCreateOrderStatus(value: string): void {
+  public setCreateOrderStatus(value: CafeFlowCreateOrderInput['status']): void {
     this.createOrderStatus = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.status', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderStatusChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLSelectElement).value;
+  public handleCreateOrderStatusChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value as CafeFlowCreateOrderInput['status'];
     this.setCreateOrderStatus(value);
   }
 
-  setCreateOrderTotalAmount(value: string): void {
+  public setCreateOrderTotalAmount(value: number): void {
     this.createOrderTotalAmount = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.totalAmount', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderTotalAmountChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLSelectElement).value;
+  public handleCreateOrderTotalAmountChange(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
     this.setCreateOrderTotalAmount(value);
   }
 
-  setCreateOrderNotes(value: string): void {
+  public setCreateOrderNotes(value: string): void {
     this.createOrderNotes = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.notes', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderNotesChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value;
+  public handleCreateOrderNotesChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setCreateOrderNotes(value);
   }
 
-  setCreateOrderCustomerName(value: string): void {
+  public setCreateOrderCustomerName(value: string): void {
     this.createOrderCustomerName = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.customerName', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderCustomerNameChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleCreateOrderCustomerNameChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setCreateOrderCustomerName(value);
   }
 
-  setCreateOrderCustomerPhone(value: string): void {
+  public setCreateOrderCustomerPhone(value: string): void {
     this.createOrderCustomerPhone = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.customerPhone', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderCustomerPhoneChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleCreateOrderCustomerPhoneChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setCreateOrderCustomerPhone(value);
   }
 
-  setCreateOrderNumberOfGuests(value: string): void {
+  public setCreateOrderNumberOfGuests(value: number): void {
     this.createOrderNumberOfGuests = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.numberOfGuests', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderNumberOfGuestsChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleCreateOrderNumberOfGuestsChange(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
     this.setCreateOrderNumberOfGuests(value);
   }
 
-  setCreateOrderClosedAt(value: string): void {
+  public setCreateOrderClosedAt(value: string): void {
     this.createOrderClosedAt = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.closedAt', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderClosedAtChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleCreateOrderClosedAtChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setCreateOrderClosedAt(value);
   }
 
-  setCreateOrderCancelledAt(value: string): void {
+  public setCreateOrderCancelledAt(value: string): void {
     this.createOrderCancelledAt = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.cancelledAt', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderCancelledAtChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleCreateOrderCancelledAtChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setCreateOrderCancelledAt(value);
   }
 
-  setCreateOrderCancellationReason(value: string): void {
+  public setCreateOrderCancellationReason(value: string): void {
     this.createOrderCancellationReason = value;
     setState('ui.takeoutOrderLifecycle.input.createOrder.cancellationReason', value);
     this.requestUpdate();
   }
 
-  handleCreateOrderCancellationReasonChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value;
+  public handleCreateOrderCancellationReasonChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setCreateOrderCancellationReason(value);
   }
 
-  // ──────────────────────────────────────
-  //  State setters – addOrderItem
-  // ──────────────────────────────────────
-
-  setAddOrderItemQuantity(value: string): void {
+  public setAddOrderItemQuantity(value: number): void {
     this.addOrderItemQuantity = value;
     setState('ui.takeoutOrderLifecycle.input.addOrderItem.quantity', value);
     this.requestUpdate();
   }
 
-  handleAddOrderItemQuantityChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleAddOrderItemQuantityChange(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
     this.setAddOrderItemQuantity(value);
   }
 
-  setAddOrderItemUnitPrice(value: string): void {
+  public setAddOrderItemUnitPrice(value: number): void {
     this.addOrderItemUnitPrice = value;
     setState('ui.takeoutOrderLifecycle.input.addOrderItem.unitPrice', value);
     this.requestUpdate();
   }
 
-  handleAddOrderItemUnitPriceChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleAddOrderItemUnitPriceChange(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
     this.setAddOrderItemUnitPrice(value);
   }
 
-  setAddOrderItemTotalPrice(value: string): void {
+  public setAddOrderItemTotalPrice(value: number): void {
     this.addOrderItemTotalPrice = value;
     setState('ui.takeoutOrderLifecycle.input.addOrderItem.totalPrice', value);
     this.requestUpdate();
   }
 
-  handleAddOrderItemTotalPriceChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleAddOrderItemTotalPriceChange(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
     this.setAddOrderItemTotalPrice(value);
   }
 
-  setAddOrderItemObservations(value: string): void {
+  public setAddOrderItemObservations(value: string): void {
     this.addOrderItemObservations = value;
     setState('ui.takeoutOrderLifecycle.input.addOrderItem.observations', value);
     this.requestUpdate();
   }
 
-  handleAddOrderItemObservationsChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value;
+  public handleAddOrderItemObservationsChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setAddOrderItemObservations(value);
   }
 
-  setAddOrderItemStatus(value: string): void {
+  public setAddOrderItemStatus(value: CafeFlowAddOrderItemInput['status']): void {
     this.addOrderItemStatus = value;
     setState('ui.takeoutOrderLifecycle.input.addOrderItem.status', value);
     this.requestUpdate();
   }
 
-  handleAddOrderItemStatusChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLSelectElement).value;
+  public handleAddOrderItemStatusChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value as CafeFlowAddOrderItemInput['status'];
     this.setAddOrderItemStatus(value);
   }
 
-  // ──────────────────────────────────────
-  //  State setters – createKitchenTicket
-  // ──────────────────────────────────────
-
-  setCreateKitchenTicketStatus(value: string): void {
+  public setCreateKitchenTicketStatus(value: CafeFlowCreateKitchenTicketInput['status']): void {
     this.createKitchenTicketStatus = value;
     setState('ui.takeoutOrderLifecycle.input.createKitchenTicket.status', value);
     this.requestUpdate();
   }
 
-  handleCreateKitchenTicketStatusChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLSelectElement).value;
+  public handleCreateKitchenTicketStatusChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value as CafeFlowCreateKitchenTicketInput['status'];
     this.setCreateKitchenTicketStatus(value);
   }
 
-  // ──────────────────────────────────────
-  //  State setters – updateOrderStatus
-  // ──────────────────────────────────────
-
-  setUpdateOrderStatusStatus(value: string): void {
+  public setUpdateOrderStatusStatus(value: CafeFlowUpdateOrderStatusInput['status']): void {
     this.updateOrderStatusStatus = value;
     setState('ui.takeoutOrderLifecycle.input.updateOrderStatus.status', value);
     this.requestUpdate();
   }
 
-  handleUpdateOrderStatusStatusChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLSelectElement).value;
+  public handleUpdateOrderStatusStatusChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value as CafeFlowUpdateOrderStatusInput['status'];
     this.setUpdateOrderStatusStatus(value);
   }
 
-  setUpdateOrderStatusClosedAt(value: string): void {
+  public setUpdateOrderStatusClosedAt(value: string): void {
     this.updateOrderStatusClosedAt = value;
     setState('ui.takeoutOrderLifecycle.input.updateOrderStatus.closedAt', value);
     this.requestUpdate();
   }
 
-  handleUpdateOrderStatusClosedAtChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleUpdateOrderStatusClosedAtChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setUpdateOrderStatusClosedAt(value);
   }
 
-  setUpdateOrderStatusCancelledAt(value: string): void {
+  public setUpdateOrderStatusCancelledAt(value: string): void {
     this.updateOrderStatusCancelledAt = value;
     setState('ui.takeoutOrderLifecycle.input.updateOrderStatus.cancelledAt', value);
     this.requestUpdate();
   }
 
-  handleUpdateOrderStatusCancelledAtChange(e: Event): void {
-    const value = (e.target as HTMLInputElement).value;
+  public handleUpdateOrderStatusCancelledAtChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setUpdateOrderStatusCancelledAt(value);
   }
 
-  setUpdateOrderStatusCancellationReason(value: string): void {
+  public setUpdateOrderStatusCancellationReason(value: string): void {
     this.updateOrderStatusCancellationReason = value;
     setState('ui.takeoutOrderLifecycle.input.updateOrderStatus.cancellationReason', value);
     this.requestUpdate();
   }
 
-  handleUpdateOrderStatusCancellationReasonChange(e: Event): void {
-    const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value;
+  public handleUpdateOrderStatusCancellationReasonChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
     this.setUpdateOrderStatusCancellationReason(value);
   }
 
-  // ──────────────────────────────────────
-  //  Commands
-  // ──────────────────────────────────────
-
-  async createOrder(): Promise<void> {
+  public async createOrder(): Promise<void> {
     this.createOrderState = 'loading';
     setState('ui.takeoutOrderLifecycle.action.createOrder.status', 'loading');
-    this.requestUpdate();
 
     const params: CafeFlowCreateOrderInput = {
-      orderType: this.createOrderOrderType as CafeFlowCreateOrderInput['orderType'],
-      status: this.createOrderStatus as CafeFlowCreateOrderInput['status'],
-      totalAmount: Number(this.createOrderTotalAmount) || 0,
-      ...(this.createOrderNotes ? { notes: this.createOrderNotes } : {}),
-      ...(this.createOrderCustomerName ? { customerName: this.createOrderCustomerName } : {}),
-      ...(this.createOrderCustomerPhone ? { customerPhone: this.createOrderCustomerPhone } : {}),
-      ...(this.createOrderNumberOfGuests ? { numberOfGuests: Number(this.createOrderNumberOfGuests) || 0 } : {}),
-      ...(this.createOrderClosedAt ? { closedAt: this.createOrderClosedAt } : {}),
-      ...(this.createOrderCancelledAt ? { cancelledAt: this.createOrderCancelledAt } : {}),
-      ...(this.createOrderCancellationReason ? { cancellationReason: this.createOrderCancellationReason } : {}),
+      orderType: this.createOrderOrderType,
+      status: this.createOrderStatus,
+      totalAmount: this.createOrderTotalAmount,
+      notes: this.createOrderNotes,
+      customerName: this.createOrderCustomerName,
+      customerPhone: this.createOrderCustomerPhone,
+      numberOfGuests: this.createOrderNumberOfGuests,
+      closedAt: this.createOrderClosedAt,
+      cancelledAt: this.createOrderCancelledAt,
+      cancellationReason: this.createOrderCancellationReason,
     };
 
-    const options: BffClientOptions = { mode: 'blocking' };
-    const response = await execBff<CafeFlowCreateOrderOutput>(
-      'cafeFlow.takeoutOrderLifecycle.createOrder',
-      params,
-      options,
-    );
-
-    if (response.ok) {
-      this.createOrderState = 'success';
-      setState('ui.takeoutOrderLifecycle.action.createOrder.status', 'success');
-    } else {
+    try {
+      const options: BffClientOptions = { mode: 'blocking' };
+      const response = await execBff<CafeFlowCreateOrderOutput>(
+        'cafeFlow.takeoutOrderLifecycle.createOrder',
+        params,
+        options,
+      );
+      if (response.ok) {
+        this.createOrderState = 'success';
+        setState('ui.takeoutOrderLifecycle.action.createOrder.status', 'success');
+        return;
+      }
       this.createOrderState = 'error';
       setState('ui.takeoutOrderLifecycle.action.createOrder.status', 'error');
+      throw new Error(response.error?.message || 'Failed to create order');
+    } catch (error) {
+      this.createOrderState = 'error';
+      setState('ui.takeoutOrderLifecycle.action.createOrder.status', 'error');
+      throw error;
     }
-    this.requestUpdate();
   }
 
-  handleCreateOrderClick(): void {
-    runBlockingUiAction(async () => {
+  public async handleCreateOrderClick(): Promise<void> {
+    await runBlockingUiAction(async () => {
       await this.createOrder();
     });
   }
 
-  async addOrderItem(): Promise<void> {
+  public async addOrderItem(): Promise<void> {
     this.addOrderItemState = 'loading';
     setState('ui.takeoutOrderLifecycle.action.addOrderItem.status', 'loading');
-    this.requestUpdate();
 
     const params: CafeFlowAddOrderItemInput = {
-      quantity: Number(this.addOrderItemQuantity) || 0,
-      unitPrice: Number(this.addOrderItemUnitPrice) || 0,
-      totalPrice: Number(this.addOrderItemTotalPrice) || 0,
-      ...(this.addOrderItemObservations ? { observations: this.addOrderItemObservations } : {}),
-      status: this.addOrderItemStatus as CafeFlowAddOrderItemInput['status'],
+      quantity: this.addOrderItemQuantity,
+      unitPrice: this.addOrderItemUnitPrice,
+      totalPrice: this.addOrderItemTotalPrice,
+      observations: this.addOrderItemObservations,
+      status: this.addOrderItemStatus,
     };
 
-    const options: BffClientOptions = { mode: 'blocking' };
-    const response = await execBff<CafeFlowAddOrderItemOutput>(
-      'cafeFlow.takeoutOrderLifecycle.addOrderItem',
-      params,
-      options,
-    );
-
-    if (response.ok) {
-      this.addOrderItemState = 'success';
-      setState('ui.takeoutOrderLifecycle.action.addOrderItem.status', 'success');
-    } else {
+    try {
+      const options: BffClientOptions = { mode: 'blocking' };
+      const response = await execBff<CafeFlowAddOrderItemOutput>(
+        'cafeFlow.takeoutOrderLifecycle.addOrderItem',
+        params,
+        options,
+      );
+      if (response.ok) {
+        this.addOrderItemState = 'success';
+        setState('ui.takeoutOrderLifecycle.action.addOrderItem.status', 'success');
+        return;
+      }
       this.addOrderItemState = 'error';
       setState('ui.takeoutOrderLifecycle.action.addOrderItem.status', 'error');
+      throw new Error(response.error?.message || 'Failed to add order item');
+    } catch (error) {
+      this.addOrderItemState = 'error';
+      setState('ui.takeoutOrderLifecycle.action.addOrderItem.status', 'error');
+      throw error;
     }
-    this.requestUpdate();
   }
 
-  handleAddOrderItemClick(): void {
-    runBlockingUiAction(async () => {
+  public async handleAddOrderItemClick(): Promise<void> {
+    await runBlockingUiAction(async () => {
       await this.addOrderItem();
     });
   }
 
-  async createKitchenTicket(): Promise<void> {
+  public async createKitchenTicket(): Promise<void> {
     this.createKitchenTicketState = 'loading';
     setState('ui.takeoutOrderLifecycle.action.createKitchenTicket.status', 'loading');
-    this.requestUpdate();
 
     const params: CafeFlowCreateKitchenTicketInput = {
-      status: this.createKitchenTicketStatus as CafeFlowCreateKitchenTicketInput['status'],
+      status: this.createKitchenTicketStatus,
     };
 
-    const options: BffClientOptions = { mode: 'blocking' };
-    const response = await execBff<CafeFlowCreateKitchenTicketOutput>(
-      'cafeFlow.takeoutOrderLifecycle.createKitchenTicket',
-      params,
-      options,
-    );
-
-    if (response.ok) {
-      this.createKitchenTicketState = 'success';
-      setState('ui.takeoutOrderLifecycle.action.createKitchenTicket.status', 'success');
-    } else {
+    try {
+      const options: BffClientOptions = { mode: 'blocking' };
+      const response = await execBff<CafeFlowCreateKitchenTicketOutput>(
+        'cafeFlow.takeoutOrderLifecycle.createKitchenTicket',
+        params,
+        options,
+      );
+      if (response.ok) {
+        this.createKitchenTicketState = 'success';
+        setState('ui.takeoutOrderLifecycle.action.createKitchenTicket.status', 'success');
+        return;
+      }
       this.createKitchenTicketState = 'error';
       setState('ui.takeoutOrderLifecycle.action.createKitchenTicket.status', 'error');
+      throw new Error(response.error?.message || 'Failed to create kitchen ticket');
+    } catch (error) {
+      this.createKitchenTicketState = 'error';
+      setState('ui.takeoutOrderLifecycle.action.createKitchenTicket.status', 'error');
+      throw error;
     }
-    this.requestUpdate();
   }
 
-  handleCreateKitchenTicketClick(): void {
-    runBlockingUiAction(async () => {
+  public async handleCreateKitchenTicketClick(): Promise<void> {
+    await runBlockingUiAction(async () => {
       await this.createKitchenTicket();
     });
   }
 
-  async updateOrderStatus(): Promise<void> {
+  public async updateOrderStatus(): Promise<void> {
     this.updateOrderStatusState = 'loading';
     setState('ui.takeoutOrderLifecycle.action.updateOrderStatus.status', 'loading');
-    this.requestUpdate();
 
     const params: CafeFlowUpdateOrderStatusInput = {
-      status: this.updateOrderStatusStatus as CafeFlowUpdateOrderStatusInput['status'],
-      ...(this.updateOrderStatusClosedAt ? { closedAt: this.updateOrderStatusClosedAt } : {}),
-      ...(this.updateOrderStatusCancelledAt ? { cancelledAt: this.updateOrderStatusCancelledAt } : {}),
-      ...(this.updateOrderStatusCancellationReason ? { cancellationReason: this.updateOrderStatusCancellationReason } : {}),
+      status: this.updateOrderStatusStatus,
+      closedAt: this.updateOrderStatusClosedAt,
+      cancelledAt: this.updateOrderStatusCancelledAt,
+      cancellationReason: this.updateOrderStatusCancellationReason,
     };
 
-    const options: BffClientOptions = { mode: 'blocking' };
-    const response = await execBff<CafeFlowUpdateOrderStatusOutput>(
-      'cafeFlow.takeoutOrderLifecycle.updateOrderStatus',
-      params,
-      options,
-    );
-
-    if (response.ok) {
-      this.updateOrderStatusState = 'success';
-      setState('ui.takeoutOrderLifecycle.action.updateOrderStatus.status', 'success');
-    } else {
+    try {
+      const options: BffClientOptions = { mode: 'blocking' };
+      const response = await execBff<CafeFlowUpdateOrderStatusOutput>(
+        'cafeFlow.takeoutOrderLifecycle.updateOrderStatus',
+        params,
+        options,
+      );
+      if (response.ok) {
+        this.updateOrderStatusState = 'success';
+        setState('ui.takeoutOrderLifecycle.action.updateOrderStatus.status', 'success');
+        return;
+      }
       this.updateOrderStatusState = 'error';
       setState('ui.takeoutOrderLifecycle.action.updateOrderStatus.status', 'error');
+      throw new Error(response.error?.message || 'Failed to update order status');
+    } catch (error) {
+      this.updateOrderStatusState = 'error';
+      setState('ui.takeoutOrderLifecycle.action.updateOrderStatus.status', 'error');
+      throw error;
     }
-    this.requestUpdate();
   }
 
-  handleUpdateOrderStatusClick(): void {
-    runBlockingUiAction(async () => {
+  public async handleUpdateOrderStatusClick(): Promise<void> {
+    await runBlockingUiAction(async () => {
       await this.updateOrderStatus();
     });
-  }
-
-  // ──────────────────────────────────────
-  //  Lifecycle
-  // ──────────────────────────────────────
-
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    // Restore shared state if available, falling back to defaults
-    const savedStatus = getState('ui.takeoutOrderLifecycle.status');
-    if (savedStatus !== undefined) {
-      this.status = savedStatus;
-    }
-
-    const savedCreateOrderState = getState('ui.takeoutOrderLifecycle.action.createOrder.status');
-    if (savedCreateOrderState !== undefined) {
-      this.createOrderState = savedCreateOrderState;
-    }
-
-    const savedAddOrderItemState = getState('ui.takeoutOrderLifecycle.action.addOrderItem.status');
-    if (savedAddOrderItemState !== undefined) {
-      this.addOrderItemState = savedAddOrderItemState;
-    }
-
-    const savedCreateKitchenTicketState = getState('ui.takeoutOrderLifecycle.action.createKitchenTicket.status');
-    if (savedCreateKitchenTicketState !== undefined) {
-      this.createKitchenTicketState = savedCreateKitchenTicketState;
-    }
-
-    const savedUpdateOrderStatusState = getState('ui.takeoutOrderLifecycle.action.updateOrderStatus.status');
-    if (savedUpdateOrderStatusState !== undefined) {
-      this.updateOrderStatusState = savedUpdateOrderStatusState;
-    }
-
-    // No initialLoads defined – nothing to run on connect
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
   }
 }
