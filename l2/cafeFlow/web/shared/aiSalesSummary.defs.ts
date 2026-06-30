@@ -134,17 +134,16 @@ export const definition = {
   "navigationRefs": [],
   "i18n": {
     "aiSalesSummary.section.main.title": "Assistente IA: resumo de vendas do dia",
-    "aiSalesSummary.organism.main.title": "Resumo de vendas por IA",
-    "aiSalesSummary.intent.filters.title": "Filtros do resumo",
-    "aiSalesSummary.intent.results.title": "Resultados do resumo",
-    "aiSalesSummary.field.dailyShiftId.label": "Turno diário",
-    "aiSalesSummary.field.status.label": "Status do pedido",
-    "aiSalesSummary.field.closedAt.label": "Data de fechamento",
-    "aiSalesSummary.action.run.label": "Gerar resumo",
-    "aiSalesSummary.col.dailyShiftId.label": "Turno diário",
-    "aiSalesSummary.col.status.label": "Status",
-    "aiSalesSummary.col.totalAmount.label": "Total",
-    "aiSalesSummary.col.closedAt.label": "Fechado em"
+    "aiSalesSummary.organism.main.title": "Assistente IA: resumo de vendas do dia",
+    "aiSalesSummary.intent.query.title": "Query List",
+    "aiSalesSummary.field.dailyShiftId.label": "Daily Shift Id",
+    "aiSalesSummary.field.status.label": "Status",
+    "aiSalesSummary.field.totalAmount.label": "Total Amount",
+    "aiSalesSummary.field.closedAt.label": "Closed At",
+    "aiSalesSummary.filter.dailyShiftId.label": "Daily Shift Id",
+    "aiSalesSummary.filter.status.label": "Status",
+    "aiSalesSummary.filter.closedAt.label": "Closed At",
+    "aiSalesSummary.action.run.label": "Ai Sales Summary"
   },
   "automation": {
     "statePrefix": "ui.aiSalesSummary",
@@ -176,11 +175,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/aiSalesSummary.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/aiSalesSummary.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "aiSalesSummary__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

@@ -118,11 +118,12 @@ export const definition = {
   "i18n": {
     "consumeIngredientsOnConfirmation.section.main.title": "Baixar estoque por consumo de ingredientes",
     "consumeIngredientsOnConfirmation.organism.createStockConsumption.title": "Registrar consumo de estoque",
-    "consumeIngredientsOnConfirmation.intent.createStockConsumption.form.title": "Registrar consumo de estoque",
-    "consumeIngredientsOnConfirmation.field.quantity.label": "Quantidade consumida",
-    "consumeIngredientsOnConfirmation.field.status.label": "Situação do consumo",
-    "consumeIngredientsOnConfirmation.field.consumedAt.label": "Data e hora do consumo",
-    "consumeIngredientsOnConfirmation.action.createStockConsumption.label": "Registrar consumo"
+    "consumeIngredientsOnConfirmation.intention.createStockConsumption.title": "Command Form",
+    "consumeIngredientsOnConfirmation.field.quantity.label": "Quantity",
+    "consumeIngredientsOnConfirmation.field.status.label": "Status",
+    "consumeIngredientsOnConfirmation.field.consumedAt.label": "Consumed At",
+    "consumeIngredientsOnConfirmation.action.createStockConsumption.label": "Create Stock Consumption",
+    "consumeIngredientsOnConfirmation.intention.review.title": "Summary"
   },
   "automation": {
     "statePrefix": "ui.consumeIngredientsOnConfirmation",
@@ -153,11 +154,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/consumeIngredientsOnConfirmation.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/consumeIngredientsOnConfirmation.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "consumeIngredientsOnConfirmation__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

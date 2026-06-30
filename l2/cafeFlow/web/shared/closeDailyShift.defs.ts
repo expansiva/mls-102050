@@ -18,7 +18,7 @@ export const definition = {
   },
   "layoutRef": {
     "defPath": "_102050_/l2/cafeFlow/web/desktop/page11/closeDailyShift.defs.ts",
-    "layoutId": "closeDailyShift.layout"
+    "layoutId": "closeDailyShift.page"
   },
   "states": [
     {
@@ -446,23 +446,22 @@ export const definition = {
   "initialLoads": [],
   "navigationRefs": [],
   "i18n": {
-    "closeDailyShift.section.main.title": "Fechar turno diário (fechamento de caixa)",
-    "closeDailyShift.organism.updateDailyShiftStatus.title": "Atualizar status do turno",
-    "closeDailyShift.organism.recordClosingCashMovement.title": "Registrar movimento de fechamento",
-    "closeDailyShift.intent.updateDailyShiftStatus.title": "Atualizar status do turno",
-    "closeDailyShift.intent.recordClosingCashMovement.title": "Registrar movimento de fechamento",
-    "closeDailyShift.field.dailyShiftId.label": "ID do turno",
-    "closeDailyShift.field.shiftDate.label": "Data do turno",
-    "closeDailyShift.field.status.label": "Status do turno",
-    "closeDailyShift.field.openedAt.label": "Abertura",
-    "closeDailyShift.field.closedAt.label": "Fechamento",
-    "closeDailyShift.field.openingCashBalance.label": "Saldo inicial em caixa",
-    "closeDailyShift.field.closingCashBalance.label": "Saldo final em caixa",
-    "closeDailyShift.field.totalSales.label": "Total de vendas",
-    "closeDailyShift.field.totalPayments.label": "Total de pagamentos",
-    "closeDailyShift.field.closingNotes.label": "Observações de fechamento",
-    "closeDailyShift.action.updateDailyShiftStatus.label": "Atualizar status do turno",
-    "closeDailyShift.action.recordClosingCashMovement.label": "Registrar movimento de fechamento"
+    "closeDailyShift.section.main": "Fechar turno diário (fechamento de caixa)",
+    "closeDailyShift.update.title": "Atualizar status do turno diário",
+    "closeDailyShift.record.title": "Registrar movimento de fechamento do caixa",
+    "closeDailyShift.summary.title": "Resumo do fechamento do turno",
+    "closeDailyShift.action.updateDailyShiftStatus": "Atualizar status",
+    "closeDailyShift.action.recordClosingCashMovement": "Registrar movimento",
+    "field.dailyShiftId": "ID do turno",
+    "field.shiftDate": "Data do turno",
+    "field.status": "Status do turno",
+    "field.openedAt": "Abertura do turno",
+    "field.closedAt": "Fechamento do turno",
+    "field.openingCashBalance": "Saldo inicial em caixa",
+    "field.closingCashBalance": "Saldo final em caixa",
+    "field.totalSales": "Total de vendas",
+    "field.totalPayments": "Total de pagamentos",
+    "field.closingNotes": "Observações de fechamento"
   },
   "automation": {
     "statePrefix": "ui.closeDailyShift",
@@ -527,11 +526,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/closeDailyShift.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/closeDailyShift.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "closeDailyShift__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

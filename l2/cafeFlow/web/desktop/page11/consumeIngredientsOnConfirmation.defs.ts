@@ -24,7 +24,7 @@ export const definition = {
   "navigationRefs": [],
   "sections": [
     {
-      "id": "sec-consume-ingredients",
+      "id": "sec.consumeIngredientsOnConfirmation.main",
       "type": "section",
       "sectionName": "Baixar estoque por consumo de ingredientes",
       "titleKey": "consumeIngredientsOnConfirmation.section.main.title",
@@ -32,7 +32,7 @@ export const definition = {
       "order": 10,
       "organisms": [
         {
-          "id": "org-create-stock-consumption",
+          "id": "org.createStockConsumption",
           "type": "organism",
           "organismName": "CreateStockConsumption",
           "titleKey": "consumeIngredientsOnConfirmation.organism.createStockConsumption.title",
@@ -56,11 +56,16 @@ export const definition = {
           "order": 10,
           "intentionRefs": [
             {
-              "id": "intent-create-stock-consumption-form",
+              "id": "int.createStockConsumption.form",
               "intent": "commandForm",
               "action": "createStockConsumption",
               "submitAction": "createStockConsumption",
               "order": 10
+            },
+            {
+              "id": "int.review.summary",
+              "intent": "summary",
+              "order": 20
             }
           ]
         }
@@ -72,7 +77,7 @@ export const definition = {
     "type": "page",
     "sections": [
       {
-        "id": "sec-consume-ingredients",
+        "id": "sec.consumeIngredientsOnConfirmation.main",
         "type": "section",
         "sectionName": "Baixar estoque por consumo de ingredientes",
         "titleKey": "consumeIngredientsOnConfirmation.section.main.title",
@@ -80,7 +85,7 @@ export const definition = {
         "order": 10,
         "organisms": [
           {
-            "id": "org-create-stock-consumption",
+            "id": "org.createStockConsumption",
             "type": "organism",
             "organismName": "CreateStockConsumption",
             "titleKey": "consumeIngredientsOnConfirmation.organism.createStockConsumption.title",
@@ -104,15 +109,15 @@ export const definition = {
             "order": 10,
             "intentions": [
               {
-                "id": "intent-create-stock-consumption-form",
+                "id": "int.createStockConsumption.form",
                 "intent": "commandForm",
                 "order": 10,
-                "titleKey": "consumeIngredientsOnConfirmation.intent.createStockConsumption.form.title",
+                "titleKey": "consumeIngredientsOnConfirmation.intention.createStockConsumption.title",
                 "action": "createStockConsumption",
                 "submitAction": "createStockConsumption",
                 "fields": [
                   {
-                    "id": "fld-quantity",
+                    "id": "field.createStockConsumption.quantity",
                     "field": "quantity",
                     "labelKey": "consumeIngredientsOnConfirmation.field.quantity.label",
                     "order": 10,
@@ -121,7 +126,7 @@ export const definition = {
                     "stateKey": "ui.consumeIngredientsOnConfirmation.input.createStockConsumption.quantity"
                   },
                   {
-                    "id": "fld-status",
+                    "id": "field.createStockConsumption.status",
                     "field": "status",
                     "labelKey": "consumeIngredientsOnConfirmation.field.status.label",
                     "order": 20,
@@ -130,7 +135,7 @@ export const definition = {
                     "stateKey": "ui.consumeIngredientsOnConfirmation.input.createStockConsumption.status"
                   },
                   {
-                    "id": "fld-consumedAt",
+                    "id": "field.createStockConsumption.consumedAt",
                     "field": "consumedAt",
                     "labelKey": "consumeIngredientsOnConfirmation.field.consumedAt.label",
                     "order": 30,
@@ -145,13 +150,25 @@ export const definition = {
                 "rowActions": [],
                 "actions": [
                   {
-                    "id": "act-submit-create-stock-consumption",
+                    "id": "action.createStockConsumption.submit",
                     "action": "createStockConsumption",
                     "labelKey": "consumeIngredientsOnConfirmation.action.createStockConsumption.label",
                     "order": 10,
                     "actionKey": "createStockConsumption"
                   }
                 ]
+              },
+              {
+                "id": "int.review.summary",
+                "intent": "summary",
+                "order": 20,
+                "titleKey": "consumeIngredientsOnConfirmation.intention.review.title",
+                "fields": [],
+                "columns": [],
+                "filters": [],
+                "toolbar": [],
+                "rowActions": [],
+                "actions": []
               }
             ]
           }
@@ -174,14 +191,15 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/consumeIngredientsOnConfirmation.defs.ts",
       "_102050_/l2/cafeFlow/web/contracts/consumeIngredientsOnConfirmation.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "consumeIngredientsOnConfirmation__l2_shared"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfePage11RenderTs.ts"
     ],
-    "afterSaveFrontEnd": "_102020_/l2/agentMaterializeSolution/registerFrontEnd.ts?registerPage",
     "visualStyle": {
       "description": "POS-first, high-contrast, touch-friendly, low-latency, status-driven UI"
     },
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

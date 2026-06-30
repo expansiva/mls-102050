@@ -76,8 +76,8 @@ export const menuItemDomainEntity = {
     "invariants": [
       "price must be greater than zero",
       "name must not be empty",
-      "cannot delete an active MenuItem; must set to inactive first",
-      "status transitions: draft→active, active→inactive, inactive→active"
+      "status can only transition from draft to active, active to inactive, and inactive to active",
+      "cannot delete a MenuItem referenced by active Orders"
     ],
     "valueObjects": [
       {
@@ -141,6 +141,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/domainEntity.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

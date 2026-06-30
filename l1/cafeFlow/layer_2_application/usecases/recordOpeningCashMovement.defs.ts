@@ -27,21 +27,28 @@ export const recordOpeningCashMovementUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "DailyShift",
-            "description": "ID of the DailyShift to which the opening cash movement belongs"
+            "description": "ID of the DailyShift to record the opening cash movement on"
+          },
+          {
+            "name": "movementType",
+            "type": "string",
+            "required": true,
+            "ofEntity": "CashMovement",
+            "description": "Type of cash movement: 'entrada' or 'saída'"
           },
           {
             "name": "amount",
             "type": "number",
             "required": true,
             "ofEntity": "CashMovement",
-            "description": "Opening cash amount to register as an entrada movement"
+            "description": "Monetary amount of the cash movement"
           },
           {
             "name": "reason",
             "type": "string",
             "required": true,
             "ofEntity": "CashMovement",
-            "description": "Reason for the opening cash movement"
+            "description": "Reason for the cash movement"
           }
         ],
         "output": [
@@ -57,7 +64,7 @@ export const recordOpeningCashMovementUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "DailyShift",
-            "description": "ID of the parent daily shift"
+            "description": "ID of the parent DailyShift aggregate"
           },
           {
             "name": "status",
@@ -70,21 +77,20 @@ export const recordOpeningCashMovementUsecase = {
           "DailyShift"
         ],
         "rulesApplied": [
-          "DailyShift must be open (status=open) to record an opening cash movement",
-          "movementType is forced to 'entrada' for an opening cash movement",
-          "amount must be greater than zero",
-          "cashMovementId, createdAt and updatedAt are server-generated"
+          "DailyShift must be in 'open' status to record a cash movement",
+          "CashMovement is created and embedded in the DailyShift aggregate; no separate repository",
+          "cashMovementId, createdAt and updatedAt are server-generated",
+          "Opening cash movement sets or updates DailyShift.openingCashBalance"
         ],
         "transactional": true,
         "steps": [
-          "1. Load DailyShift by dailyShiftId via DailyShift port",
-          "2. Validate DailyShift exists and status is 'open'",
-          "3. Validate amount is greater than zero",
-          "4. Create a new CashMovement with movementType='entrada', the provided amount and reason, and server-generated cashMovementId/createdAt/updatedAt",
-          "5. Add the CashMovement to the DailyShift's cash movements collection",
-          "6. Update DailyShift.openingCashBalance with the movement amount if not already set",
-          "7. Save the DailyShift aggregate via DailyShift port",
-          "8. Return cashMovementId, dailyShiftId and status"
+          "Load DailyShift by dailyShiftId via DailyShift port",
+          "Validate DailyShift.status is 'open'; reject if closed",
+          "Create a new CashMovement with provided movementType, amount, reason; generate cashMovementId, createdAt, updatedAt",
+          "Add the CashMovement to the DailyShift's cash movements collection",
+          "If movementType is 'entrada', set DailyShift.openingCashBalance to the movement amount (if not already set) or accumulate",
+          "Save the DailyShift aggregate via DailyShift port",
+          "Return cashMovementId, dailyShiftId and status"
         ]
       }
     ],
@@ -110,6 +116,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

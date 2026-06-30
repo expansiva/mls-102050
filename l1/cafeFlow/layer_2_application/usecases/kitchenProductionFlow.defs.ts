@@ -18,22 +18,16 @@ export const kitchenProductionFlowUsecase = {
     ],
     "functions": [
       {
-        "functionName": "createKitchenTicket",
-        "inputTypeName": "CreateKitchenTicketInput",
-        "outputTypeName": "CreateKitchenTicketOutput",
+        "functionName": "sendToKitchen",
+        "inputTypeName": "SendToKitchenInput",
+        "outputTypeName": "SendToKitchenOutput",
         "input": [
           {
             "name": "orderId",
             "type": "string",
             "required": true,
-            "ofEntity": "Order"
-          },
-          {
-            "name": "orderItemIds",
-            "type": "string",
-            "required": true,
-            "description": "IDs of order items to send to kitchen",
-            "ofEntity": "OrderItem"
+            "ofEntity": "Order",
+            "description": "The order whose items are to be sent to the kitchen"
           }
         ],
         "output": [
@@ -41,33 +35,32 @@ export const kitchenProductionFlowUsecase = {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
-            "ofEntity": "KitchenTicket"
+            "ofEntity": "KitchenTicket",
+            "description": "The newly created kitchen ticket id"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Kitchen ticket status after creation",
-            "ofEntity": "KitchenTicket"
+            "description": "The kitchen ticket status after creation (open)"
           }
         ],
         "ports": [
           "Order"
         ],
         "rulesApplied": [
-          "KT-001: A kitchen ticket can only be created for an order with items in 'new' status",
-          "KT-002: Selected order items must belong to the given order",
-          "KT-003: Order items are set to 'sentToKitchen' when a kitchen ticket is created",
-          "KT-004: Kitchen ticket is created with status 'open'"
+          "Only order items with status 'new' are eligible to be sent to kitchen",
+          "A kitchen ticket is created with status 'open' and linked to the order",
+          "Eligible order items are linked to the kitchen ticket and transitioned to 'sentToKitchen'",
+          "At least one eligible order item must exist to create a kitchen ticket"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port by orderId",
-          "Validate that the order exists and is in an active state",
-          "Validate that each provided orderItemId belongs to the order and has status 'new'",
-          "Create a new KitchenTicket with status 'open' and link it to the order",
-          "Assign kitchenTicketId to each selected OrderItem and set their status to 'sentToKitchen'",
-          "Save the Order aggregate via Order port",
+          "Validate that at least one OrderItem has status 'new'",
+          "Create a KitchenTicket with status 'open' and generate kitchenTicketId",
+          "Link eligible OrderItems (status 'new') to the kitchenTicketId and set their status to 'sentToKitchen'",
+          "Save Order aggregate via Order port",
           "Return kitchenTicketId and status"
         ]
       },
@@ -80,13 +73,15 @@ export const kitchenProductionFlowUsecase = {
             "name": "orderId",
             "type": "string",
             "required": true,
-            "ofEntity": "Order"
+            "ofEntity": "Order",
+            "description": "The order containing the kitchen ticket"
           },
           {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
-            "ofEntity": "KitchenTicket"
+            "ofEntity": "KitchenTicket",
+            "description": "The kitchen ticket to start preparing"
           }
         ],
         "output": [
@@ -94,58 +89,53 @@ export const kitchenProductionFlowUsecase = {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
-            "ofEntity": "KitchenTicket"
+            "ofEntity": "KitchenTicket",
+            "description": "The kitchen ticket id that was updated"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Kitchen ticket status after starting preparation",
-            "ofEntity": "KitchenTicket"
+            "description": "The kitchen ticket status after update (inProgress)"
           }
         ],
         "ports": [
           "Order"
         ],
         "rulesApplied": [
-          "KT-005: Preparation can only start on a ticket with status 'open'",
-          "KT-006: All order items linked to the ticket are set to 'inPreparation'",
-          "KT-007: Kitchen ticket status transitions from 'open' to 'inProgress'"
+          "Kitchen ticket must be in status 'open' to start preparation",
+          "Kitchen ticket status transitions from 'open' to 'inProgress'",
+          "All OrderItems linked to the kitchen ticket with status 'sentToKitchen' transition to 'inPreparation'"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port by orderId",
-          "Find the KitchenTicket by kitchenTicketId within the order",
-          "Validate that the kitchen ticket status is 'open'",
-          "Set kitchen ticket status to 'inProgress'",
-          "Set all linked OrderItems status to 'inPreparation'",
-          "Save the Order aggregate via Order port",
+          "Find KitchenTicket by kitchenTicketId within the Order",
+          "Validate kitchen ticket status is 'open'",
+          "Transition kitchen ticket status to 'inProgress'",
+          "Transition all linked OrderItems from 'sentToKitchen' to 'inPreparation'",
+          "Save Order aggregate via Order port",
           "Return kitchenTicketId and status"
         ]
       },
       {
-        "functionName": "markItemsReady",
-        "inputTypeName": "MarkItemsReadyInput",
-        "outputTypeName": "MarkItemsReadyOutput",
+        "functionName": "markReady",
+        "inputTypeName": "MarkReadyInput",
+        "outputTypeName": "MarkReadyOutput",
         "input": [
           {
             "name": "orderId",
             "type": "string",
             "required": true,
-            "ofEntity": "Order"
+            "ofEntity": "Order",
+            "description": "The order containing the kitchen ticket"
           },
           {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
-            "ofEntity": "KitchenTicket"
-          },
-          {
-            "name": "orderItemIds",
-            "type": "string",
-            "required": true,
-            "description": "IDs of order items that are ready",
-            "ofEntity": "OrderItem"
+            "ofEntity": "KitchenTicket",
+            "description": "The kitchen ticket to mark as ready"
           }
         ],
         "output": [
@@ -153,41 +143,33 @@ export const kitchenProductionFlowUsecase = {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
-            "ofEntity": "KitchenTicket"
+            "ofEntity": "KitchenTicket",
+            "description": "The kitchen ticket id that was updated"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Kitchen ticket status after marking items ready",
-            "ofEntity": "KitchenTicket"
-          },
-          {
-            "name": "allItemsReady",
-            "type": "boolean",
-            "required": true,
-            "description": "Whether all items on the ticket are now ready"
+            "description": "The kitchen ticket status after update (done)"
           }
         ],
         "ports": [
           "Order"
         ],
         "rulesApplied": [
-          "KT-008: Only items with status 'inPreparation' can be marked 'ready'",
-          "KT-009: Items must belong to the given kitchen ticket",
-          "KT-010: When all items on a ticket are 'ready', the ticket status transitions to 'done'"
+          "Kitchen ticket must be in status 'inProgress' to mark as ready",
+          "Kitchen ticket status transitions from 'inProgress' to 'done'",
+          "All OrderItems linked to the kitchen ticket with status 'inPreparation' transition to 'ready'"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port by orderId",
-          "Find the KitchenTicket by kitchenTicketId within the order",
-          "Validate that the kitchen ticket status is 'inProgress'",
-          "For each provided orderItemId, validate it belongs to the ticket and has status 'inPreparation'",
-          "Set each specified OrderItem status to 'ready'",
-          "Check if all OrderItems linked to the ticket now have status 'ready'",
-          "If all items are ready, set kitchen ticket status to 'done'",
-          "Save the Order aggregate via Order port",
-          "Return kitchenTicketId, status, and allItemsReady flag"
+          "Find KitchenTicket by kitchenTicketId within the Order",
+          "Validate kitchen ticket status is 'inProgress'",
+          "Transition kitchen ticket status to 'done'",
+          "Transition all linked OrderItems from 'inPreparation' to 'ready'",
+          "Save Order aggregate via Order port",
+          "Return kitchenTicketId and status"
         ]
       },
       {
@@ -199,13 +181,21 @@ export const kitchenProductionFlowUsecase = {
             "name": "orderId",
             "type": "string",
             "required": true,
-            "ofEntity": "Order"
+            "ofEntity": "Order",
+            "description": "The order containing the kitchen ticket"
           },
           {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
-            "ofEntity": "KitchenTicket"
+            "ofEntity": "KitchenTicket",
+            "description": "The kitchen ticket to void"
+          },
+          {
+            "name": "reason",
+            "type": "string",
+            "required": false,
+            "description": "Optional reason for voiding the kitchen ticket"
           }
         ],
         "output": [
@@ -213,33 +203,82 @@ export const kitchenProductionFlowUsecase = {
             "name": "kitchenTicketId",
             "type": "string",
             "required": true,
-            "ofEntity": "KitchenTicket"
+            "ofEntity": "KitchenTicket",
+            "description": "The voided kitchen ticket id"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Kitchen ticket status after voiding",
-            "ofEntity": "KitchenTicket"
+            "description": "The kitchen ticket status after void (void)"
           }
         ],
         "ports": [
           "Order"
         ],
         "rulesApplied": [
-          "KT-011: A kitchen ticket can only be voided if its status is 'open' or 'inProgress'",
-          "KT-012: Voiding a ticket sets all linked order items back to 'new' and clears their kitchenTicketId",
-          "KT-013: Kitchen ticket status transitions to 'void'"
+          "Kitchen ticket must not already be in status 'done' or 'void' to be voided",
+          "Kitchen ticket status transitions to 'void'",
+          "All OrderItems linked to the kitchen ticket that are not yet 'served' or 'cancelled' are transitioned to 'cancelled'"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port by orderId",
-          "Find the KitchenTicket by kitchenTicketId within the order",
-          "Validate that the kitchen ticket status is 'open' or 'inProgress'",
-          "Set kitchen ticket status to 'void'",
-          "For each OrderItem linked to the ticket, set status to 'new' and clear kitchenTicketId",
-          "Save the Order aggregate via Order port",
+          "Find KitchenTicket by kitchenTicketId within the Order",
+          "Validate kitchen ticket status is not 'done' or 'void'",
+          "Transition kitchen ticket status to 'void'",
+          "Transition all linked OrderItems that are not 'served' or 'cancelled' to 'cancelled'",
+          "Save Order aggregate via Order port",
           "Return kitchenTicketId and status"
+        ]
+      },
+      {
+        "functionName": "queryKitchenTicketsByOrder",
+        "inputTypeName": "QueryKitchenTicketsByOrderInput",
+        "outputTypeName": "QueryKitchenTicketsByOrderOutput",
+        "input": [
+          {
+            "name": "orderId",
+            "type": "string",
+            "required": true,
+            "ofEntity": "Order",
+            "description": "The order to query kitchen tickets for"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": false,
+            "description": "Optional filter by kitchen ticket status"
+          }
+        ],
+        "output": [
+          {
+            "name": "kitchenTickets",
+            "type": "string",
+            "required": true,
+            "ofEntity": "KitchenTicket",
+            "description": "List of kitchen ticket ids matching the filter"
+          },
+          {
+            "name": "statuses",
+            "type": "string",
+            "required": true,
+            "description": "Corresponding statuses for each kitchen ticket"
+          }
+        ],
+        "ports": [
+          "Order"
+        ],
+        "rulesApplied": [
+          "Kitchen tickets are read from the Order aggregate",
+          "Optional status filter narrows the result set"
+        ],
+        "transactional": false,
+        "steps": [
+          "Load Order aggregate via Order port by orderId",
+          "Extract all KitchenTickets from the Order",
+          "If status filter is provided, filter tickets by that status",
+          "Return list of kitchenTicketIds and their statuses"
         ]
       }
     ],
@@ -265,6 +304,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

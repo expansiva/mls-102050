@@ -23,17 +23,25 @@ export const viewKitchenTicketsUsecase = {
         "outputTypeName": "ViewKitchenTicketsOutput",
         "input": [
           {
-            "name": "status",
-            "type": "string",
-            "required": false,
-            "description": "Filter kitchen tickets by status (open, inProgress, done, void)"
-          },
-          {
             "name": "orderId",
             "type": "string",
             "required": false,
             "ofEntity": "Order",
             "description": "Filter kitchen tickets by parent order id"
+          },
+          {
+            "name": "kitchenTicketId",
+            "type": "string",
+            "required": false,
+            "ofEntity": "KitchenTicket",
+            "description": "Filter by a specific kitchen ticket id"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": false,
+            "ofEntity": "KitchenTicket",
+            "description": "Filter by kitchen ticket status (open, inProgress, done, void)"
           }
         ],
         "output": [
@@ -55,19 +63,22 @@ export const viewKitchenTicketsUsecase = {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Current status of the kitchen ticket (open, inProgress, done, void)"
+            "ofEntity": "KitchenTicket",
+            "description": "Current status of the kitchen ticket"
           },
           {
             "name": "createdAt",
             "type": "string",
             "required": true,
-            "description": "Creation timestamp of the kitchen ticket"
+            "ofEntity": "KitchenTicket",
+            "description": "Creation timestamp"
           },
           {
             "name": "updatedAt",
             "type": "string",
             "required": true,
-            "description": "Last update timestamp of the kitchen ticket"
+            "ofEntity": "KitchenTicket",
+            "description": "Last update timestamp"
           }
         ],
         "ports": [
@@ -76,10 +87,11 @@ export const viewKitchenTicketsUsecase = {
         "rulesApplied": [],
         "transactional": false,
         "steps": [
-          "Load orders from the Order port (filtered by orderId if provided)",
-          "Extract embedded KitchenTicket entities from each loaded Order",
-          "Apply optional status filter on the extracted kitchen tickets",
-          "Project and return the matching kitchen ticket fields (kitchenTicketId, orderId, status, createdAt, updatedAt)"
+          "If orderId is provided, load the Order aggregate via OrderPort.findById(orderId)",
+          "If kitchenTicketId is provided without orderId, load all candidate Orders via OrderPort and locate the one containing the matching KitchenTicket",
+          "Extract KitchenTicket entries from the loaded Order aggregate(s)",
+          "If status filter is provided, filter the extracted tickets by status",
+          "Project and return the matching KitchenTicket fields: kitchenTicketId, orderId, status, createdAt, updatedAt"
         ]
       }
     ],
@@ -105,6 +117,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

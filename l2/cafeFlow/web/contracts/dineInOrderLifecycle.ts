@@ -50,8 +50,11 @@ export interface CafeFlowUpdateOrderStatusOutput {
 
 export interface CafeFlowUpdateTableStatusInput {
   status: "available" | "occupied" | "disabled";
+  currentChargesTotal: number;
+  openedAt?: string;
+  closedAt?: string;
 }
 
 export interface CafeFlowUpdateTableStatusOutput {
-  tableId: string;
+  tableOccupancyId: string;
 }

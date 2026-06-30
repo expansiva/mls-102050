@@ -24,7 +24,7 @@ export const definition = {
   },
   "layoutRef": {
     "defPath": "_102050_/l2/cafeFlow/web/desktop/page11/takeoutOrderLifecycle.defs.ts",
-    "layoutId": "takeoutOrderLifecycle.layout"
+    "layoutId": "takeoutOrderLifecycle.main"
   },
   "states": [
     {
@@ -524,38 +524,37 @@ export const definition = {
   "navigationRefs": [],
   "i18n": {
     "takeoutOrderLifecycle.section.main.title": "Ciclo de pedido (takeout)",
-    "takeoutOrderLifecycle.createOrder.title": "Criar pedido",
-    "takeoutOrderLifecycle.createOrder.form.title": "Command Form",
-    "takeoutOrderLifecycle.createOrder.orderType.label": "Order Type",
-    "takeoutOrderLifecycle.createOrder.status.label": "Status",
-    "takeoutOrderLifecycle.createOrder.totalAmount.label": "Total Amount",
-    "takeoutOrderLifecycle.createOrder.notes.label": "Notes",
-    "takeoutOrderLifecycle.createOrder.customerName.label": "Customer Name",
-    "takeoutOrderLifecycle.createOrder.customerPhone.label": "Customer Phone",
-    "takeoutOrderLifecycle.createOrder.numberOfGuests.label": "Number Of Guests",
-    "takeoutOrderLifecycle.createOrder.closedAt.label": "Closed At",
-    "takeoutOrderLifecycle.createOrder.cancelledAt.label": "Cancelled At",
-    "takeoutOrderLifecycle.createOrder.cancellationReason.label": "Cancellation Reason",
-    "takeoutOrderLifecycle.createOrder.submit": "Create Order",
-    "takeoutOrderLifecycle.addOrderItem.title": "Adicionar item ao pedido",
-    "takeoutOrderLifecycle.addOrderItem.form.title": "Command Form",
-    "takeoutOrderLifecycle.addOrderItem.quantity.label": "Quantity",
-    "takeoutOrderLifecycle.addOrderItem.unitPrice.label": "Unit Price",
-    "takeoutOrderLifecycle.addOrderItem.totalPrice.label": "Total Price",
-    "takeoutOrderLifecycle.addOrderItem.observations.label": "Observations",
-    "takeoutOrderLifecycle.addOrderItem.status.label": "Status",
-    "takeoutOrderLifecycle.addOrderItem.submit": "Add Order Item",
-    "takeoutOrderLifecycle.createKitchenTicket.title": "Criar ticket de cozinha",
-    "takeoutOrderLifecycle.createKitchenTicket.form.title": "Command Form",
-    "takeoutOrderLifecycle.createKitchenTicket.status.label": "Status",
-    "takeoutOrderLifecycle.createKitchenTicket.submit": "Create Kitchen Ticket",
-    "takeoutOrderLifecycle.updateOrderStatus.title": "Atualizar status do pedido",
-    "takeoutOrderLifecycle.updateOrderStatus.form.title": "Command Form",
-    "takeoutOrderLifecycle.updateOrderStatus.status.label": "Status",
-    "takeoutOrderLifecycle.updateOrderStatus.closedAt.label": "Closed At",
-    "takeoutOrderLifecycle.updateOrderStatus.cancelledAt.label": "Cancelled At",
-    "takeoutOrderLifecycle.updateOrderStatus.cancellationReason.label": "Cancellation Reason",
-    "takeoutOrderLifecycle.updateOrderStatus.submit": "Update Order Status"
+    "takeoutOrderLifecycle.organism.createOrder.title": "Criar pedido",
+    "takeoutOrderLifecycle.organism.addOrderItem.title": "Adicionar item ao pedido",
+    "takeoutOrderLifecycle.organism.createKitchenTicket.title": "Criar ticket de cozinha",
+    "takeoutOrderLifecycle.organism.updateOrderStatus.title": "Atualizar status do pedido",
+    "takeoutOrderLifecycle.organism.reviewSummary.title": "Resumo do pedido",
+    "takeoutOrderLifecycle.intent.createOrderForm.title": "Criar pedido",
+    "takeoutOrderLifecycle.intent.addOrderItemForm.title": "Adicionar item ao pedido",
+    "takeoutOrderLifecycle.intent.createKitchenTicketForm.title": "Criar ticket de cozinha",
+    "takeoutOrderLifecycle.intent.updateOrderStatusForm.title": "Atualizar status do pedido",
+    "takeoutOrderLifecycle.intent.reviewSummary.title": "Revisão do pedido",
+    "takeoutOrderLifecycle.field.orderType.label": "Tipo do pedido",
+    "takeoutOrderLifecycle.field.status.label": "Status do pedido",
+    "takeoutOrderLifecycle.field.totalAmount.label": "Total do pedido",
+    "takeoutOrderLifecycle.field.notes.label": "Observações",
+    "takeoutOrderLifecycle.field.customerName.label": "Nome do cliente",
+    "takeoutOrderLifecycle.field.customerPhone.label": "Telefone do cliente",
+    "takeoutOrderLifecycle.field.numberOfGuests.label": "Número de pessoas",
+    "takeoutOrderLifecycle.field.closedAt.label": "Fechado em",
+    "takeoutOrderLifecycle.field.cancelledAt.label": "Cancelado em",
+    "takeoutOrderLifecycle.field.cancellationReason.label": "Motivo do cancelamento",
+    "takeoutOrderLifecycle.field.quantity.label": "Quantidade",
+    "takeoutOrderLifecycle.field.unitPrice.label": "Preço unitário",
+    "takeoutOrderLifecycle.field.totalPrice.label": "Preço total",
+    "takeoutOrderLifecycle.field.observations.label": "Observações do item",
+    "takeoutOrderLifecycle.field.itemStatus.label": "Status do item",
+    "takeoutOrderLifecycle.field.kitchenTicketStatus.label": "Status do ticket",
+    "takeoutOrderLifecycle.field.orderId.label": "Pedido",
+    "takeoutOrderLifecycle.action.createOrder.label": "Criar pedido",
+    "takeoutOrderLifecycle.action.addOrderItem.label": "Adicionar item",
+    "takeoutOrderLifecycle.action.createKitchenTicket.label": "Criar ticket",
+    "takeoutOrderLifecycle.action.updateOrderStatus.label": "Atualizar status"
   },
   "automation": {
     "statePrefix": "ui.takeoutOrderLifecycle",
@@ -626,11 +625,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/takeoutOrderLifecycle.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/takeoutOrderLifecycle.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "takeoutOrderLifecycle__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

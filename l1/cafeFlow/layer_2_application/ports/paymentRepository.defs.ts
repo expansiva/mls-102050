@@ -17,43 +17,36 @@ export const paymentRepositoryPort = {
     "methods": [
       {
         "name": "getById",
-        "returns": "Payment",
         "params": [
-          "paymentId: PaymentId"
-        ]
+          "id: PaymentId"
+        ],
+        "returns": "Payment"
       },
       {
         "name": "list",
-        "returns": "PaymentCollection",
         "params": [
           "filter: PaymentFilter"
-        ]
+        ],
+        "returns": "Payment[]"
       },
       {
         "name": "save",
-        "returns": "void",
         "params": [
-          "aggregate: Payment"
-        ]
+          "payment: Payment"
+        ],
+        "returns": "void"
       },
       {
         "name": "findByOrder",
-        "returns": "PaymentCollection",
         "params": [
           "orderId: OrderId"
-        ]
+        ],
+        "returns": "Payment[]"
       },
       {
-        "name": "findByStatus",
-        "returns": "PaymentCollection",
-        "params": [
-          "status: PaymentStatus"
-        ]
-      },
-      {
-        "name": "findPending",
-        "returns": "PaymentCollection",
-        "params": []
+        "name": "findPendingSettlement",
+        "params": [],
+        "returns": "Payment[]"
       }
     ]
   }
@@ -76,6 +69,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/repositoryPort.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

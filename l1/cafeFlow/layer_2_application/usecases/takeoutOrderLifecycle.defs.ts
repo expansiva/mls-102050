@@ -26,7 +26,7 @@ export const takeoutOrderLifecycleUsecase = {
             "name": "dailyShiftId",
             "type": "uuid",
             "required": true,
-            "description": "The daily shift this order belongs to"
+            "description": "Daily shift the order belongs to"
           },
           {
             "name": "customerName",
@@ -44,11 +44,11 @@ export const takeoutOrderLifecycleUsecase = {
             "name": "notes",
             "type": "string",
             "required": false,
-            "description": "General order notes"
+            "description": "Order-level notes"
           },
           {
             "name": "items",
-            "type": "array",
+            "type": "OrderItem[]",
             "required": true,
             "ofEntity": "OrderItem",
             "description": "List of order items with menuItemId, quantity, unitPrice, observations"
@@ -60,7 +60,7 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The created order id"
+            "description": "Id of the created order"
           },
           {
             "name": "status",
@@ -74,31 +74,30 @@ export const takeoutOrderLifecycleUsecase = {
           "Order"
         ],
         "rulesApplied": [
-          "orderType must be 'takeout'",
-          "status starts as 'draft'",
-          "totalAmount computed from items sum",
-          "each item status starts as 'new'"
+          "orderType-must-be-takeout",
+          "order-starts-in-draft",
+          "totalAmount-computed-from-items"
         ],
         "transactional": true,
         "steps": [
-          "Load dailyShift context via Order port",
-          "Create Order with orderType='takeout', status='draft'",
-          "Create OrderItems with status='new', compute totalPrice=quantity*unitPrice",
-          "Compute totalAmount from items",
+          "Load dailyShift via Order port to validate shift is open",
+          "Create Order with orderType=takeout, status=draft",
+          "Compute totalAmount from items (quantity * unitPrice)",
+          "Embed OrderItem children with status=new",
           "Save Order aggregate via Order port"
         ]
       },
       {
-        "functionName": "sendToKitchen",
-        "inputTypeName": "SendToKitchenInput",
-        "outputTypeName": "SendToKitchenOutput",
+        "functionName": "sendOrderToKitchen",
+        "inputTypeName": "SendOrderToKitchenInput",
+        "outputTypeName": "SendOrderToKitchenOutput",
         "input": [
           {
             "name": "orderId",
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order to send to kitchen"
+            "description": "Id of the order to send to kitchen"
           }
         ],
         "output": [
@@ -107,14 +106,14 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order id"
+            "description": "Id of the order"
           },
           {
             "name": "kitchenTicketId",
             "type": "uuid",
             "required": true,
             "ofEntity": "KitchenTicket",
-            "description": "The created kitchen ticket id"
+            "description": "Id of the created kitchen ticket"
           },
           {
             "name": "status",
@@ -128,19 +127,72 @@ export const takeoutOrderLifecycleUsecase = {
           "Order"
         ],
         "rulesApplied": [
-          "Order status must be 'draft' to send to kitchen",
-          "Creates KitchenTicket with status 'open'",
-          "All OrderItems transition to 'sentToKitchen'",
-          "Order.kitchenTicketId is set",
-          "Order.status transitions to 'sentToKitchen'"
+          "order-must-be-draft-to-send",
+          "kitchen-ticket-created-on-send",
+          "items-transition-to-sentToKitchen"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port",
-          "Validate status is 'draft'",
-          "Create KitchenTicket with status 'open', link to orderId",
-          "Update each OrderItem status to 'sentToKitchen', set kitchenTicketId",
-          "Update Order status to 'sentToKitchen', set kitchenTicketId",
+          "Validate order.status === draft",
+          "Create KitchenTicket with status=open, link to orderId",
+          "Set order.kitchenTicketId",
+          "Transition order.status to sentToKitchen",
+          "Transition all OrderItem.status to sentToKitchen",
+          "Save Order aggregate via Order port"
+        ]
+      },
+      {
+        "functionName": "markOrderReady",
+        "inputTypeName": "MarkOrderReadyInput",
+        "outputTypeName": "MarkOrderReadyOutput",
+        "input": [
+          {
+            "name": "orderId",
+            "type": "uuid",
+            "required": true,
+            "ofEntity": "Order",
+            "description": "Id of the order to mark ready"
+          }
+        ],
+        "output": [
+          {
+            "name": "orderId",
+            "type": "uuid",
+            "required": true,
+            "ofEntity": "Order",
+            "description": "Id of the order"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": true,
+            "ofEntity": "Order",
+            "description": "New order status (ready)"
+          },
+          {
+            "name": "kitchenTicketStatus",
+            "type": "string",
+            "required": true,
+            "ofEntity": "KitchenTicket",
+            "description": "New kitchen ticket status (done)"
+          }
+        ],
+        "ports": [
+          "Order"
+        ],
+        "rulesApplied": [
+          "order-must-be-inPreparation-to-mark-ready",
+          "kitchen-ticket-transitions-to-done",
+          "all-items-must-be-ready"
+        ],
+        "transactional": true,
+        "steps": [
+          "Load Order aggregate via Order port",
+          "Validate order.status === inPreparation",
+          "Transition KitchenTicket.status to done",
+          "Transition order.status to ready",
+          "Ensure all OrderItem.status are ready",
           "Save Order aggregate via Order port"
         ]
       },
@@ -154,7 +206,7 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order entering preparation"
+            "description": "Id of the order to start preparing"
           }
         ],
         "output": [
@@ -163,7 +215,7 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order id"
+            "description": "Id of the order"
           },
           {
             "name": "status",
@@ -171,72 +223,30 @@ export const takeoutOrderLifecycleUsecase = {
             "required": true,
             "ofEntity": "Order",
             "description": "New order status (inPreparation)"
-          }
-        ],
-        "ports": [
-          "Order"
-        ],
-        "rulesApplied": [
-          "Order status must be 'sentToKitchen' to start preparation",
-          "KitchenTicket status transitions to 'inProgress'",
-          "All OrderItems transition to 'inPreparation'",
-          "Order.status transitions to 'inPreparation'"
-        ],
-        "transactional": true,
-        "steps": [
-          "Load Order aggregate via Order port",
-          "Validate status is 'sentToKitchen'",
-          "Update KitchenTicket status to 'inProgress'",
-          "Update each OrderItem status to 'inPreparation'",
-          "Update Order status to 'inPreparation'",
-          "Save Order aggregate via Order port"
-        ]
-      },
-      {
-        "functionName": "markReady",
-        "inputTypeName": "MarkReadyInput",
-        "outputTypeName": "MarkReadyOutput",
-        "input": [
-          {
-            "name": "orderId",
-            "type": "uuid",
-            "required": true,
-            "ofEntity": "Order",
-            "description": "The order ready for pickup"
-          }
-        ],
-        "output": [
-          {
-            "name": "orderId",
-            "type": "uuid",
-            "required": true,
-            "ofEntity": "Order",
-            "description": "The order id"
           },
           {
-            "name": "status",
+            "name": "kitchenTicketStatus",
             "type": "string",
             "required": true,
-            "ofEntity": "Order",
-            "description": "New order status (ready)"
+            "ofEntity": "KitchenTicket",
+            "description": "New kitchen ticket status (inProgress)"
           }
         ],
         "ports": [
           "Order"
         ],
         "rulesApplied": [
-          "Order status must be 'inPreparation' to mark ready",
-          "KitchenTicket status transitions to 'done'",
-          "All OrderItems transition to 'ready'",
-          "Order.status transitions to 'ready'"
+          "order-must-be-sentToKitchen-to-start",
+          "kitchen-ticket-transitions-to-inProgress",
+          "items-transition-to-inPreparation"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port",
-          "Validate status is 'inPreparation'",
-          "Update KitchenTicket status to 'done'",
-          "Update each OrderItem status to 'ready'",
-          "Update Order status to 'ready'",
+          "Validate order.status === sentToKitchen",
+          "Transition KitchenTicket.status to inProgress",
+          "Transition order.status to inPreparation",
+          "Transition all OrderItem.status to inPreparation",
           "Save Order aggregate via Order port"
         ]
       },
@@ -250,7 +260,7 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order to close"
+            "description": "Id of the order to close"
           }
         ],
         "output": [
@@ -259,7 +269,7 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order id"
+            "description": "Id of the closed order"
           },
           {
             "name": "status",
@@ -273,24 +283,24 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "Timestamp when order was closed"
+            "description": "Timestamp when the order was closed"
           }
         ],
         "ports": [
           "Order"
         ],
         "rulesApplied": [
-          "Order status must be 'ready' or 'served' to close",
-          "All OrderItems must be 'ready' or 'served'",
-          "Order.status transitions to 'closed'",
-          "Order.closedAt is set to current timestamp"
+          "order-must-be-ready-or-served-to-close",
+          "closedAt-set-on-close",
+          "kitchen-ticket-must-be-done"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port",
-          "Validate status is 'ready' or 'served'",
-          "Validate all OrderItems are 'ready' or 'served'",
-          "Update Order status to 'closed', set closedAt",
+          "Validate order.status === ready or served",
+          "Validate KitchenTicket.status === done",
+          "Set order.status to closed",
+          "Set order.closedAt to current timestamp",
           "Save Order aggregate via Order port"
         ]
       },
@@ -304,12 +314,12 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order to cancel"
+            "description": "Id of the order to cancel"
           },
           {
             "name": "cancellationReason",
             "type": "string",
-            "required": true,
+            "required": false,
             "description": "Reason for cancellation"
           }
         ],
@@ -319,7 +329,7 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "uuid",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order id"
+            "description": "Id of the cancelled order"
           },
           {
             "name": "status",
@@ -333,27 +343,27 @@ export const takeoutOrderLifecycleUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "Timestamp when order was cancelled"
+            "description": "Timestamp when the order was cancelled"
           }
         ],
         "ports": [
           "Order"
         ],
         "rulesApplied": [
-          "Order status must not be 'closed' or 'cancelled' to cancel",
-          "If KitchenTicket exists, set its status to 'void'",
-          "All non-served OrderItems transition to 'cancelled'",
-          "Order.status transitions to 'cancelled'",
-          "Order.cancelledAt is set to current timestamp",
-          "Order.cancellationReason is set"
+          "order-must-not-be-closed-or-cancelled",
+          "cancelledAt-set-on-cancel",
+          "items-transition-to-cancelled",
+          "kitchen-ticket-transitions-to-void-if-exists"
         ],
         "transactional": true,
         "steps": [
           "Load Order aggregate via Order port",
-          "Validate status is not 'closed' or 'cancelled'",
-          "If KitchenTicket exists, update status to 'void'",
-          "Update all non-served OrderItems to 'cancelled'",
-          "Update Order status to 'cancelled', set cancelledAt and cancellationReason",
+          "Validate order.status is not closed or cancelled",
+          "Set order.status to cancelled",
+          "Set order.cancelledAt to current timestamp",
+          "Set order.cancellationReason if provided",
+          "Transition all OrderItem.status to cancelled",
+          "If KitchenTicket exists, transition to void",
           "Save Order aggregate via Order port"
         ]
       }
@@ -380,6 +390,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

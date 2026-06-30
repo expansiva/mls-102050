@@ -23,11 +23,10 @@ export const definition = [
         "type": "string",
         "required": true,
         "enum": [
-          "available",
-          "occupied",
-          "disabled"
+          "active",
+          "inactive"
         ],
-        "description": "Situação atual da mesa no ciclo de atendimento."
+        "description": "Situação cadastral da mesa (não confundir com ocupação operacional, que vive em TableOccupancy)."
       }
     ],
     "output": [
@@ -51,6 +50,6 @@ export const pipeline = [
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

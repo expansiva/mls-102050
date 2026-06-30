@@ -17,45 +17,43 @@ export const orderRepositoryPort = {
     "methods": [
       {
         "name": "getById",
-        "returns": "Order",
         "params": [
-          "orderId: OrderId"
-        ]
+          "id: OrderId"
+        ],
+        "returns": "Order"
       },
       {
         "name": "list",
-        "returns": "OrderCollection",
         "params": [
           "filter: OrderFilter"
-        ]
+        ],
+        "returns": "Order[]"
       },
       {
         "name": "save",
-        "returns": "void",
         "params": [
-          "aggregate: Order"
-        ]
-      },
-      {
-        "name": "findByTable",
-        "returns": "OrderCollection",
-        "params": [
-          "tableId: TableId"
-        ]
-      },
-      {
-        "name": "findByStatus",
-        "returns": "OrderCollection",
-        "params": [
-          "status: OrderStatus"
-        ]
+          "order: Order"
+        ],
+        "returns": "void"
       },
       {
         "name": "findOpenByTable",
-        "returns": "Order",
         "params": [
           "tableId: TableId"
-        ]
+        ],
+        "returns": "Order[]"
+      },
+      {
+        "name": "findWithPendingKitchenTickets",
+        "params": [],
+        "returns": "Order[]"
+      },
+      {
+        "name": "findByShift",
+        "params": [
+          "shiftId: DailyShiftId"
+        ],
+        "returns": "Order[]"
       }
     ]
   }
@@ -78,6 +76,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/repositoryPort.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

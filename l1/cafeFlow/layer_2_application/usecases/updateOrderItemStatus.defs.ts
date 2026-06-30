@@ -26,22 +26,22 @@ export const updateOrderItemStatusUsecase = {
             "name": "orderId",
             "type": "string",
             "required": true,
-            "description": "ID of the parent Order aggregate to load",
-            "ofEntity": "Order"
+            "ofEntity": "Order",
+            "description": "Parent aggregate id to load the order containing the item"
           },
           {
             "name": "orderItemId",
             "type": "string",
             "required": true,
-            "description": "ID of the OrderItem whose status will be updated",
-            "ofEntity": "OrderItem"
+            "ofEntity": "OrderItem",
+            "description": "Id of the order item whose status will be updated"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "New status for the OrderItem (new, sentToKitchen, inPreparation, ready, served, cancelled)",
-            "ofEntity": "OrderItem"
+            "ofEntity": "OrderItem",
+            "description": "New status for the order item; must follow allowed transitions: new -> sentToKitchen -> inPreparation -> ready -> served, or any -> cancelled"
           }
         ],
         "output": [
@@ -49,29 +49,29 @@ export const updateOrderItemStatusUsecase = {
             "name": "orderId",
             "type": "string",
             "required": true,
-            "description": "ID of the parent Order aggregate",
-            "ofEntity": "Order"
+            "ofEntity": "Order",
+            "description": "Id of the parent order aggregate"
           },
           {
             "name": "orderItemId",
             "type": "string",
             "required": true,
-            "description": "ID of the updated OrderItem",
-            "ofEntity": "OrderItem"
+            "ofEntity": "OrderItem",
+            "description": "Id of the updated order item"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "The new status applied to the OrderItem",
-            "ofEntity": "OrderItem"
+            "ofEntity": "OrderItem",
+            "description": "The new status applied to the order item"
           },
           {
             "name": "updatedAt",
             "type": "string",
             "required": true,
-            "description": "Timestamp of the status update",
-            "ofEntity": "OrderItem"
+            "ofEntity": "OrderItem",
+            "description": "Timestamp of the status update"
           }
         ],
         "ports": [
@@ -83,14 +83,13 @@ export const updateOrderItemStatusUsecase = {
         ],
         "transactional": true,
         "steps": [
-          "Load the parent Order aggregate by orderId via the Order port",
-          "Find the OrderItem with matching orderItemId within the Order's items collection",
-          "Validate the requested status transition against the orderStatusTransitions rule (e.g. new→sentToKitchen→inPreparation→ready→served; cancelled is terminal)",
-          "If the OrderItem is not found or the transition is invalid, raise a domain error",
+          "Load the Order aggregate via OrderPort.findById(orderId); throw NotFound if absent",
+          "Locate the OrderItem by orderItemId within the order's item collection; throw NotFound if absent",
+          "Validate the requested status transition against orderStatusTransitions rule (new->sentToKitchen->inPreparation->ready->served; any->cancelled); throw InvalidTransition if not allowed",
           "Apply the new status to the OrderItem and update its updatedAt timestamp",
-          "If the new status is 'inPreparation', apply the ingredientConsumptionTrigger rule to consume ingredients for the OrderItem's menuItemId and quantity",
-          "Save the parent Order aggregate via the Order port",
-          "Return orderId, orderItemId, the applied status, and updatedAt"
+          "If status transitions to 'inPreparation', trigger ingredientConsumptionTrigger rule to decrement stock for the menuItemId ingredients",
+          "Save the Order aggregate via OrderPort.save(order)",
+          "Return orderId, orderItemId, status, and updatedAt"
         ]
       }
     ],
@@ -116,6 +115,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

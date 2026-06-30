@@ -1,4 +1,4 @@
-/// <mls fileReference="_102050_/l2/cafeFlow/web/shared/closeDailyShift.ts" enhancement="_blank"/>
+/// <mls fileReference="_102050_/l2/cafeFlow/web/shared/closeDailyShift.ts" enhancement="_102020_/l2/enhancementAura"/>
 
 import { CollabLitElement } from '/_102029_/l2/collabLitElement.js';
 import { property } from 'lit/decorators.js';
@@ -12,56 +12,52 @@ import type {
   CafeFlowRecordClosingCashMovementOutput,
 } from '/_102050_/l2/cafeFlow/web/contracts/closeDailyShift.js';
 
-type ActionStatus = 'idle' | 'loading' | 'success' | 'error';
-
-const message_pt: Record<string, string> = {
-  'closeDailyShift.section.main.title': 'Fechar turno diário (fechamento de caixa)',
-  'closeDailyShift.organism.updateDailyShiftStatus.title': 'Atualizar status do turno',
-  'closeDailyShift.organism.recordClosingCashMovement.title': 'Registrar movimento de fechamento',
-  'closeDailyShift.intent.updateDailyShiftStatus.title': 'Atualizar status do turno',
-  'closeDailyShift.intent.recordClosingCashMovement.title': 'Registrar movimento de fechamento',
-  'closeDailyShift.field.dailyShiftId.label': 'ID do turno',
-  'closeDailyShift.field.shiftDate.label': 'Data do turno',
-  'closeDailyShift.field.status.label': 'Status do turno',
-  'closeDailyShift.field.openedAt.label': 'Abertura',
-  'closeDailyShift.field.closedAt.label': 'Fechamento',
-  'closeDailyShift.field.openingCashBalance.label': 'Saldo inicial em caixa',
-  'closeDailyShift.field.closingCashBalance.label': 'Saldo final em caixa',
-  'closeDailyShift.field.totalSales.label': 'Total de vendas',
-  'closeDailyShift.field.totalPayments.label': 'Total de pagamentos',
-  'closeDailyShift.field.closingNotes.label': 'Observações de fechamento',
-  'closeDailyShift.action.updateDailyShiftStatus.label': 'Atualizar status do turno',
-  'closeDailyShift.action.recordClosingCashMovement.label': 'Registrar movimento de fechamento',
+/// **collab_i18n_start**
+const message_pt = {
+  "closeDailyShift.section.main": "Fechar turno diário (fechamento de caixa)",
+  "closeDailyShift.update.title": "Atualizar status do turno diário",
+  "closeDailyShift.record.title": "Registrar movimento de fechamento do caixa",
+  "closeDailyShift.summary.title": "Resumo do fechamento do turno",
+  "closeDailyShift.action.updateDailyShiftStatus": "Atualizar status",
+  "closeDailyShift.action.recordClosingCashMovement": "Registrar movimento",
+  "field.dailyShiftId": "ID do turno",
+  "field.shiftDate": "Data do turno",
+  "field.status": "Status do turno",
+  "field.openedAt": "Abertura do turno",
+  "field.closedAt": "Fechamento do turno",
+  "field.openingCashBalance": "Saldo inicial em caixa",
+  "field.closingCashBalance": "Saldo final em caixa",
+  "field.totalSales": "Total de vendas",
+  "field.totalPayments": "Total de pagamentos",
+  "field.closingNotes": "Observações de fechamento"
 };
-
-const message_en: Record<string, string> = {
-  'closeDailyShift.section.main.title': 'Close daily shift (cash closing)',
-  'closeDailyShift.organism.updateDailyShiftStatus.title': 'Update shift status',
-  'closeDailyShift.organism.recordClosingCashMovement.title': 'Record closing cash movement',
-  'closeDailyShift.intent.updateDailyShiftStatus.title': 'Update shift status',
-  'closeDailyShift.intent.recordClosingCashMovement.title': 'Record closing cash movement',
-  'closeDailyShift.field.dailyShiftId.label': 'Shift ID',
-  'closeDailyShift.field.shiftDate.label': 'Shift date',
-  'closeDailyShift.field.status.label': 'Shift status',
-  'closeDailyShift.field.openedAt.label': 'Opened at',
-  'closeDailyShift.field.closedAt.label': 'Closed at',
-  'closeDailyShift.field.openingCashBalance.label': 'Opening cash balance',
-  'closeDailyShift.field.closingCashBalance.label': 'Closing cash balance',
-  'closeDailyShift.field.totalSales.label': 'Total sales',
-  'closeDailyShift.field.totalPayments.label': 'Total payments',
-  'closeDailyShift.field.closingNotes.label': 'Closing notes',
-  'closeDailyShift.action.updateDailyShiftStatus.label': 'Update shift status',
-  'closeDailyShift.action.recordClosingCashMovement.label': 'Record closing cash movement',
+const message_en = {
+  "closeDailyShift.section.main": "Close daily shift (cash closing)",
+  "closeDailyShift.update.title": "Update daily shift status",
+  "closeDailyShift.record.title": "Record closing cash movement",
+  "closeDailyShift.summary.title": "Daily shift closing summary",
+  "closeDailyShift.action.updateDailyShiftStatus": "Update status",
+  "closeDailyShift.action.recordClosingCashMovement": "Record movement",
+  "field.dailyShiftId": "Shift ID",
+  "field.shiftDate": "Shift date",
+  "field.status": "Shift status",
+  "field.openedAt": "Shift opening",
+  "field.closedAt": "Shift closing",
+  "field.openingCashBalance": "Opening cash balance",
+  "field.closingCashBalance": "Closing cash balance",
+  "field.totalSales": "Total sales",
+  "field.totalPayments": "Total payments",
+  "field.closingNotes": "Closing notes"
 };
+type MessageType = typeof message_en;
+const messages: { [key: string]: MessageType } = { en: message_en, pt: message_pt };
+/// **collab_i18n_end**
 
 export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
-  // ── Page status ──────────────────────────────────────────────
   @property({ type: String }) status = '';
 
-  // ── Action status: updateDailyShiftStatus ────────────────────
-  @property({ type: String }) updateDailyShiftStatusState: ActionStatus = 'idle';
+  @property({ type: String }) updateDailyShiftStatusState: "idle" | "loading" | "success" | "error" = "idle";
 
-  // ── Input: updateDailyShiftStatus ────────────────────────────
   @property({ type: String }) updateDailyShiftStatusDailyShiftId = '';
   @property({ type: String }) updateDailyShiftStatusShiftDate = '';
   @property({ type: String }) updateDailyShiftStatusStatus = '';
@@ -73,10 +69,8 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
   @property({ type: String }) updateDailyShiftStatusTotalPayments = '';
   @property({ type: String }) updateDailyShiftStatusClosingNotes = '';
 
-  // ── Action status: recordClosingCashMovement ─────────────────
-  @property({ type: String }) recordClosingCashMovementState: ActionStatus = 'idle';
+  @property({ type: String }) recordClosingCashMovementState: "idle" | "loading" | "success" | "error" = "idle";
 
-  // ── Input: recordClosingCashMovement ─────────────────────────
   @property({ type: String }) recordClosingCashMovementShiftDate = '';
   @property({ type: String }) recordClosingCashMovementStatus = '';
   @property({ type: String }) recordClosingCashMovementOpenedAt = '';
@@ -87,27 +81,12 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
   @property({ type: String }) recordClosingCashMovementTotalPayments = '';
   @property({ type: String }) recordClosingCashMovementClosingNotes = '';
 
-  // ── i18n ─────────────────────────────────────────────────────
-  protected get msg(): Record<string, string> {
-    const lang = (this as unknown as { lang?: string }).lang ?? 'pt';
-    return lang === 'en' ? message_en : message_pt;
+  protected get msg(): MessageType {
+    const lang: string = this.getMessageKey(messages);
+    return messages[lang] || messages['en'];
   }
 
-  // ── Lifecycle ────────────────────────────────────────────────
-  connectedCallback(): void {
-    super.connectedCallback();
-    this.status = (getState('ui.closeDailyShift.status') as string) ?? '';
-    this.updateDailyShiftStatusState =
-      (getState('ui.closeDailyShift.action.updateDailyShiftStatus.status') as ActionStatus) ?? 'idle';
-    this.recordClosingCashMovementState =
-      (getState('ui.closeDailyShift.action.recordClosingCashMovement.status') as ActionStatus) ?? 'idle';
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-  }
-
-  // ── State setters: updateDailyShiftStatus ────────────────────
+  // ── State setters: updateDailyShiftStatus inputs ──
 
   setUpdateDailyShiftStatusDailyShiftId(value: string): void {
     this.updateDailyShiftStatusDailyShiftId = value;
@@ -138,7 +117,7 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
   }
 
   handleUpdateDailyShiftStatusStatusChange(e: Event): void {
-    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const target = e.target as HTMLInputElement;
     this.setUpdateDailyShiftStatusStatus(target.value);
   }
 
@@ -215,11 +194,11 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
   }
 
   handleUpdateDailyShiftStatusClosingNotesChange(e: Event): void {
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+    const target = e.target as HTMLInputElement;
     this.setUpdateDailyShiftStatusClosingNotes(target.value);
   }
 
-  // ── State setters: recordClosingCashMovement ─────────────────
+  // ── State setters: recordClosingCashMovement inputs ──
 
   setRecordClosingCashMovementShiftDate(value: string): void {
     this.recordClosingCashMovementShiftDate = value;
@@ -239,7 +218,7 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
   }
 
   handleRecordClosingCashMovementStatusChange(e: Event): void {
-    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const target = e.target as HTMLInputElement;
     this.setRecordClosingCashMovementStatus(target.value);
   }
 
@@ -316,11 +295,11 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
   }
 
   handleRecordClosingCashMovementClosingNotesChange(e: Event): void {
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+    const target = e.target as HTMLInputElement;
     this.setRecordClosingCashMovementClosingNotes(target.value);
   }
 
-  // ── Command: updateDailyShiftStatus ──────────────────────────
+  // ── Command: updateDailyShiftStatus ──
 
   async updateDailyShiftStatus(): Promise<void> {
     this.updateDailyShiftStatusState = 'loading';
@@ -330,7 +309,7 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
     const params: CafeFlowUpdateDailyShiftStatusInput = {
       dailyShiftId: this.updateDailyShiftStatusDailyShiftId || undefined,
       shiftDate: this.updateDailyShiftStatusShiftDate,
-      status: this.updateDailyShiftStatusStatus as 'open' | 'closed',
+      status: this.updateDailyShiftStatusStatus as "open" | "closed",
       openedAt: this.updateDailyShiftStatusOpenedAt,
       closedAt: this.updateDailyShiftStatusClosedAt || undefined,
       openingCashBalance: this.updateDailyShiftStatusOpeningCashBalance
@@ -349,22 +328,16 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
     };
 
     const options: BffClientOptions = { mode: 'blocking' };
+    const response = await execBff<CafeFlowUpdateDailyShiftStatusOutput>(
+      'cafeFlow.closeDailyShift.updateDailyShiftStatus',
+      params,
+      options
+    );
 
-    try {
-      const response = await execBff<CafeFlowUpdateDailyShiftStatusOutput>(
-        'cafeFlow.closeDailyShift.updateDailyShiftStatus',
-        params,
-        options,
-      );
-
-      if (response.ok) {
-        this.updateDailyShiftStatusState = 'success';
-        setState('ui.closeDailyShift.action.updateDailyShiftStatus.status', 'success');
-      } else {
-        this.updateDailyShiftStatusState = 'error';
-        setState('ui.closeDailyShift.action.updateDailyShiftStatus.status', 'error');
-      }
-    } catch {
+    if (response.ok) {
+      this.updateDailyShiftStatusState = 'success';
+      setState('ui.closeDailyShift.action.updateDailyShiftStatus.status', 'success');
+    } else {
       this.updateDailyShiftStatusState = 'error';
       setState('ui.closeDailyShift.action.updateDailyShiftStatus.status', 'error');
     }
@@ -378,7 +351,7 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
     });
   }
 
-  // ── Command: recordClosingCashMovement ───────────────────────
+  // ── Command: recordClosingCashMovement ──
 
   async recordClosingCashMovement(): Promise<void> {
     this.recordClosingCashMovementState = 'loading';
@@ -387,7 +360,7 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
 
     const params: CafeFlowRecordClosingCashMovementInput = {
       shiftDate: this.recordClosingCashMovementShiftDate,
-      status: this.recordClosingCashMovementStatus as 'open' | 'closed',
+      status: this.recordClosingCashMovementStatus as "open" | "closed",
       openedAt: this.recordClosingCashMovementOpenedAt,
       closedAt: this.recordClosingCashMovementClosedAt || undefined,
       openingCashBalance: this.recordClosingCashMovementOpeningCashBalance
@@ -406,22 +379,16 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
     };
 
     const options: BffClientOptions = { mode: 'blocking' };
+    const response = await execBff<CafeFlowRecordClosingCashMovementOutput>(
+      'cafeFlow.closeDailyShift.recordClosingCashMovement',
+      params,
+      options
+    );
 
-    try {
-      const response = await execBff<CafeFlowRecordClosingCashMovementOutput>(
-        'cafeFlow.closeDailyShift.recordClosingCashMovement',
-        params,
-        options,
-      );
-
-      if (response.ok) {
-        this.recordClosingCashMovementState = 'success';
-        setState('ui.closeDailyShift.action.recordClosingCashMovement.status', 'success');
-      } else {
-        this.recordClosingCashMovementState = 'error';
-        setState('ui.closeDailyShift.action.recordClosingCashMovement.status', 'error');
-      }
-    } catch {
+    if (response.ok) {
+      this.recordClosingCashMovementState = 'success';
+      setState('ui.closeDailyShift.action.recordClosingCashMovement.status', 'success');
+    } else {
       this.recordClosingCashMovementState = 'error';
       setState('ui.closeDailyShift.action.recordClosingCashMovement.status', 'error');
     }
@@ -433,5 +400,60 @@ export class CafeFlowCloseDailyShiftBase extends CollabLitElement {
     runBlockingUiAction(async () => {
       await this.recordClosingCashMovement();
     });
+  }
+
+  // ── Lifecycle ──
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    this.status = (getState('ui.closeDailyShift.status') as string) || '';
+    this.updateDailyShiftStatusState =
+      (getState('ui.closeDailyShift.action.updateDailyShiftStatus.status') as "idle" | "loading" | "success" | "error") || 'idle';
+    this.updateDailyShiftStatusDailyShiftId =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.dailyShiftId') as string) || '';
+    this.updateDailyShiftStatusShiftDate =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.shiftDate') as string) || '';
+    this.updateDailyShiftStatusStatus =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.status') as string) || '';
+    this.updateDailyShiftStatusOpenedAt =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.openedAt') as string) || '';
+    this.updateDailyShiftStatusClosedAt =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.closedAt') as string) || '';
+    this.updateDailyShiftStatusOpeningCashBalance =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.openingCashBalance') as string) || '';
+    this.updateDailyShiftStatusClosingCashBalance =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.closingCashBalance') as string) || '';
+    this.updateDailyShiftStatusTotalSales =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.totalSales') as string) || '';
+    this.updateDailyShiftStatusTotalPayments =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.totalPayments') as string) || '';
+    this.updateDailyShiftStatusClosingNotes =
+      (getState('ui.closeDailyShift.input.updateDailyShiftStatus.closingNotes') as string) || '';
+
+    this.recordClosingCashMovementState =
+      (getState('ui.closeDailyShift.action.recordClosingCashMovement.status') as "idle" | "loading" | "success" | "error") || 'idle';
+    this.recordClosingCashMovementShiftDate =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.shiftDate') as string) || '';
+    this.recordClosingCashMovementStatus =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.status') as string) || '';
+    this.recordClosingCashMovementOpenedAt =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.openedAt') as string) || '';
+    this.recordClosingCashMovementClosedAt =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.closedAt') as string) || '';
+    this.recordClosingCashMovementOpeningCashBalance =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.openingCashBalance') as string) || '';
+    this.recordClosingCashMovementClosingCashBalance =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.closingCashBalance') as string) || '';
+    this.recordClosingCashMovementTotalSales =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.totalSales') as string) || '';
+    this.recordClosingCashMovementTotalPayments =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.totalPayments') as string) || '';
+    this.recordClosingCashMovementClosingNotes =
+      (getState('ui.closeDailyShift.input.recordClosingCashMovement.closingNotes') as string) || '';
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
   }
 }

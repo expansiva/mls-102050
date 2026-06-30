@@ -227,14 +227,32 @@ export const definition = [
           "occupied",
           "disabled"
         ],
-        "description": "Situação atual da mesa no ciclo de atendimento."
+        "description": "Situação operacional da mesa no atendimento."
+      },
+      {
+        "name": "currentChargesTotal",
+        "type": "number",
+        "required": true,
+        "description": "Consumo acumulado da mesa na ocupação atual."
+      },
+      {
+        "name": "openedAt",
+        "type": "date",
+        "required": false,
+        "description": "Início da ocupação atual (null quando livre)."
+      },
+      {
+        "name": "closedAt",
+        "type": "date",
+        "required": false,
+        "description": "Fim da última ocupação (null enquanto ocupada)."
       }
     ],
     "output": [
       {
-        "name": "tableId",
+        "name": "tableOccupancyId",
         "type": "string",
-        "description": "Identificador único da mesa."
+        "description": "Identificador único do registro de ocupação."
       }
     ]
   }
@@ -251,6 +269,6 @@ export const pipeline = [
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

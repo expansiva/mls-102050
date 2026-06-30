@@ -17,7 +17,7 @@ export const definition = {
   },
   "layoutRef": {
     "defPath": "_102050_/l2/cafeFlow/web/desktop/page11/manageTables.defs.ts",
-    "layoutId": "manageTablesLayout"
+    "layoutId": "manageTables.layout"
   },
   "states": [
     {
@@ -115,14 +115,13 @@ export const definition = {
   "initialLoads": [],
   "navigationRefs": [],
   "i18n": {
-    "manageTables.section.title": "Gerenciar mesas",
-    "manageTables.organism.title": "Gerenciar mesas",
-    "manageTables.form.title": "Dados da mesa",
-    "manageTables.field.tableId": "Identificador da mesa",
+    "manageTables.section.main.title": "Gerenciar mesas",
+    "manageTables.organism.form.title": "Gerenciar mesas",
+    "manageTables.intention.commandForm.title": "Cadastro de mesas",
+    "manageTables.field.tableId": "ID da mesa",
     "manageTables.field.number": "Número da mesa",
-    "manageTables.field.status": "Situação",
-    "manageTables.action.submit": "Salvar",
-    "manageTables.status.title": "Status da operação"
+    "manageTables.field.status": "Status",
+    "manageTables.action.submit": "Salvar mesas"
   },
   "automation": {
     "statePrefix": "ui.manageTables",
@@ -153,11 +152,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/manageTables.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/manageTables.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "manageTables__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

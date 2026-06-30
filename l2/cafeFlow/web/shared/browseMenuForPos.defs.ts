@@ -190,25 +190,25 @@ export const definition = {
   ],
   "navigationRefs": [],
   "i18n": {
-    "browseMenuForPos.page.title": "Consultar cardápio no POS",
-    "browseMenuForPos.section.menu.title": "Consultar cardápio no POS",
-    "browseMenuForPos.organism.menu.title": "Cardápio no POS",
-    "browseMenuForPos.intent.list.title": "Itens do cardápio",
-    "browseMenuForPos.filter.menuItemId.label": "ID do item",
-    "browseMenuForPos.filter.menuCategoryId.label": "ID da categoria",
-    "browseMenuForPos.filter.name.label": "Nome do item",
-    "browseMenuForPos.filter.status.label": "Status",
-    "browseMenuForPos.filter.createdAt.label": "Criado em",
-    "browseMenuForPos.filter.updatedAt.label": "Atualizado em",
-    "browseMenuForPos.column.menuItemId.label": "ID do item",
-    "browseMenuForPos.column.menuCategoryId.label": "ID da categoria",
-    "browseMenuForPos.column.name.label": "Nome",
-    "browseMenuForPos.column.description.label": "Descrição",
-    "browseMenuForPos.column.price.label": "Preço",
-    "browseMenuForPos.column.status.label": "Status",
-    "browseMenuForPos.column.createdAt.label": "Criado em",
-    "browseMenuForPos.column.updatedAt.label": "Atualizado em",
-    "browseMenuForPos.toolbar.search.label": "Buscar"
+    "browseMenuForPos.section.title": "Consultar cardápio no POS",
+    "browseMenuForPos.organism.title": "Cardápio",
+    "browseMenuForPos.intent.query.title": "Itens do cardápio",
+    "browseMenuForPos.list.empty": "Nenhum item do cardápio encontrado",
+    "browseMenuForPos.field.menuItemId": "ID do item",
+    "browseMenuForPos.field.menuCategoryId": "ID da categoria",
+    "browseMenuForPos.field.name": "Nome",
+    "browseMenuForPos.field.description": "Descrição",
+    "browseMenuForPos.field.price": "Preço",
+    "browseMenuForPos.field.status": "Status",
+    "browseMenuForPos.field.createdAt": "Criado em",
+    "browseMenuForPos.field.updatedAt": "Atualizado em",
+    "browseMenuForPos.filter.menuItemId": "ID do item",
+    "browseMenuForPos.filter.menuCategoryId": "ID da categoria",
+    "browseMenuForPos.filter.name": "Nome",
+    "browseMenuForPos.filter.status": "Status",
+    "browseMenuForPos.filter.createdAt": "Criado em",
+    "browseMenuForPos.filter.updatedAt": "Atualizado em",
+    "browseMenuForPos.action.browseMenuForPos": "Buscar"
   },
   "automation": {
     "statePrefix": "ui.browseMenuForPos",
@@ -246,11 +246,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/browseMenuForPos.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/browseMenuForPos.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "browseMenuForPos__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

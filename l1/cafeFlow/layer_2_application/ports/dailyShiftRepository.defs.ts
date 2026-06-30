@@ -17,43 +17,36 @@ export const dailyShiftRepositoryPort = {
     "methods": [
       {
         "name": "getById",
-        "returns": "DailyShift",
         "params": [
-          "dailyShiftId: DailyShiftId"
-        ]
+          "id: DailyShiftId"
+        ],
+        "returns": "DailyShift"
       },
       {
         "name": "list",
-        "returns": "DailyShiftCollection",
         "params": [
           "filter: DailyShiftFilter"
-        ]
+        ],
+        "returns": "DailyShift[]"
       },
       {
         "name": "save",
-        "returns": "void",
         "params": [
-          "aggregate: DailyShift"
-        ]
-      },
-      {
-        "name": "findByDate",
-        "returns": "DailyShift",
-        "params": [
-          "date: BusinessDate"
-        ]
+          "dailyShift: DailyShift"
+        ],
+        "returns": "void"
       },
       {
         "name": "findOpenShift",
-        "returns": "DailyShift",
-        "params": []
+        "params": [],
+        "returns": "DailyShift | null"
       },
       {
-        "name": "findByCashier",
-        "returns": "DailyShiftCollection",
+        "name": "findByDate",
         "params": [
-          "cashierId: CashierId"
-        ]
+          "businessDate: LocalDate"
+        ],
+        "returns": "DailyShift[]"
       }
     ]
   }
@@ -76,6 +69,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/repositoryPort.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

@@ -17,51 +17,51 @@ export const orderTableDefinition = {
     "columns": [
       {
         "name": "order_id",
-        "type": "uuid",
+        "type": "string",
         "nullable": false,
-        "description": "PK/FK identifier for order"
+        "description": "pk/fk"
       },
       {
         "name": "daily_shift_id",
-        "type": "uuid",
+        "type": "string",
         "nullable": false,
-        "description": "FK to daily shift"
+        "description": "pk/fk"
       },
       {
         "name": "table_id",
-        "type": "uuid",
-        "nullable": true,
-        "description": "FK to table"
+        "type": "string",
+        "nullable": false,
+        "description": "pk/fk"
       },
       {
         "name": "kitchen_ticket_id",
-        "type": "uuid",
-        "nullable": true,
-        "description": "FK to kitchen ticket"
+        "type": "string",
+        "nullable": false,
+        "description": "pk/fk"
       },
       {
         "name": "order_type",
-        "type": "varchar",
+        "type": "string",
         "nullable": false,
-        "description": "Order type (dine-in, takeaway, delivery, etc.)"
+        "description": "status"
       },
       {
         "name": "status",
-        "type": "varchar",
+        "type": "string",
         "nullable": false,
-        "description": "Status of the order"
+        "description": "status"
       },
       {
         "name": "created_at",
         "type": "timestamp",
         "nullable": false,
-        "description": "Creation timestamp for ordering"
+        "description": "ordering"
       },
       {
         "name": "details",
         "type": "jsonb",
         "nullable": true,
-        "description": "Contains totalAmount, notes, customerName, customerPhone, numberOfGuests, closedAt, cancelledAt, cancellationReason, updatedAt and child collections OrderItem, KitchenTicket"
+        "description": "totalAmount, notes, customerName, customerPhone, numberOfGuests, closedAt, cancelledAt, cancellationReason, updatedAt"
       }
     ],
     "primaryKey": [
@@ -139,7 +139,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/persistenceTable.md",
       "_102034_.d.ts"
     ],
-    "afterSaveBackEnd": "_102021_/l2/agentMaterializeSolution/registerBackEnd.ts?registerLayer1",
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

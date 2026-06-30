@@ -28,7 +28,13 @@ export const consumeIngredientsOnConfirmationUsecase = {
             "name": "orderId",
             "type": "string",
             "required": true,
-            "description": "The order whose items are being confirmed for ingredient consumption"
+            "description": "The order whose ingredients should be consumed upon confirmation"
+          },
+          {
+            "name": "confirmedAt",
+            "type": "string",
+            "required": true,
+            "description": "Timestamp at which the confirmation/consumption occurs"
           }
         ],
         "output": [
@@ -39,31 +45,37 @@ export const consumeIngredientsOnConfirmationUsecase = {
             "description": "The confirmed order id"
           },
           {
-            "name": "stockConsumptionIds",
-            "type": "string",
-            "required": true,
-            "description": "Ids of all StockConsumption records created",
-            "ofEntity": "StockConsumption"
-          },
-          {
-            "name": "inventoryItemIds",
-            "type": "string",
-            "required": true,
-            "description": "Ids of all InventoryItems whose stock was decremented",
-            "ofEntity": "InventoryItem"
-          },
-          {
-            "name": "orderItemIds",
-            "type": "string",
-            "required": true,
-            "description": "Ids of all OrderItems whose status was updated",
-            "ofEntity": "OrderItem"
-          },
-          {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Outcome status: completed or failed"
+            "description": "Result status of the consumption operation"
+          },
+          {
+            "name": "stockConsumptionIds",
+            "type": "string",
+            "required": true,
+            "ofEntity": "StockConsumption",
+            "description": "Ids of the StockConsumption records created"
+          },
+          {
+            "name": "updatedInventoryItemIds",
+            "type": "string",
+            "required": true,
+            "ofEntity": "InventoryItem",
+            "description": "Ids of InventoryItems whose quantity was decremented"
+          },
+          {
+            "name": "consumedAt",
+            "type": "string",
+            "required": true,
+            "description": "Timestamp when consumption was posted"
+          },
+          {
+            "name": "belowMinimumInventoryItemIds",
+            "type": "string",
+            "required": false,
+            "ofEntity": "InventoryItem",
+            "description": "Inventory item ids that fell below their minimum level after consumption"
           }
         ],
         "ports": [
@@ -72,134 +84,27 @@ export const consumeIngredientsOnConfirmationUsecase = {
           "MenuItem"
         ],
         "rulesApplied": [
-          "Order must be in a confirmable state before consumption",
-          "For each OrderItem load MenuItem to resolve RecipeComponents",
-          "Consumption quantity = recipeComponent.quantity × orderItem.quantity",
-          "InventoryItem.currentQuantity must be >= required quantity before decrement",
-          "StockConsumption.status is set to 'posted' on creation",
-          "InventoryItem.currentQuantity is decremented atomically per component",
-          "OrderItem.status is updated after all consumptions for that item are posted",
-          "All changes are persisted within a single transaction"
+          "order-must-exist",
+          "order-items-must-be-in-confirmable-status",
+          "recipe-components-resolved-per-menu-item",
+          "required-quantity-equals-recipe-component-quantity-times-order-item-quantity",
+          "inventory-must-have-sufficient-stock",
+          "stock-consumption-created-per-component-per-order-item",
+          "inventory-quantity-decremented-by-consumed-amount",
+          "flag-inventory-below-minimum-level"
         ],
         "transactional": true,
         "steps": [
-          "1. Load Order by orderId via Order port; validate order is confirmable",
-          "2. For each OrderItem in the order:",
-          "   a. Load MenuItem by orderItem.menuItemId via MenuItem port",
-          "   b. Retrieve RecipeComponents from the MenuItem",
-          "   c. For each RecipeComponent:",
-          "      - Calculate requiredQuantity = recipeComponent.quantity × orderItem.quantity",
-          "      - Load InventoryItem by recipeComponent.inventoryItemId via InventoryItem port",
-          "      - Validate currentQuantity >= requiredQuantity; abort if insufficient",
-          "      - Decrement InventoryItem.currentQuantity by requiredQuantity",
-          "      - Save InventoryItem via InventoryItem port",
-          "      - Create StockConsumption (inventoryItemId, orderItemId, quantity=requiredQuantity, status='posted', consumedAt=now)",
-          "   d. Update OrderItem.status to reflect consumption completion",
-          "3. Save Order (with embedded StockConsumptions and updated OrderItems) via Order port",
-          "4. Return orderId, stockConsumptionIds, inventoryItemIds, orderItemIds, status"
-        ]
-      },
-      {
-        "functionName": "previewIngredientConsumption",
-        "inputTypeName": "PreviewIngredientConsumptionInput",
-        "outputTypeName": "PreviewIngredientConsumptionOutput",
-        "input": [
-          {
-            "name": "orderId",
-            "type": "string",
-            "required": true,
-            "description": "The order to preview ingredient consumption for"
-          }
-        ],
-        "output": [
-          {
-            "name": "orderId",
-            "type": "string",
-            "required": true,
-            "description": "The order id being previewed"
-          },
-          {
-            "name": "orderItemId",
-            "type": "string",
-            "required": true,
-            "description": "The order item id",
-            "ofEntity": "OrderItem"
-          },
-          {
-            "name": "menuItemId",
-            "type": "string",
-            "required": true,
-            "description": "The menu item id",
-            "ofEntity": "MenuItem"
-          },
-          {
-            "name": "inventoryItemId",
-            "type": "string",
-            "required": true,
-            "description": "The inventory item that would be consumed",
-            "ofEntity": "InventoryItem"
-          },
-          {
-            "name": "inventoryItemName",
-            "type": "string",
-            "required": true,
-            "description": "Name of the inventory item",
-            "ofEntity": "InventoryItem"
-          },
-          {
-            "name": "requiredQuantity",
-            "type": "number",
-            "required": true,
-            "description": "Calculated quantity to be consumed (recipeComponent.quantity × orderItem.quantity)"
-          },
-          {
-            "name": "currentQuantity",
-            "type": "number",
-            "required": true,
-            "description": "Current stock level of the inventory item",
-            "ofEntity": "InventoryItem"
-          },
-          {
-            "name": "sufficient",
-            "type": "boolean",
-            "required": true,
-            "description": "Whether current stock is sufficient for the required quantity"
-          }
-        ],
-        "ports": [
-          "Order",
-          "InventoryItem",
-          "MenuItem"
-        ],
-        "rulesApplied": [
-          "Consumption quantity = recipeComponent.quantity × orderItem.quantity",
-          "InventoryItem.currentQuantity must be >= required quantity to be sufficient",
-          "Preview is read-only; no mutations are performed"
-        ],
-        "transactional": false,
-        "steps": [
-          "1. Load Order by orderId via Order port",
-          "2. For each OrderItem in the order:",
-          "   a. Load MenuItem by orderItem.menuItemId via MenuItem port",
-          "   b. For each RecipeComponent:",
-          "      - Calculate requiredQuantity = recipeComponent.quantity × orderItem.quantity",
-          "      - Load InventoryItem by recipeComponent.inventoryItemId via InventoryItem port",
-          "      - Determine sufficient = currentQuantity >= requiredQuantity",
-          "      - Project orderItemId, menuItemId, inventoryItemId, inventoryItemName, requiredQuantity, currentQuantity, sufficient",
-          "3. Return all projected consumption preview rows"
+          "Load the Order aggregate by orderId via Order port; validate it exists and its order items are in a confirmable status (sentToKitchen, inPreparation, or ready)",
+          "For each OrderItem in the order, load the MenuItem aggregate by menuItemId via MenuItem port to retrieve its RecipeComponent collection",
+          "For each RecipeComponent, compute requiredQuantity = recipeComponent.quantity × orderItem.quantity",
+          "Load the InventoryItem by recipeComponent.inventoryItemId via InventoryItem port; validate currentQuantity >= requiredQuantity; collect any that would fall below minimumLevel",
+          "Create a StockConsumption record (status=posted, consumedAt=confirmedAt) for each component-orderItem pair and embed it in the Order aggregate",
+          "Decrement each InventoryItem.currentQuantity by the consumed amount and save via InventoryItem port",
+          "Save the Order aggregate (with new StockConsumption records and updated OrderItem statuses) via Order port",
+          "Return orderId, status, stockConsumptionIds, updatedInventoryItemIds, consumedAt, and belowMinimumInventoryItemIds"
         ]
       }
-    ],
-    "rulesApplied": [
-      "Order must be in a confirmable state before consumption",
-      "For each OrderItem load MenuItem to resolve RecipeComponents",
-      "Consumption quantity = recipeComponent.quantity × orderItem.quantity",
-      "InventoryItem.currentQuantity must be >= required quantity before decrement",
-      "StockConsumption.status is set to 'posted' on creation",
-      "InventoryItem.currentQuantity is decremented atomically per component",
-      "OrderItem.status is updated after all consumptions for that item are posted",
-      "All changes are persisted within a single transaction",
-      "Preview is read-only; no mutations are performed"
     ],
     "mdmRefs": []
   }
@@ -227,17 +132,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "rulesApplied": [
-      "Order must be in a confirmable state before consumption",
-      "For each OrderItem load MenuItem to resolve RecipeComponents",
-      "Consumption quantity = recipeComponent.quantity × orderItem.quantity",
-      "InventoryItem.currentQuantity must be >= required quantity before decrement",
-      "StockConsumption.status is set to 'posted' on creation",
-      "InventoryItem.currentQuantity is decremented atomically per component",
-      "OrderItem.status is updated after all consumptions for that item are posted",
-      "All changes are persisted within a single transaction",
-      "Preview is read-only; no mutations are performed"
-    ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

@@ -20,18 +20,18 @@ export const definition = {
   "navigationRefs": [],
   "sections": [
     {
-      "id": "sec.manageTables",
+      "id": "sec.manageTables.main",
       "type": "section",
       "sectionName": "Gerenciar mesas",
-      "titleKey": "manageTables.section.title",
+      "titleKey": "manageTables.section.main.title",
       "mode": "edit",
       "order": 10,
       "organisms": [
         {
-          "id": "org.manageTables",
-          "type": "formPanel",
+          "id": "org.manageTables.form",
+          "type": "form",
           "organismName": "ManageTables",
-          "titleKey": "manageTables.organism.title",
+          "titleKey": "manageTables.organism.form.title",
           "purpose": "Gerenciar mesas",
           "userActions": [
             "manageTables"
@@ -39,32 +39,20 @@ export const definition = {
           "requiredEntities": [
             "Table"
           ],
-          "readsFields": [
-            "tableId",
-            "number",
-            "status"
-          ],
+          "readsFields": [],
           "writesFields": [
             "tableId",
             "number",
             "status"
           ],
-          "rulesApplied": [
-            "tableOccupancyConsistency"
-          ],
+          "rulesApplied": [],
           "order": 10,
           "intentionRefs": [
             {
-              "id": "int.manageTables.form",
+              "id": "int.manageTables.commandForm",
               "intent": "commandForm",
               "submitAction": "manageTables",
               "order": 10
-            },
-            {
-              "id": "int.manageTables.status",
-              "intent": "workflowStatus",
-              "stateKey": "ui.manageTables.action.manageTables.status",
-              "order": 20
             }
           ]
         }
@@ -72,22 +60,22 @@ export const definition = {
     }
   ],
   "layout": {
-    "id": "manageTablesLayout",
+    "id": "manageTables.layout",
     "type": "page",
     "sections": [
       {
-        "id": "sec.manageTables",
+        "id": "sec.manageTables.main",
         "type": "section",
         "sectionName": "Gerenciar mesas",
-        "titleKey": "manageTables.section.title",
+        "titleKey": "manageTables.section.main.title",
         "mode": "edit",
         "order": 10,
         "organisms": [
           {
-            "id": "org.manageTables",
-            "type": "formPanel",
+            "id": "org.manageTables.form",
+            "type": "form",
             "organismName": "ManageTables",
-            "titleKey": "manageTables.organism.title",
+            "titleKey": "manageTables.organism.form.title",
             "purpose": "Gerenciar mesas",
             "userActions": [
               "manageTables"
@@ -95,26 +83,20 @@ export const definition = {
             "requiredEntities": [
               "Table"
             ],
-            "readsFields": [
-              "tableId",
-              "number",
-              "status"
-            ],
+            "readsFields": [],
             "writesFields": [
               "tableId",
               "number",
               "status"
             ],
-            "rulesApplied": [
-              "tableOccupancyConsistency"
-            ],
+            "rulesApplied": [],
             "order": 10,
             "intentions": [
               {
-                "id": "int.manageTables.form",
+                "id": "int.manageTables.commandForm",
                 "intent": "commandForm",
                 "order": 10,
-                "titleKey": "manageTables.form.title",
+                "titleKey": "manageTables.intention.commandForm.title",
                 "submitAction": "manageTables",
                 "fields": [
                   {
@@ -159,19 +141,6 @@ export const definition = {
                     "actionKey": "manageTables"
                   }
                 ]
-              },
-              {
-                "id": "int.manageTables.status",
-                "intent": "workflowStatus",
-                "order": 20,
-                "titleKey": "manageTables.status.title",
-                "stateKey": "ui.manageTables.action.manageTables.status",
-                "fields": [],
-                "columns": [],
-                "filters": [],
-                "toolbar": [],
-                "rowActions": [],
-                "actions": []
               }
             ]
           }
@@ -194,14 +163,15 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/manageTables.defs.ts",
       "_102050_/l2/cafeFlow/web/contracts/manageTables.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "manageTables__l2_shared"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfePage11RenderTs.ts"
     ],
-    "afterSaveFrontEnd": "_102020_/l2/agentMaterializeSolution/registerFrontEnd.ts?registerPage",
     "visualStyle": {
       "description": "POS-first, high-contrast, touch-friendly, low-latency, status-driven UI"
     },
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

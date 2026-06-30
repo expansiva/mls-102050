@@ -27,7 +27,7 @@ export const createKitchenTicketUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "The order for which a kitchen ticket is created"
+            "description": "ID of the Order for which a kitchen ticket is created"
           }
         ],
         "output": [
@@ -36,28 +36,28 @@ export const createKitchenTicketUsecase = {
             "type": "string",
             "required": true,
             "ofEntity": "KitchenTicket",
-            "description": "The generated kitchen ticket id"
+            "description": "Generated ID of the new KitchenTicket"
           },
           {
             "name": "orderId",
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "The parent order id"
+            "description": "ID of the parent Order"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
             "ofEntity": "KitchenTicket",
-            "description": "Initial kitchen ticket status (open)"
+            "description": "Initial status of the KitchenTicket (open)"
           },
           {
             "name": "orderStatus",
             "type": "string",
             "required": true,
             "ofEntity": "Order",
-            "description": "Updated order status after transition"
+            "description": "Updated status of the Order after kitchen ticket creation (sentToKitchen)"
           }
         ],
         "ports": [
@@ -68,14 +68,14 @@ export const createKitchenTicketUsecase = {
         ],
         "transactional": true,
         "steps": [
-          "Load Order by orderId via Order port",
-          "Validate Order status is 'draft' and can transition to 'sentToKitchen' per orderStatusTransitions rule",
-          "Generate kitchenTicketId (uuid) and create KitchenTicket with status 'open', orderId, createdAt and updatedAt set to now",
-          "Assign kitchenTicketId to Order.kitchenTicketId",
-          "Assign kitchenTicketId to every OrderItem in the order and set each OrderItem.status to 'sentToKitchen'",
-          "Transition Order.status from 'draft' to 'sentToKitchen' (orderStatusTransitions rule)",
-          "Update Order.updatedAt to now",
-          "Save Order (with embedded KitchenTicket and updated OrderItems) via Order port",
+          "Load the Order aggregate by orderId via OrderPort.findById",
+          "Validate that the Order exists and its current status allows transition to 'sentToKitchen' per orderStatusTransitions rule (e.g. from 'draft')",
+          "Validate that the Order does not already have a kitchenTicketId assigned",
+          "Create a new KitchenTicket embedded in the Order aggregate: generate kitchenTicketId, set status to 'open', set createdAt and updatedAt to current timestamp",
+          "Set order.kitchenTicketId to the new kitchen ticket id",
+          "Transition Order.status to 'sentToKitchen' per orderStatusTransitions rule",
+          "Update Order.updatedAt to current timestamp",
+          "Save the Order aggregate via OrderPort.save",
           "Return kitchenTicketId, orderId, kitchen ticket status, and updated order status"
         ]
       }
@@ -102,6 +102,6 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCbMaterialize"
   }
 ] as const;

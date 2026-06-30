@@ -268,26 +268,27 @@ export const definition = {
   "i18n": {
     "kitchenProductionFlow.section.main.title": "Fluxo de produção da cozinha",
     "kitchenProductionFlow.organism.viewKitchenTickets.title": "Consultar tickets da cozinha",
-    "kitchenProductionFlow.intent.viewKitchenTickets.queryList.title": "Query List",
-    "kitchenProductionFlow.field.kitchenTicketId.label": "Kitchen Ticket Id",
-    "kitchenProductionFlow.field.orderId.label": "Order Id",
-    "kitchenProductionFlow.field.status.label": "Status",
-    "kitchenProductionFlow.field.createdAt.label": "Created At",
-    "kitchenProductionFlow.field.updatedAt.label": "Updated At",
-    "kitchenProductionFlow.filter.kitchenTicketId.label": "Kitchen Ticket Id",
-    "kitchenProductionFlow.filter.orderId.label": "Order Id",
-    "kitchenProductionFlow.filter.status.label": "Status",
-    "kitchenProductionFlow.filter.createdAt.label": "Created At",
-    "kitchenProductionFlow.filter.updatedAt.label": "Updated At",
-    "kitchenProductionFlow.action.viewKitchenTickets.label": "View Kitchen Tickets",
+    "kitchenProductionFlow.intention.viewKitchenTickets.queryList.title": "Query List",
+    "kitchenProductionFlow.kitchenTicket.field.kitchenTicketId": "Kitchen Ticket Id",
+    "kitchenProductionFlow.kitchenTicket.field.orderId": "Order Id",
+    "kitchenProductionFlow.kitchenTicket.field.status": "Status",
+    "kitchenProductionFlow.kitchenTicket.field.createdAt": "Created At",
+    "kitchenProductionFlow.kitchenTicket.field.updatedAt": "Updated At",
+    "kitchenProductionFlow.kitchenTicket.filter.kitchenTicketId": "Kitchen Ticket Id",
+    "kitchenProductionFlow.kitchenTicket.filter.orderId": "Order Id",
+    "kitchenProductionFlow.kitchenTicket.filter.status": "Status",
+    "kitchenProductionFlow.kitchenTicket.filter.createdAt": "Created At",
+    "kitchenProductionFlow.kitchenTicket.filter.updatedAt": "Updated At",
+    "kitchenProductionFlow.action.viewKitchenTickets": "View Kitchen Tickets",
     "kitchenProductionFlow.organism.updateKitchenTicketStatus.title": "Atualizar status do ticket de cozinha",
-    "kitchenProductionFlow.intent.updateKitchenTicketStatus.commandForm.title": "Command Form",
-    "kitchenProductionFlow.field.kitchenTicketStatus.label": "Status",
-    "kitchenProductionFlow.action.updateKitchenTicketStatus.label": "Update Kitchen Ticket Status",
+    "kitchenProductionFlow.intention.updateKitchenTicketStatus.commandForm.title": "Command Form",
+    "kitchenProductionFlow.action.updateKitchenTicketStatus": "Update Kitchen Ticket Status",
     "kitchenProductionFlow.organism.updateOrderItemStatus.title": "Atualizar status de item do pedido",
-    "kitchenProductionFlow.intent.updateOrderItemStatus.commandForm.title": "Command Form",
-    "kitchenProductionFlow.field.orderItemStatus.label": "Status",
-    "kitchenProductionFlow.action.updateOrderItemStatus.label": "Update Order Item Status"
+    "kitchenProductionFlow.intention.updateOrderItemStatus.commandForm.title": "Command Form",
+    "kitchenProductionFlow.orderItem.field.status": "Status",
+    "kitchenProductionFlow.action.updateOrderItemStatus": "Update Order Item Status",
+    "kitchenProductionFlow.organism.summary.title": "Revisar contexto e resultados",
+    "kitchenProductionFlow.intention.summary.title": "Summary"
   },
   "automation": {
     "statePrefix": "ui.kitchenProductionFlow",
@@ -331,11 +332,13 @@ export const pipeline = [
       "_102050_/l2/cafeFlow/web/contracts/kitchenProductionFlow.ts",
       "_102050_/l2/cafeFlow/web/desktop/page11/kitchenProductionFlow.defs.ts"
     ],
-    "dependsOn": [],
+    "dependsOn": [
+      "kitchenProductionFlow__l2_contract"
+    ],
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts"
     ],
     "rulesApplied": [],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;

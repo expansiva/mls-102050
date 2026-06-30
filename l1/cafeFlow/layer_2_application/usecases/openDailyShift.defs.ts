@@ -26,13 +26,13 @@ export const openDailyShiftUsecase = {
             "name": "shiftDate",
             "type": "string",
             "required": true,
-            "description": "Date of the shift to open"
+            "description": "Date of the shift to open (ISO date)"
           },
           {
             "name": "openingCashBalance",
             "type": "number",
-            "required": false,
-            "description": "Initial cash balance for the shift; if provided an initial entrada CashMovement is created"
+            "required": true,
+            "description": "Initial cash balance at shift open"
           }
         ],
         "output": [
@@ -40,13 +40,13 @@ export const openDailyShiftUsecase = {
             "name": "dailyShiftId",
             "type": "string",
             "required": true,
-            "description": "Id of the newly opened DailyShift"
+            "description": "Generated id of the newly opened DailyShift"
           },
           {
             "name": "status",
             "type": "string",
             "required": true,
-            "description": "Status of the shift, always 'open' on creation"
+            "description": "Status of the shift (always 'open' on creation)"
           },
           {
             "name": "openedAt",
@@ -59,19 +59,75 @@ export const openDailyShiftUsecase = {
           "DailyShift"
         ],
         "rulesApplied": [
-          "no-concurrent-open-shift: reject if a DailyShift with status 'open' already exists for the same shiftDate",
-          "opening-cash-movement: when openingCashBalance is provided and > 0, create an initial CashMovement of type 'entrada' with reason 'Saldo inicial' embedded in the DailyShift"
+          "SHIFT-001: No duplicate open shift for the same shiftDate",
+          "SHIFT-002: Opening cash balance must be >= 0",
+          "SHIFT-003: Initial CashMovement of type 'entrada' recorded on shift open with reason 'Abertura de caixa'"
         ],
         "transactional": true,
         "steps": [
-          "Load existing DailyShift for the given shiftDate via DailyShift port to check for a concurrent open shift",
-          "If an open DailyShift exists for shiftDate, reject with validation error (no-concurrent-open-shift)",
-          "Create a new DailyShift aggregate with status='open', openedAt=current datetime, openingCashBalance=provided value (or 0)",
-          "If openingCashBalance > 0, add an embedded CashMovement with movementType='entrada', amount=openingCashBalance, reason='Saldo inicial' to the DailyShift",
-          "Save the DailyShift (with embedded CashMovement) through the DailyShift port",
-          "Return dailyShiftId, status, and openedAt of the created shift"
+          "Query DailyShift port for any existing shift with status='open' for the given shiftDate; reject if found (SHIFT-001)",
+          "Validate openingCashBalance >= 0 (SHIFT-002)",
+          "Create DailyShift aggregate: status='open', openedAt=now, openingCashBalance, createdAt=now, updatedAt=now",
+          "Create embedded CashMovement: movementType='entrada', amount=openingCashBalance, reason='Abertura de caixa', createdAt=now, updatedAt=now (SHIFT-003)",
+          "Save DailyShift aggregate (with embedded CashMovement) via DailyShift port",
+          "Return dailyShiftId, status, openedAt"
+        ]
+      },
+      {
+        "functionName": "findOpenShiftByDate",
+        "inputTypeName": "FindOpenShiftByDateInput",
+        "outputTypeName": "FindOpenShiftByDateOutput",
+        "input": [
+          {
+            "name": "shiftDate",
+            "type": "string",
+            "required": true,
+            "description": "Date to search for an open shift"
+          }
+        ],
+        "output": [
+          {
+            "name": "dailyShiftId",
+            "type": "string",
+            "required": false,
+            "description": "Id of the open shift if found"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": false,
+            "description": "Status of the found shift"
+          },
+          {
+            "name": "openedAt",
+            "type": "string",
+            "required": false,
+            "description": "Timestamp when the shift was opened"
+          },
+          {
+            "name": "openingCashBalance",
+            "type": "number",
+            "required": false,
+            "description": "Opening cash balance of the found shift"
+          }
+        ],
+        "ports": [
+          "DailyShift"
+        ],
+        "rulesApplied": [
+          "SHIFT-001: No duplicate open shift for the same shiftDate"
+        ],
+        "transactional": false,
+        "steps": [
+          "Query DailyShift port for a shift with status='open' matching the given shiftDate",
+          "Return shift details if found, empty result otherwise"
         ]
       }
+    ],
+    "rulesApplied": [
+      "SHIFT-001: No duplicate open shift for the same shiftDate",
+      "SHIFT-002: Opening cash balance must be >= 0",
+      "SHIFT-003: Initial CashMovement of type 'entrada' recorded on shift open with reason 'Abertura de caixa'"
     ],
     "mdmRefs": []
   }
@@ -95,6 +151,11 @@ export const pipeline = [
       "_102021_/l2/agentChangeBackend/skills/applicationUsecase.md",
       "_102034_.d.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "rulesApplied": [
+      "SHIFT-001: No duplicate open shift for the same shiftDate",
+      "SHIFT-002: Opening cash balance must be >= 0",
+      "SHIFT-003: Initial CashMovement of type 'entrada' recorded on shift open with reason 'Abertura de caixa'"
+    ],
+    "agent": "agentCbMaterialize"
   }
 ] as const;

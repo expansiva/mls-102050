@@ -164,6 +164,6 @@ export const pipeline = [
     "skills": [
       "_102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts"
     ],
-    "agent": "agentMaterializeGen"
+    "agent": "agentCfeMaterializeGen"
   }
 ] as const;
