@@ -1,0 +1,56 @@
+/// <mls fileReference="_102050_/l1/cafeFlow/layer_1_external/adapters/http/controllers/takeoutOrderLifecycle.defs.ts" enhancement="_blank"/>
+
+export const takeoutOrderLifecycleController = {
+  "schemaVersion": "2026-06-26",
+  "artifactType": "httpController",
+  "artifactId": "takeoutOrderLifecycle",
+  "moduleName": "cafeFlow",
+  "status": "draft",
+  "source": {
+    "agentName": "agentCbHttpController",
+    "stepId": 0,
+    "planId": ""
+  },
+  "data": {
+    "pageId": "takeoutOrderLifecycle",
+    "controllerName": "TakeoutOrderLifecycleController",
+    "ownerKind": "workflow",
+    "outputSource": "contract",
+    "handlers": [
+      {
+        "handlerName": "cafeFlowTakeoutOrderLifecycleHandler",
+        "command": "takeoutOrderLifecycle",
+        "usecaseRef": "takeoutOrderLifecycle",
+        "kind": "command"
+      }
+    ],
+    "routes": [
+      {
+        "key": "cafeFlow.takeoutOrderLifecycle.takeoutOrderLifecycle",
+        "handlerName": "cafeFlowTakeoutOrderLifecycleHandler"
+      }
+    ]
+  }
+} as const;
+
+export default takeoutOrderLifecycleController;
+
+export const pipeline = [
+  {
+    "id": "takeoutOrderLifecycle__httpController",
+    "type": "httpController",
+    "outputPath": "_102050_/l1/cafeFlow/layer_1_external/adapters/http/controllers/takeoutOrderLifecycle.ts",
+    "defPath": "_102050_/l1/cafeFlow/layer_1_external/adapters/http/controllers/takeoutOrderLifecycle.defs.ts",
+    "dependsFiles": [
+      "_102050_/l1/cafeFlow/layer_2_application/usecases/takeoutOrderLifecycle.d.ts",
+      "_102050_/l2/cafeFlow/web/contracts/takeoutOrderLifecycle.ts"
+    ],
+    "dependsOn": [],
+    "skills": [
+      "_102021_/l2/agentChangeBackend/skills/architecture.md",
+      "_102021_/l2/agentChangeBackend/skills/httpController.md",
+      "_102034_.d.ts"
+    ],
+    "agent": "agentCbMaterialize"
+  }
+] as const;

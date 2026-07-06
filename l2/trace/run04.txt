@@ -1,0 +1,191 @@
+# materializeL2 run
+time:   2026-06-30T01:14:23.255Z
+module: 102050/cafeFlow
+only:   (all)    force: true
+model:  codehigh
+items:  48
+
+=== 2026-06-30T01:14:27.317Z | aiPromotionSuggestions__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/aiPromotionSuggestions.ts
+model:  codehigh    status: ok
+bytes:  692
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1626,"completion_tokens":409,"total_tokens":2035,"cost":0.004013,"is_byok":false,"prompt_tokens_details":{"cached_tokens":50,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.004013,"upstream_inference_prompt_cost":0.0022134,"upstream_inference_completions_cost":0.0017996},"completion_tokens_details":{"reasoning_tokens":253,"image_tokens":0,"audio_tokens":0},"cost_provider":0.003612,"cost_charged":0.0043344,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1626,"outputTokens":409,"costProvider":0.003612,"costCharged":0.0043344}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:14:42.252Z | aiSalesSummary__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/aiSalesSummary.ts
+model:  codehigh    status: ok
+bytes:  602
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1388,"completion_tokens":316,"total_tokens":1704,"cost":0.00304632,"is_byok":false,"prompt_tokens_details":{"cached_tokens":228,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00304632,"upstream_inference_prompt_cost":0.00165592,"upstream_inference_completions_cost":0.0013904},"completion_tokens_details":{"reasoning_tokens":160,"image_tokens":0,"audio_tokens":0},"cost_provider":0.002816,"cost_charged":0.0033791999999999997,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1388,"outputTokens":316,"costProvider":0.002816,"costCharged":0.0033791999999999997}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:14:46.803Z | browseMenuForPos__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/browseMenuForPos.ts
+model:  codehigh    status: ok
+bytes:  640
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1594,"completion_tokens":390,"total_tokens":1984,"cost":0.00366284,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00366284,"upstream_inference_prompt_cost":0.00194684,"upstream_inference_completions_cost":0.001716},"completion_tokens_details":{"reasoning_tokens":244,"image_tokens":0,"audio_tokens":0},"cost_provider":0.003496,"cost_charged":0.0041952,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1594,"outputTokens":390,"costProvider":0.003496,"costCharged":0.0041952}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:14:51.909Z | closeDailyShift__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/closeDailyShift.ts
+model:  codehigh    status: ok
+bytes:  869
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1922,"completion_tokens":564,"total_tokens":2486,"cost":0.00488764,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00488764,"upstream_inference_prompt_cost":0.00240604,"upstream_inference_completions_cost":0.0024816},"completion_tokens_details":{"reasoning_tokens":394,"image_tokens":0,"audio_tokens":0},"cost_provider":0.004796,"cost_charged":0.005755199999999999,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1922,"outputTokens":564,"costProvider":0.004796,"costCharged":0.005755199999999999}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:14:55.651Z | consumeIngredientsOnConfirmation__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/consumeIngredientsOnConfirmation.ts
+model:  codehigh    status: ok
+bytes:  323
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1215,"completion_tokens":254,"total_tokens":1469,"cost":0.00253384,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00253384,"upstream_inference_prompt_cost":0.00141624,"upstream_inference_completions_cost":0.0011176},"completion_tokens_details":{"reasoning_tokens":194,"image_tokens":0,"audio_tokens":0},"cost_provider":0.002559,"cost_charged":0.0030708,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1215,"outputTokens":254,"costProvider":0.002559,"costCharged":0.0030708}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:04.360Z | dineInOrderLifecycle__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/dineInOrderLifecycle.ts
+model:  codehigh    status: ok
+bytes:  1586
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":2507,"completion_tokens":912,"total_tokens":3419,"cost":0.00723784,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00723784,"upstream_inference_prompt_cost":0.00322504,"upstream_inference_completions_cost":0.0040128},"completion_tokens_details":{"reasoning_tokens":515,"image_tokens":0,"audio_tokens":0},"cost_provider":0.006788000000000001,"cost_charged":0.008145600000000001,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":2507,"outputTokens":912,"costProvider":0.006788000000000001,"costCharged":0.008145600000000001}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:07.721Z | generateShiftCloseReport__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/generateShiftCloseReport.ts
+model:  codehigh    status: ok
+bytes:  608
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1457,"completion_tokens":386,"total_tokens":1843,"cost":0.00345344,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00345344,"upstream_inference_prompt_cost":0.00175504,"upstream_inference_completions_cost":0.0016984},"completion_tokens_details":{"reasoning_tokens":266,"image_tokens":0,"audio_tokens":0},"cost_provider":0.0034130000000000002,"cost_charged":0.0040956000000000005,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1457,"outputTokens":386,"costProvider":0.0034130000000000002,"costCharged":0.0040956000000000005}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:12.176Z | kitchenProductionFlow__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/kitchenProductionFlow.ts
+model:  codehigh    status: ok
+bytes:  1010
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1771,"completion_tokens":624,"total_tokens":2395,"cost":0.00494024,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00494024,"upstream_inference_prompt_cost":0.00219464,"upstream_inference_completions_cost":0.0027456},"completion_tokens_details":{"reasoning_tokens":364,"image_tokens":0,"audio_tokens":0},"cost_provider":0.004735,"cost_charged":0.0056819999999999996,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1771,"outputTokens":624,"costProvider":0.004735,"costCharged":0.0056819999999999996}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:15.790Z | manageInventoryItems__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/manageInventoryItems.ts
+model:  codehigh    status: ok
+bytes:  387
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1331,"completion_tokens":238,"total_tokens":1569,"cost":0.00262584,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00262584,"upstream_inference_prompt_cost":0.00157864,"upstream_inference_completions_cost":0.0010472},"completion_tokens_details":{"reasoning_tokens":167,"image_tokens":0,"audio_tokens":0},"cost_provider":0.002546,"cost_charged":0.0030552,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1331,"outputTokens":238,"costProvider":0.002546,"costCharged":0.0030552}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:18.846Z | manageMenuCategories__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/manageMenuCategories.ts
+model:  codehigh    status: ok
+bytes:  346
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1261,"completion_tokens":239,"total_tokens":1500,"cost":0.00253098,"is_byok":false,"prompt_tokens_details":{"cached_tokens":227,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00253098,"upstream_inference_prompt_cost":0.00147938,"upstream_inference_completions_cost":0.0010516},"completion_tokens_details":{"reasoning_tokens":176,"image_tokens":0,"audio_tokens":0},"cost_provider":0.0025059999999999995,"cost_charged":0.0030071999999999994,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1261,"outputTokens":239,"costProvider":0.0025059999999999995,"costCharged":0.0030071999999999994}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:21.506Z | manageMenuItems__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/manageMenuItems.ts
+model:  codehigh    status: ok
+bytes:  377
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1332,"completion_tokens":248,"total_tokens":1580,"cost":0.00266872,"is_byok":false,"prompt_tokens_details":{"cached_tokens":228,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00266872,"upstream_inference_prompt_cost":0.00157752,"upstream_inference_completions_cost":0.0010912},"completion_tokens_details":{"reasoning_tokens":165,"image_tokens":0,"audio_tokens":0},"cost_provider":0.0025710000000000004,"cost_charged":0.0030852,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1332,"outputTokens":248,"costProvider":0.0025710000000000004,"costCharged":0.0030852}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:25.906Z | manageTables__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/manageTables.ts
+model:  codehigh    status: ok
+bytes:  286
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1206,"completion_tokens":212,"total_tokens":1418,"cost":0.00233518,"is_byok":false,"prompt_tokens_details":{"cached_tokens":227,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00233518,"upstream_inference_prompt_cost":0.00140238,"upstream_inference_completions_cost":0.0009328},"completion_tokens_details":{"reasoning_tokens":148,"image_tokens":0,"audio_tokens":0},"cost_provider":0.002286,"cost_charged":0.0027432,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1206,"outputTokens":212,"costProvider":0.002286,"costCharged":0.0027432}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:29.614Z | openDailyShift__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/openDailyShift.ts
+model:  codehigh    status: ok
+bytes:  553
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1453,"completion_tokens":358,"total_tokens":1811,"cost":0.00332464,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00332464,"upstream_inference_prompt_cost":0.00174944,"upstream_inference_completions_cost":0.0015752},"completion_tokens_details":{"reasoning_tokens":229,"image_tokens":0,"audio_tokens":0},"cost_provider":0.0032140000000000003,"cost_charged":0.0038568,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1453,"outputTokens":358,"costProvider":0.0032140000000000003,"costCharged":0.0038568}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:34.336Z | recordPayment__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/recordPayment.ts
+model:  codehigh    status: ok
+bytes:  317
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1213,"completion_tokens":233,"total_tokens":1446,"cost":0.00243738,"is_byok":false,"prompt_tokens_details":{"cached_tokens":227,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00243738,"upstream_inference_prompt_cost":0.00141218,"upstream_inference_completions_cost":0.0010252},"completion_tokens_details":{"reasoning_tokens":151,"image_tokens":0,"audio_tokens":0},"cost_provider":0.002365,"cost_charged":0.002838,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1213,"outputTokens":233,"costProvider":0.002365,"costCharged":0.002838}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:41.109Z | takeoutOrderLifecycle__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/takeoutOrderLifecycle.ts
+model:  codehigh    status: ok
+bytes:  1330
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":2240,"completion_tokens":845,"total_tokens":3085,"cost":0.00656924,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00656924,"upstream_inference_prompt_cost":0.00285124,"upstream_inference_completions_cost":0.003718},"completion_tokens_details":{"reasoning_tokens":481,"image_tokens":0,"audio_tokens":0},"cost_provider":0.006218,"cost_charged":0.007461599999999999,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":2240,"outputTokens":845,"costProvider":0.006218,"costCharged":0.007461599999999999}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:15:44.250Z | viewOperationalDashboard__l2_contract (l2_contract) ===
+output: _102050_/l2/cafeFlow/web/contracts/viewOperationalDashboard.ts
+model:  codehigh    status: ok
+bytes:  673
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeContractTs.ts
+deps:   (none)
+usage:  {"prompt_tokens":1556,"completion_tokens":377,"total_tokens":1933,"cost":0.00355244,"is_byok":false,"prompt_tokens_details":{"cached_tokens":226,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00355244,"upstream_inference_prompt_cost":0.00189364,"upstream_inference_completions_cost":0.0016588},"completion_tokens_details":{"reasoning_tokens":223,"image_tokens":0,"audio_tokens":0},"cost_provider":0.003356,"cost_charged":0.0040272,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":1556,"outputTokens":377,"costProvider":0.003356,"costCharged":0.0040272}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:16:02.205Z | aiPromotionSuggestions__l2_shared (l2_shared) ===
+output: _102050_/l2/cafeFlow/web/shared/aiPromotionSuggestions.ts
+model:  codehigh    status: ok
+bytes:  9540
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts
+deps:   OK  _102050_/l2/cafeFlow/web/contracts/aiPromotionSuggestions.defs.ts | OK  _102050_/l2/cafeFlow/web/contracts/aiPromotionSuggestions.ts | OK  _102050_/l2/cafeFlow/web/desktop/page11/aiPromotionSuggestions.defs.ts
+usage:  {"prompt_tokens":7565,"completion_tokens":2640,"total_tokens":10205,"cost":0.02192476,"is_byok":false,"prompt_tokens_details":{"cached_tokens":224,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.02192476,"upstream_inference_prompt_cost":0.01030876,"upstream_inference_completions_cost":0.011616},"completion_tokens_details":{"reasoning_tokens":490,"image_tokens":0,"audio_tokens":0},"cost_provider":0.016954999999999998,"cost_charged":0.020345999999999996,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":7565,"outputTokens":2640,"costProvider":0.016954999999999998,"costCharged":0.020345999999999996}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:16:15.257Z | aiSalesSummary__l2_shared (l2_shared) ===
+output: _102050_/l2/cafeFlow/web/shared/aiSalesSummary.ts
+model:  codehigh    status: ok
+bytes:  6170
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts
+deps:   OK  _102050_/l2/cafeFlow/web/contracts/aiSalesSummary.defs.ts | OK  _102050_/l2/cafeFlow/web/contracts/aiSalesSummary.ts | OK  _102050_/l2/cafeFlow/web/desktop/page11/aiSalesSummary.defs.ts
+usage:  {"prompt_tokens":5942,"completion_tokens":1918,"total_tokens":7860,"cost":0.01647198,"is_byok":false,"prompt_tokens_details":{"cached_tokens":227,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.01647198,"upstream_inference_prompt_cost":0.00803278,"upstream_inference_completions_cost":0.0084392},"completion_tokens_details":{"reasoning_tokens":412,"image_tokens":0,"audio_tokens":0},"cost_provider":0.012931999999999999,"cost_charged":0.015518399999999998,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":5942,"outputTokens":1918,"costProvider":0.012931999999999999,"costCharged":0.015518399999999998}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:16:36.302Z | browseMenuForPos__l2_shared (l2_shared) ===
+output: _102050_/l2/cafeFlow/web/shared/browseMenuForPos.ts
+model:  codehigh    status: ok
+bytes:  10212
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts
+deps:   OK  _102050_/l2/cafeFlow/web/contracts/browseMenuForPos.defs.ts | OK  _102050_/l2/cafeFlow/web/contracts/browseMenuForPos.ts | OK  _102050_/l2/cafeFlow/web/desktop/page11/browseMenuForPos.defs.ts
+usage:  {"prompt_tokens":7398,"completion_tokens":3171,"total_tokens":10569,"cost":0.0240261,"is_byok":false,"prompt_tokens_details":{"cached_tokens":225,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.0240261,"upstream_inference_prompt_cost":0.0100737,"upstream_inference_completions_cost":0.0139524},"completion_tokens_details":{"reasoning_tokens":551,"image_tokens":0,"audio_tokens":0},"cost_provider":0.018564000000000004,"cost_charged":0.022276800000000003,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":7398,"outputTokens":3171,"costProvider":0.018564000000000004,"costCharged":0.022276800000000003}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:17:12.128Z | closeDailyShift__l2_shared (l2_shared) ===
+output: _102050_/l2/cafeFlow/web/shared/closeDailyShift.ts
+model:  codehigh    status: ok
+bytes:  19993
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts
+deps:   OK  _102050_/l2/cafeFlow/web/contracts/closeDailyShift.defs.ts | OK  _102050_/l2/cafeFlow/web/contracts/closeDailyShift.ts | OK  _102050_/l2/cafeFlow/web/desktop/page11/closeDailyShift.defs.ts
+usage:  {"prompt_tokens":11692,"completion_tokens":5286,"total_tokens":16978,"cost":0.0393437,"is_byok":false,"prompt_tokens_details":{"cached_tokens":225,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.0393437,"upstream_inference_prompt_cost":0.0160853,"upstream_inference_completions_cost":0.0232584},"completion_tokens_details":{"reasoning_tokens":1018,"image_tokens":0,"audio_tokens":0},"cost_provider":0.030604,"cost_charged":0.036724799999999995,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":11692,"outputTokens":5286,"costProvider":0.030604,"costCharged":0.036724799999999995}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:17:30.917Z | consumeIngredientsOnConfirmation__l2_shared (l2_shared) ===
+output: _102050_/l2/cafeFlow/web/shared/consumeIngredientsOnConfirmation.ts
+model:  codehigh    status: ok
+bytes:  6509
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts
+deps:   OK  _102050_/l2/cafeFlow/web/contracts/consumeIngredientsOnConfirmation.defs.ts | OK  _102050_/l2/cafeFlow/web/contracts/consumeIngredientsOnConfirmation.ts | OK  _102050_/l2/cafeFlow/web/desktop/page11/consumeIngredientsOnConfirmation.defs.ts
+usage:  {"prompt_tokens":5390,"completion_tokens":2360,"total_tokens":7750,"cost":0.0176465,"is_byok":false,"prompt_tokens_details":{"cached_tokens":225,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.0176465,"upstream_inference_prompt_cost":0.0072625,"upstream_inference_completions_cost":0.010384},"completion_tokens_details":{"reasoning_tokens":1084,"image_tokens":0,"audio_tokens":0},"cost_provider":0.015722,"cost_charged":0.0188664,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":5390,"outputTokens":2360,"costProvider":0.015722,"costCharged":0.0188664}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:18:26.608Z | dineInOrderLifecycle__l2_shared (l2_shared) ===
+output: _102050_/l2/cafeFlow/web/shared/dineInOrderLifecycle.ts
+model:  codehigh    status: ok
+bytes:  24049
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts
+deps:   OK  _102050_/l2/cafeFlow/web/contracts/dineInOrderLifecycle.defs.ts | OK  _102050_/l2/cafeFlow/web/contracts/dineInOrderLifecycle.ts | OK  _102050_/l2/cafeFlow/web/desktop/page11/dineInOrderLifecycle.defs.ts
+usage:  {"prompt_tokens":16450,"completion_tokens":6770,"total_tokens":23220,"cost":0.0525345,"is_byok":false,"prompt_tokens_details":{"cached_tokens":225,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.0525345,"upstream_inference_prompt_cost":0.0227465,"upstream_inference_completions_cost":0.029788},"completion_tokens_details":{"reasoning_tokens":1328,"image_tokens":0,"audio_tokens":0},"cost_provider":0.040744,"cost_charged":0.0488928,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":16450,"outputTokens":6770,"costProvider":0.040744,"costCharged":0.0488928}],"ensure_json_success":true,"tool_strict":"ajv"}
+
+=== 2026-06-30T01:18:42.634Z | generateShiftCloseReport__l2_shared (l2_shared) ===
+output: _102050_/l2/cafeFlow/web/shared/generateShiftCloseReport.ts
+model:  codehigh    status: ok
+bytes:  7849
+skills: OK  _102020_/l2/agentChangeFrontend/skills/genCfeSharedTs.ts
+deps:   OK  _102050_/l2/cafeFlow/web/contracts/generateShiftCloseReport.defs.ts | OK  _102050_/l2/cafeFlow/web/contracts/generateShiftCloseReport.ts | OK  _102050_/l2/cafeFlow/web/desktop/page11/generateShiftCloseReport.defs.ts
+usage:  {"prompt_tokens":6690,"completion_tokens":2178,"total_tokens":8868,"cost":0.0186657,"is_byok":false,"prompt_tokens_details":{"cached_tokens":225,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.0186657,"upstream_inference_prompt_cost":0.0090825,"upstream_inference_completions_cost":0.0095832},"completion_tokens_details":{"reasoning_tokens":437,"image_tokens":0,"audio_tokens":0},"cost_provider":0.014535,"cost_charged":0.017442,"requested_alias":"codehigh","alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","model_id":"z-ai/glm-5.2","fallback_used":false,"attempts":[{"alias":"codehigh","provider":"openrouter","model":"z-ai/glm-5.2","stage":"primary","status":"success","inputTokens":6690,"outputTokens":2178,"costProvider":0.014535,"costCharged":0.017442}],"ensure_json_success":true,"tool_strict":"ajv"}
+
