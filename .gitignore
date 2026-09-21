@@ -1,1 +1,13 @@
 .DS_Store
+/obj/
+
+# bookkeeping do sync do Studio (nunca é fonte)
+.collab-fs.json
+.collab-fs-trash/
+
+# --- collab-vm (gitReposSetup) ---
+/node_modules/
+/dist/
+/.env
+!*.js
+!*.mjs
