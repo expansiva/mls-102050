@@ -5,7 +5,8 @@ import { resolveRepository } from '/_102034_/l1/server/layer_2_application/repos
 import type { ITicketCommentRepository } from '/_102050_/l1/controleChamados/layer_2_application/ports/ticketCommentRepository.js';
 import type { ITicketRepository } from '/_102050_/l1/controleChamados/layer_2_application/ports/ticketRepository.js';
 import type { TicketComment } from '/_102050_/l1/controleChamados/layer_3_domain/entities/ticketComment.js';
-import { canAddCommentToTicket, hasValidTicketCommentText } from '/_102050_/l1/controleChamados/layer_3_domain/entities/ticketComment.js';
+import { canAddCommentToTicket } from '/_102050_/l1/controleChamados/layer_3_domain/entities/ticket.js';
+import { hasValidTicketCommentText } from '/_102050_/l1/controleChamados/layer_3_domain/entities/ticketComment.js';
 
 export interface UpdateTicketCommentInput {
   ticketCommentId: string;
