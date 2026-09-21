@@ -1,6 +1,6 @@
-/// <mls fileReference="_102050_/l2/project.ts" enhancement="_blank" />  
+/// <mls fileReference="_102046_/l2/project.ts" enhancement="_102027_/l2/enhancementLit" />   
 
-export const projectConfig = { 
+export const projectConfig = {
     masterFrontEnd: {
         build: '',
         start: '',
