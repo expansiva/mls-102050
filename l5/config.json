@@ -1,6 +1,6 @@
 {
   "projectSettings": {
-    "driver": "vm", 
+    "driver": "vm",
     "url": "https://github.com/main/expansiva/mls-102050"
   },
   "workspaceDependencies": [
@@ -31,10 +31,6 @@
       "root": "../mls-102020",
       "type": "lib"
     },
-    "102035": {
-      "root": "../mls-102035",
-      "type": "lib"
-    },
     "102021": {
       "root": "../mls-102021",
       "type": "lib"
@@ -45,10 +41,6 @@
     },
     "102029": {
       "root": "../mls-102029",
-      "type": "lib"
-    },
-    "102040": {
-      "root": "../mls-102040",
       "type": "lib"
     },
     "102033": {
@@ -93,6 +85,14 @@
         }
       ]
     },
+    "102035": {
+      "root": "../mls-102035",
+      "type": "lib"
+    },
+    "102040": {
+      "root": "../mls-102040",
+      "type": "lib"
+    },
     "102050": {
       "root": ".",
       "type": "client",
@@ -129,7 +129,8 @@
               "description": "Chamado",
               "actors": [
                 "atendente"
-              ]
+              ],
+              "landing": true
             }
           ],
           "headerLinks": [
@@ -147,10 +148,16 @@
           "shellMode": "spa",
           "backendControllers": "./_102050_/l1/controleChamados/layer_1_external/adapters/http/controllers",
           "languages": [
-            "pt-br"
+            "pt"
           ],
           "frontend": {
             "layer": "l2",
+            "pageTests": [
+              "_102050_/l2/controleChamados/web/desktop/page11/commentOpenTicket.test.js",
+              "_102050_/l2/controleChamados/web/desktop/page11/ticketCatalogue.test.js",
+              "_102050_/l2/controleChamados/web/desktop/page11/ticketCommentCatalogue.test.js",
+              "_102050_/l2/controleChamados/web/desktop/page11/ticketHub.test.js"
+            ],
             "pages": [
               {
                 "pageId": "commentOpenTicket",
@@ -158,7 +165,44 @@
                 "source": "l2/controleChamados/web/desktop/page11/commentOpenTicket.ts",
                 "definition": "l2/controleChamados/web/desktop/page11/commentOpenTicket.defs.ts",
                 "componentTag": "controle-chamados--web--desktop--page11--comment-open-ticket-102050",
-                "title": "Registrar comentário em chamado aberto"
+                "title": "Registrar comentário em chamado aberto",
+                "actors": [
+                  "atendente"
+                ]
+              },
+              {
+                "pageId": "ticketCatalogue",
+                "route": "/controleChamados/ticketCatalogue/:ticketId?",
+                "source": "l2/controleChamados/web/desktop/page11/ticketCatalogue.ts",
+                "definition": "l2/controleChamados/web/desktop/page11/ticketCatalogue.defs.ts",
+                "componentTag": "controle-chamados--web--desktop--page11--ticket-catalogue-102050",
+                "title": "Chamado",
+                "actors": [
+                  "atendente"
+                ]
+              },
+              {
+                "pageId": "ticketCommentCatalogue",
+                "route": "/controleChamados/ticketCommentCatalogue",
+                "source": "l2/controleChamados/web/desktop/page11/ticketCommentCatalogue.ts",
+                "definition": "l2/controleChamados/web/desktop/page11/ticketCommentCatalogue.defs.ts",
+                "componentTag": "controle-chamados--web--desktop--page11--ticket-comment-catalogue-102050",
+                "title": "Comentário do chamado",
+                "actors": [
+                  "atendente"
+                ]
+              },
+              {
+                "pageId": "ticketHub",
+                "route": "/controleChamados/ticketHub",
+                "source": "l2/controleChamados/web/desktop/page11/ticketHub.ts",
+                "definition": "l2/controleChamados/web/desktop/page11/ticketHub.defs.ts",
+                "componentTag": "controle-chamados--web--desktop--page11--ticket-hub-102050",
+                "title": "Chamado",
+                "actors": [
+                  "atendente"
+                ],
+                "public": true
               },
               {
                 "pageId": "commentOpenTicket-page21",
@@ -177,14 +221,6 @@
                 "title": "Registrar comentário em chamado aberto - PAGE31"
               },
               {
-                "pageId": "ticketCatalogue",
-                "route": "/controleChamados/ticketCatalogue/:ticketId?",
-                "source": "l2/controleChamados/web/desktop/page11/ticketCatalogue.ts",
-                "definition": "l2/controleChamados/web/desktop/page11/ticketCatalogue.defs.ts",
-                "componentTag": "controle-chamados--web--desktop--page11--ticket-catalogue-102050",
-                "title": "Chamado"
-              },
-              {
                 "pageId": "ticketCatalogue-page21",
                 "route": "/controleChamados/ticketCatalogue-page21/:ticketId?",
                 "source": "l2/controleChamados/web/desktop/page21/ticketCatalogue.ts",
@@ -199,14 +235,6 @@
                 "definition": "l2/controleChamados/web/desktop/page31/ticketCatalogue.defs.ts",
                 "componentTag": "controle-chamados--web--desktop--page31--ticket-catalogue-102050",
                 "title": "Chamado - PAGE31"
-              },
-              {
-                "pageId": "ticketCommentCatalogue",
-                "route": "/controleChamados/ticketCommentCatalogue",
-                "source": "l2/controleChamados/web/desktop/page11/ticketCommentCatalogue.ts",
-                "definition": "l2/controleChamados/web/desktop/page11/ticketCommentCatalogue.defs.ts",
-                "componentTag": "controle-chamados--web--desktop--page11--ticket-comment-catalogue-102050",
-                "title": "Comentário do chamado"
               },
               {
                 "pageId": "ticketCommentCatalogue-page21",
@@ -225,14 +253,6 @@
                 "title": "Comentário do chamado - PAGE31"
               },
               {
-                "pageId": "ticketHub",
-                "route": "/controleChamados/ticketHub",
-                "source": "l2/controleChamados/web/desktop/page11/ticketHub.ts",
-                "definition": "l2/controleChamados/web/desktop/page11/ticketHub.defs.ts",
-                "componentTag": "controle-chamados--web--desktop--page11--ticket-hub-102050",
-                "title": "Chamado"
-              },
-              {
                 "pageId": "ticketHub-page21",
                 "route": "/controleChamados/ticketHub-page21",
                 "source": "l2/controleChamados/web/desktop/page21/ticketHub.ts",
@@ -248,14 +268,19 @@
                 "componentTag": "controle-chamados--web--desktop--page31--ticket-hub-102050",
                 "title": "Chamado - PAGE31"
               }
-            ],
-            "pageTests": [
-              "_102050_/l2/controleChamados/web/desktop/page11/commentOpenTicket.test.js",
-              "_102050_/l2/controleChamados/web/desktop/page11/ticketCatalogue.test.js",
-              "_102050_/l2/controleChamados/web/desktop/page11/ticketCommentCatalogue.test.js",
-              "_102050_/l2/controleChamados/web/desktop/page11/ticketHub.test.js"
             ]
-          }
+          },
+          "designSystems": [
+            "Default",
+            "Canteiro"
+          ],
+          "landings": [
+            {
+              "actorId": "atendente",
+              "pageId": "ticketHub",
+              "route": "/controleChamados/ticketHub"
+            }
+          ]
         }
       ],
       "persistenceModules": [
@@ -270,17 +295,6 @@
   "shellTemplates": {
     "spa": "./_102033_/l2/shared/spa/index.html",
     "pwa": "./_102033_/l2/shared/pwa/index.html"
-  },
-  "publication": {
-    "defaultTarget": "web",
-    "targets": {
-      "web": {
-        "assetBaseUrl": "",
-        "serveStaticFromServer": true,
-        "minify": false,
-        "sourcemap": true
-      }
-    }
   },
   "clientShell": {
     "mode": "spa",
