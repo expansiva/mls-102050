@@ -45,10 +45,10 @@
     "buildRef": "",
     "files": 0,
     "anchors": {
-      "l2/agentChangeFrontend/agentChangeFrontend.ts": "absent",
-      "l2/agentChangeFrontend/flow.json": "absent",
-      "l2/agentChangeFrontend/helpers/cfeCreateShared.ts": "absent",
-      "l2/agentChangeFrontend/helpers/cfeMaterializeCore.ts": "absent"
+      "l2/agentMaterializeL2/agentMaterializeL2.ts": "absent",
+      "l2/agentMaterializeL2/flow.json": "absent",
+      "l2/agentMaterializeL2/helpers/cfeCreateShared.ts": "absent",
+      "l2/agentMaterializeL2/helpers/cfeMaterializeCore.ts": "absent"
     },
     "lastPushAt": null,
     "localEdits": 132,
@@ -60,7 +60,7 @@
       "type": "agent",
       "title": "",
       "status": "in_progress",
-      "agentName": "agentChangeFrontend",
+      "agentName": "agentMaterializeL2",
       "lastTrace": "Root LLM skipped by AgentIntentAddMessageAI.skipRootLLM"
     },
     {
